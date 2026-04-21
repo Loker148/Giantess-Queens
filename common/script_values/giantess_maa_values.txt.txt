@@ -1,0 +1,27 @@
+######################
+# Men-at-Arms Values #
+######################
+
+#########
+# Costs #
+#########
+
+@high_maint_mult = 3
+
+### Base Cost Values
+@giantess_warriors_recruitment_cost = 300
+@giantess_warriors_low_maint_cost = 2
+@giantess_warriors_high_maint_cost = @[giantess_warriors_low_maint_cost * high_maint_mult]
+
+
+### Base MAA
+giantess_warriors_recruitment_cost = @[giantess_warriors_recruitment_cost]
+giantess_warriors_low_maint_cost = @[giantess_warriors_low_maint_cost]
+giantess_warriors_high_maint_cost = @[giantess_warriors_high_maint_cost]
+
+
+###################
+# Provisions Costs #
+###################
+
+provisions_cost_giantess_moderate = 25

@@ -1,362 +1,1023 @@
 ﻿activity_giantess_feast = {
+	is_shown = {
+		highest_held_title_tier > tier_barony
+		is_landed_or_landless_administrative = yes
+		has_trait = giantess
+		trigger_if = {
+			limit = {
+				is_ai = yes
+			}
+			is_at_war = no
+		}
+	}
 
-    is_shown = {
-        highest_held_title_tier > tier_barony
-        is_landed_or_landless_administrative = yes
-        has_trait = giantess
+	can_start_showing_failures_only = {
+		is_available_adult = yes
+	}
 
-        # AI may not start while at war
-        trigger_if = {
-            limit = { is_ai = yes }
-            is_at_war = no
-        }
-    }
+	is_valid = {
+		# Generic can-continue check.
+		scope:host = {
+			is_imprisoned = no
+			is_landed_or_landless_administrative = yes
+			NOT = { is_incapable = yes }
+		}
+		# If no one shows up
+		trigger_if = {
+			limit = {
+				is_current_phase_active = yes
+			}
+			has_attending_activity_guests = yes
+		}
+	}
 
-    can_start_showing_failures_only = { is_available_adult = yes }
+	on_invalidated = {
+		set_variable = {
+			name = gf_gold_recoup_value
+			value = {
+				value = 0
+				# For a base, add the total pot spent.
+				add = scope:activity.var:gf_refund_pot
+				# Then revise it down a little to account for some costs being irredeemable.
+				multiply = 0.75
+			}
+		}
+		if = {
+			limit = {
+				scope:host = { is_incapable = yes  }
+			}
+			scope:activity = {
+				activity_type = { save_scope_as = activity_type }
+			}
+			scope:host = {
+				trigger_event = activity_system.0330
+			}
+			every_attending_character = {
+				limit = { NOT = { this = scope:host } }
+				trigger_event = activity_system.0331
+			}
+		}
 
-    is_valid = {
-        scope:host = {
-            is_imprisoned = no
-            is_landed_or_landless_administrative = yes
-            NOT = { is_incapable = yes }
-        }
+		if = {
+			limit = {
+				scope:host = { is_imprisoned = yes }
+			}
+			#Host has been imprisoned
+			every_attending_character = {
+				limit = {
+					NOT = { this  = scope:host }
+				}
+				trigger_event = giantess_feast.5005
+			}
+			scope:host = {
+				trigger_event = giantess_feast.5004
+			}
+		}
+		# Host becomes unlanded
+		else_if = {
+			limit = {
+				scope:host = {
+					is_landed_or_landless_administrative = no
+				}
+			}
+			scope:activity = {
+				activity_type = { save_scope_as = activity_type }
+			}
+			every_attending_character = {
+				trigger_event = activity_system.0320
+			}
+		}
+		if = { # No one shows up
+			limit = {
+				has_attending_activity_guests = no
+			}
+			scope:activity = {
+				activity_type = { save_scope_as = activity_type }
+				activity_location = { save_scope_as = location }
+			}
+			scope:host = { trigger_event = giantess_feast.0002 }
+		}
+	}
 
-        trigger_if = {
-            limit = { is_current_phase_active = yes }
-            has_attending_activity_guests = yes
-        }
-    }
+	on_host_death = {
+		every_attending_character = {
+			limit = { is_alive = yes }
+			trigger_event = {
+				id = giantess_feast.5003
+				days = 2 # So you don't get spammed
+			}
+		}
+	}
 
-    on_invalidated = {
+	province_filter = domicile_domain
+	ai_province_filter = capital
 
-        # refund pot – updated syntax
-        set_variable = {
-            name = gf_gold_recoup_value
-            value = {
-                value = 0
-                add = scope:activity.var:gf_refund_pot
-                multiply = 0.75
-            }
-        }
+	max_province_icons = 5
 
-        # Host incapable
-        if = {
-            limit = { scope:host = { is_incapable = yes } }
-            scope:host = { trigger_event = activity_system.0330 }
-            every_attending_character = {
-                limit = { NOT = { this = scope:host } }
-                trigger_event = activity_system.0331
-            }
-        }
+	cost = {
+		gold = {
+			add = {
+				value = feast_activity_cost
+				desc = feast_activity_cost_desc
+			}
+		}
+	}
 
-        # Host imprisoned
-        if = {
-            limit = { scope:host = { is_imprisoned = yes } }
-            every_attending_character = {
-                limit = { NOT = { this = scope:host } }
-                trigger_event = giantess_feast.5005
-            }
-            scope:host = { trigger_event = giantess_feast.5004 }
-        }
+	ui_predicted_cost = {
+		# All costs are balanced on County/Early Era starting point
+		gold = {
+			add = { # Base Cost, scaled by era
+				value = feast_activity_cost
+				#multiply = activity_cost_scale_by_era
+			}
+			# Make it a multiple of 5 (rounded up)
+			divide = 5
+			ceiling = yes 
+			multiply = 5
+		}
+	}
 
-        # Host loses land
-        else_if = {
-            limit = { scope:host = { is_landed_or_landless_administrative = no } }
-            every_attending_character = { trigger_event = activity_system.0320 }
-        }
+	cooldown = { years = 2 }
 
-        # Nobody showed up
-        if = {
-            limit = { has_attending_activity_guests = no }
-            scope:host = { trigger_event = giantess_feast.0002 }
-        }
-    }
+	is_grand_activity = no
 
-    on_host_death = {
-        every_attending_character = {
-            limit = { is_alive = yes }
-            trigger_event = { id = giantess_feast.5003 days = 2 }
-        }
-    }
+	#is_single_location = yes
 
-    province_filter = domicile_domain
-    ai_province_filter = capital
-    max_province_icons = 5
+	###################
+	# AI VALUES 
+	###################
+	ai_will_do = {
+		value = 100
+		
+		# Plague
+		if = {
+        	limit = {
+        	    any_held_title = {
+					tier = tier_county
+        	        any_county_province = {
+        	            any_province_epidemic = {
+        	                count >= 1
+        	                outbreak_intensity < apocalyptic
+        	            }
+        	        }
+        	    }
+        	    would_follow_social_distancing_value >= -1
+        	}
+        	add = {
+        	    value = -60
+        	    desc = "Plague in Domain"
+        	}
+    	}
+    	else_if = {
+    	    limit = {
+    	        any_realm_county = {
+    	            any_county_province = {
+    	                any_province_epidemic = {
+    	                    count >= 1
+    	                    outbreak_intensity < apocalyptic
+    	                }
+    	            }
+    	        }
+    	        would_follow_social_distancing_value >= -1
+    	    }
+    	    add = {
+    	        value = -20
+    	        desc = "Plague in Top Realm"
+    	    }
+    	}
+    	if = {
+    	    limit = {
+    	        any_held_title = {
+					tier = tier_county
+    	            any_county_province = {
+    	                any_province_epidemic = {
+    	                    count >= 1
+    	                    outbreak_intensity = apocalyptic
+    	                }
+    	            }
+    	        }
+    	    }
+    	    add = {
+    	        value = -200
+    	        desc = "Apocalyptic Plague in Domain"
+    	    }
+    	}
+    	else_if = {
+    	    limit = {
+    	        any_held_title = {
+					tier = tier_county
+    	            any_county_province = {
+    	                any_province_epidemic = {
+    	                    count >= 1
+    	                    outbreak_intensity = apocalyptic
+    	                }
+    	            }
+    	        }
+    	    }
+    	    add = {
+    	        value = -40
+    	        desc = "Apocalyptic Plague in Top Realm"
+    	    }
+    	}
+	}
 
-    cost = {
-        gold = {
-            add = feast_activity_cost
-        }
-    }
+	ai_check_interval = 60
 
-    ui_predicted_cost = {
-        gold = {
-            add = feast_activity_cost
-            divide = 5
-            ceiling = yes
-            multiply = 5
-        }
-    }
+	ai_will_select_province = {
+		value = 10
+		if = {
+			limit = {
+				this = scope:host.capital_province
+			}
+			add = {
+				value = 30
+				desc = "Capital Province preferred"
+			}
+		}
+	}
 
-    cooldown = { years = 2 }
-    is_grand_activity = no
+	###################
+	# OPTIONS
+	###################
 
-    #################################
-    #         AI LOGIC
-    #################################
+	options = {
+	}
 
-    ai_will_do = {
-        value = 100
+	###################
+	# PHASES
+	###################
 
-        # Plague handling (updated for CK3 epidemic system)
-        if = {
-            limit = {
-                any_held_title = {
-                    tier = tier_county
-                    any_county_province = {
-                        any_province_epidemic = { count >= 1 outbreak_intensity < apocalyptic }
-                    }
-                }
-                would_follow_social_distancing_value >= -1
-            }
-            add = -60
-        }
+	max_guest_arrival_delay_time = { months = 8 }
 
-        else_if = {
-            limit = {
-                any_realm_county = {
-                    any_county_province = {
-                        any_province_epidemic = { count >= 1 outbreak_intensity < apocalyptic }
-                    }
-                }
-            }
-            add = -20
-        }
+	phases = {
+		giantess_feast_phase = {
+			is_predefined = yes
+			order = 1
 
-        if = {
-            limit = {
-                any_held_title = {
-                    tier = tier_county
-                    any_county_province = {
-                        any_province_epidemic = { count >= 1 outbreak_intensity = apocalyptic }
-                    }
-                }
-            }
-            add = -200
-        }
+			on_phase_active = {
 
-        else_if = {
-            limit = {
-                any_realm_county = {
-                    any_county_province = {
-                        any_province_epidemic = { count >= 1 outbreak_intensity = apocalyptic }
-                    }
-                }
-            }
-            add = -40
-        }
-    }
+				if = {
+					limit = { this = scope:host }
+					scope:activity = { progress_activity_phase_after = { months = 1 } }
+					save_scope_as = giantess
+					if = {
+						limit = {
+							scope:activity = {
+								any_attending_character = {
+									count = 0
+									NOT = {	this = scope:host }
+								}
+							}
+						}
+						# If there are no other guests, throw this event.
+						## [sad period-appropriate trombone noises]
+						trigger_event = giantess_feast.0002
+					}
+					## Otherwise, there are guests present.
+					### The key event is chosen for the host, and fires other events from there to every participant.
+					else = {
+						trigger_event = giantess_feast.0003
+					}
+				}
+				# And for everyone else.
+				else = {
+					# You're busy at another party! (invites were sent the same day, but you agreed to another party after this one )
+					if = {
+						limit = {
+							exists = var:booked_for_a_party
+							var:booked_for_a_party = {
+								NOT = { this = scope:activity.activity_host }
+							}
+						}
+						trigger_event = feast.0010
+					}
+					else = {
+						random_list = {
+							0 = { #they don't join
+								modifier = {
+									add = 100
+									scope:host = { has_variable = murder_feast_perpetrator_var } #if you have hosted a murder feast
+								}
+							}
+							100 = {
+								trigger_event = giantess_feast.0004
+							}
+						}
+						# Take care of reveller stuff for everyone else.
+						if = {
+							limit = { 
+								NOT = { has_trait = temperate }
+							}
+							# Reveler lifestyle tracking:
+							reveler_points_gain_effect = {
+								CHANGE = 1
+								RANDOM_CHANGE = 1
+							}
+							# Remove blocker for invitations to feasts (the feast is now active and will work as a blocker)
+							remove_variable = booked_for_a_party
+						}
+					}
+				}
+			}
 
-    ai_check_interval = 60
+			on_end = {
+				# Adjust everyone's waistlines.
+				target_weight_modifier_effect = {
+					VALUE = vore_weight_gain_value
+				}
+			}
+		}
+	}
+	
+	###################
+	# GUEST HANDLING
+	###################
 
-    ai_will_select_province = {
-        value = 10
-        if = {
-            limit = { this = scope:host.capital_province }
-            add = 30
-        }
-    }
+	max_guests = 40
 
-    #################################
-    #           OPTIONS
-    #################################
+	guest_invite_rules = {
+		rules = {
+			# Relations.
+			2 = activity_invite_rule_lovers
+			2 = activity_invite_rule_rivals_if_appropriate
 
-    options = { }
+			# Family.
+			3 = activity_invite_rule_extended_family
 
-    #################################
-    #           PHASES
-    #################################
+			# Magnates.
+			4 = activity_invite_neighbouring_rulers
 
-    max_guest_arrival_delay_time = { months = 8 }
+			# Misc landless.
+			5 = activity_invite_rule_knights
 
-    phases = {
-        giantess_feast_phase = {
-            is_predefined = yes
-            order = 1
+			# MP 
+			6 = activity_invite_mp
+		}
+		defaults = {
+			1 = activity_invite_rule_friends
+			1 = activity_invite_rule_close_family
+			1 = activity_invite_rule_liege
+			1 = activity_invite_rule_vassals
+			2 = activity_invite_rule_fellow_vassals
+			3 = activity_invite_rule_courtiers
+			4 = activity_invite_rule_guests
+			1 = activity_invite_spouses
+			1 = activity_invite_rule_landless_adventurers_restricted_range_opinion
+			2 = activity_invite_neighbouring_rulers
+		}
+	}
 
-            on_phase_active = {
+	can_be_activity_guest = {
+		is_adult = yes
+		has_trait = giantess
+		in_diplomatic_range = scope:host
+	}
 
-                # Host behavior
-                if = {
-                    limit = { this = scope:host }
-                    scope:activity = { progress_activity_phase_after = { months = 1 } }
+	host_intents = {
+		intents = { reduce_stress_intent }
+		default = reduce_stress_intent
+	}
 
-                    if = {
-                        limit = {
-                            scope:activity = {
-                                any_attending_character = {
-                                    count = 0
-                                    NOT = { this = scope:host }
-                                }
-                            }
-                        }
-                        trigger_event = giantess_feast.0002
-                    }
-                    else = {
-                        trigger_event = giantess_feast.0003
-                    }
-                }
+	guest_intents = {
+		intents = { reduce_stress_intent }
+		default = reduce_stress_intent
+	}
 
-                # Guest behavior
-                else = {
-                    if = {
-                        limit = {
-                            exists = var:booked_for_a_party
-                            var:booked_for_a_party = { NOT = { this = scope:activity.activity_host } }
-                        }
-                        trigger_event = feast.0010
-                    }
-                    else = {
-                        random_list = {
-                            0 = { modifier = { add = 100 scope:host = { has_variable = murder_feast_perpetrator_var } } }
-                            100 = { trigger_event = giantess_feast.0004 }
-                        }
+	guest_join_chance = {
+		base = 100
+		base_activity_modifier = yes
 
-                        if = {
-                            limit = { NOT = { has_trait = temperate } }
-                            reveler_points_gain_effect = { CHANGE = 1 RANDOM_CHANGE = 1 }
-                            remove_variable = booked_for_a_party
-                        }
-                    }
-                }
-            }
+		# Scripted Modifiers
+		activity_guest_shared_ai_accept_modifier = yes 
+	}
 
-            on_end = {
-                target_weight_modifier_effect = { VALUE = vore_weight_gain_value }
-            }
-        }
-    }
+	###################
+	# ACTIVITY-SPECIFIC PULSES
+	###################
+	
+	pulse_actions = {
+		entries = {
+			spouse_skill_diplomacy_improves spouse_gives_host_prestige spouse_manages_feast_splendidly spouse_impresses_clergy spouse_gives_hook
+			relation_gains_friend children_bonding hook_trusting_guest guest_tells_fantastic_joke
+			excellent_food lauded_food guest_impressed_by_court_artifact friend_lauds_efforts courtly_vassals_appeased impressed_courtly_vassal
+			impressed_guest_honor guest_of_honor_impressed guest_of_honor_praised
+			guest_chokes_on_bone guest_brawl spouse_insults_host ridiculed_food
+			host_gains_diplo_xp host_gains_steward_xp host_gains_intrigue_xp
+			leftover_food_giveaway virtuous_feast noble_privileges good_kitty good_puppy antiquarian_admires_artifact jester_entertained_guests apa_executioner
+		}
+		chance_of_no_event = 5
+	}
 
-    #################################
-    # GUEST RULES
-    #################################
+	on_start = {
+		#if = {
+		#	limit = {
+		#		NOT = {
+		#			exists = global_var:feasts_worldwide
+		#		}
+		#	}
+		#	set_global_variable = {
+		#		name = feasts_worldwide
+		#		value = 1
+		#	}
+		#}
+		#else = {
+		#	change_global_variable = {
+		#		name = feasts_worldwide
+		#		add = 1
+		#	}
+		#}
+		set_variable = {
+			name = host_var
+			value = scope:host
+		}
+		add_activity_log_entry = {
+			key = feast_start_log
+			character = scope:host
+			score = 10
+		}
+		scope:host = {
+			if = {
+				limit = {
+					ai_sociability > 0
+					is_ai = yes
+				}
+				random = {
+					chance = {
+						value = 0.5 # One in 200 feasts
+						if = {
+							limit = {
+								has_trait = gluttonous
+							}
+							add = 0.5
+						}
+						if = {
+							limit = {
+								has_trait = comfort_eater
+							}
+							add = 0.5
+						}
+						if = {
+							limit = {
+								ai_rationality <= -25
+								has_personality_extroverted_trigger = yes
+							}
+							add = 0.5
+						}
+					}
+					add_character_flag = feasts_a_lot
+				}
+			}
+			save_scope_as = giantess
+			# Send food
+			every_vassal = {
+				limit = {
+					age >= 18
+					NOT = { has_trait = giantess }
+				}
+				trigger_event = { id = giantess_feast.1000 days = 2 }
+			}
+		}
 
-    max_guests = 40
+		#fires hostage reunion event, if hostage giver is also present
+		every_attending_character = {
+			limit = {
+				is_hostage_warden = yes
+				has_bp2_dlc_trigger = yes
+				NOT = { this = scope:host }
+			}
+			trigger_event = {
+				id = bp2_yearly.6120
+				days = 2
+			}
+		}
+	}
 
-    guest_invite_rules = {
-        rules = {
-            2 = activity_invite_rule_lovers
-            2 = activity_invite_rule_rivals_if_appropriate
-            3 = activity_invite_rule_extended_family
-            4 = activity_invite_neighbouring_rulers
-            5 = activity_invite_rule_knights
-            6 = activity_invite_mp
-        }
-        defaults = {
-            1 = activity_invite_rule_friends
-            1 = activity_invite_rule_close_family
-            1 = activity_invite_rule_liege
-            1 = activity_invite_rule_vassals
-            2 = activity_invite_rule_fellow_vassals
-            3 = activity_invite_rule_courtiers
-            4 = activity_invite_rule_guests
-            1 = activity_invite_spouses
-            1 = activity_invite_rule_landless_adventurers_restricted_range_opinion
-            2 = activity_invite_neighbouring_rulers
-        }
-    }
+	on_enter_active_state = {
+		surveyor_no_stone_unturned_perk_effect = yes
+	}
 
-    can_be_activity_guest = {
-        is_adult = yes
-        has_trait = giantess
-        in_diplomatic_range = scope:host
-    }
+	#on_enter_travel_state = {
+	#	if = {
+	#		limit = {
+	#			NOT = { this = scope:host }
+	#			current_travel_plan.travel_plan_owner = this
+	#		}	
+	#		scope:host = { save_scope_as = giantess }
+	#		#trigger_event = fp1_other_decisions.0011
+	#	}
+	#	
+	#}
 
-    host_intents = {
-        intents = { reduce_stress_intent }
-        default = reduce_stress_intent
-    }
+	# Entourage Selection
 
-    guest_intents = {
-        intents = { reduce_stress_intent }
-        default = reduce_stress_intent
-    }
+	#travel_entourage_selection = {
+	#	weight = {
+	#		value = standard_travel_entourage_additions
+	#		if = {
+	#			limit = {
+	#				has_trait = zealous
+	#			}
+	#			add = 10
+	#		}
+	#	}
+	#	max = 3
+	#	invite_rule_order = 1
+	#}
+	
+	on_complete = {
+		# Run conclusion stuff here
+		if = {
+			limit = { this = scope:host }
+			location = { save_scope_as = activity_location }
+			if = {
+				limit = { this = scope:host }
+				scope:host = {
+					save_scope_as = root_scope
+					trigger_event = giantess_feast.9000
+					disburse_feast_activity_rewards = yes
+				}
+			}
+		}
+		# Conclusion event for guests
+		else = {
+			if = {
+				limit = {
+					is_alive = yes
+					NOT = { this = scope:host }
+					is_imprisoned = no
+				}
+				if = {
+					limit = {
+						is_murder_feast = yes
+						scope:host = { NOT = { has_variable = murder_feast_murder_back_down } }
+					}
+					scope:activity.var:murder_guest_var = { save_scope_as = murder_guest }
+					trigger_event = feast_default.8061
+				}
+				else = {
+					disburse_feast_reveler_rewards = yes
+					trigger_event = giantess_feast.9001
+				}
+			}
+		}
+	}
 
-    guest_join_chance = {
-        base = 100
-        base_activity_modifier = yes
-        activity_guest_shared_ai_accept_modifier = yes
-    }
+	### Graphics
+	map_entity = {
+		trigger = {
+			activity_location.culture = {
+				OR = {
+					has_graphical_iranian_culture_group_trigger = yes
+					has_graphical_mena_culture_group_trigger = yes
+					has_graphical_steppe_culture_group_trigger = yes
+					has_graphical_african_culture_group_trigger = yes
+				}
+			}
+		}
+		reference = "building_mena_feast_01_entity"
+	}
 
-    #################################
-    # EVENT PULSES
-    #################################
+	map_entity = {
+		trigger = {
+			activity_location.culture = {
+				has_graphical_india_culture_group_trigger = yes
+			}
+		}
+		reference = "building_indian_feast_01_entity"
+	}
+	
+	map_entity = "building_western_feast_01_entity"
 
-    pulse_actions = {
-        entries = {
-            spouse_skill_diplomacy_improves spouse_gives_host_prestige spouse_manages_feast_splendidly spouse_impresses_clergy spouse_gives_hook
-            relation_gains_friend children_bonding hook_trusting_guest guest_tells_fantastic_joke
-            excellent_food lauded_food guest_impressed_by_court_artifact friend_lauds_efforts courtly_vassals_appeased impressed_courtly_vassal
-            impressed_guest_honor guest_of_honor_impressed guest_of_honor_praised
-            guest_chokes_on_bone guest_brawl spouse_insults_host ridiculed_food
-            host_gains_diplo_xp host_gains_steward_xp host_gains_intrigue_xp
-            leftover_food_giveaway virtuous_feast noble_privileges good_kitty good_puppy antiquarian_admires_artifact jester_entertained_guests apa_executioner
-        }
-        chance_of_no_event = 5
-    }
+	# Travel
+	background = { # Bridge
+		trigger = {
+			NOT = { scope:host.location = scope:activity.activity_location }
+			scope:host.location = {
+				is_riverside_province = yes
+				geographical_region = world_europe
+				OR = {
+					terrain = farmlands
+					terrain = plains
+					terrain = mountains
+					terrain = hills
+				}
+			}
+		}
+		texture = "gfx/interface/illustrations/event_scenes/ep2_travel_bridge.dds"
+		environment = "environment_travel_bridge"
+		ambience = "event:/SFX/Events/Backgrounds/mountains_day"
+	}
+	
+	background = { # Farmland, settled
+		trigger = {
+			NOT = { scope:host.location = scope:activity.activity_location }
+			scope:host.location = {
+				terrain = farmlands
+				exists = province_owner
+			}
+		}
+		texture = "gfx/interface/illustrations/event_scenes/ep2_travel_farm.dds"
+		environment = "environment_travel_farmlands"
+		ambience = "event:/SFX/Events/Backgrounds/fields_farms_day"
+	}
+	background = { # Farmland, unsettled
+		trigger = {
+			NOT = { scope:host.location = scope:activity.activity_location }
+			scope:host.location = {
+				terrain = farmlands
+				NOT = { exists = province_owner }
+			}
+		}
+		texture = "gfx/interface/illustrations/event_scenes/farms.dds"
+		environment = "environment_event_farms"
+		ambience = "event:/SFX/Events/Backgrounds/fields_farms_day"
+	}
 
-    #################################
-    # STARTUP
-    #################################
+	background = { #Desert, settled
+		trigger = {
+			NOT = { scope:host.location = scope:activity.activity_location }
+			scope:host.location = {
+				graphical_wilderness_desert_trigger = yes
+				exists = province_owner
+			}
+		}
+		texture = "gfx/interface/illustrations/event_scenes/ep2_travel_desert.dds"
+		environment = "environment_travel_desert"
+		ambience = "event:/SFX/Events/Backgrounds/desert_day"
+	}
+	background = { #Desert, unsettled
+		trigger = {
+			NOT = { scope:host.location = scope:activity.activity_location }
+			scope:host.location = {
+				graphical_wilderness_desert_trigger = yes
+				NOT = { exists = province_owner }
+			}
+		}
+		texture = "gfx/interface/illustrations/event_scenes/desert.dds"
+		environment = "environment_event_bp1_desert"
+		ambience = "event:/SFX/Events/Backgrounds/desert_day"
+	}
 
-    on_start = {
-        set_variable = { name = host_var value = scope:host }
+	background = { #forest snowy
+		trigger = {
+			NOT = { scope:host.location = scope:activity.activity_location }
+			scope:host.location ?= { hunt_snowy_forest_trigger = yes }
+		}
+		texture = "gfx/interface/illustrations/event_scenes/ep2_hunt_snowy_forest.dds"
+		environment = "environment_hunt_snowy_forest"
+		ambience = "event:/SFX/Events/Backgrounds/mountains_day"
+	}
 
-        add_activity_log_entry = {
-            key = feast_start_log
-            character = scope:host
-            score = 10
-        }
+	background = { #forest_pine
+		trigger = {
+			NOT = { scope:host.location = scope:activity.activity_location }
+			scope:host.location = {
+				graphical_wilderness_forest_pine_trigger = yes
+			}
+		}
+		texture = "gfx/interface/illustrations/event_scenes/forest_pine.dds"
+		environment = "environment_event_forest_pine"
+		ambience = "event:/SFX/Events/Backgrounds/coniferous_forest_day"
+	}
 
-        # Send food to non-giantess vassals
-        scope:host = {
-            every_vassal = {
-                limit = { age >= 18 NOT = { has_trait = giantess } }
-                trigger_event = { id = giantess_feast.1000 days = 2 }
-            }
-        }
+	background = { #forest
+		trigger = {
+			NOT = { scope:host.location = scope:activity.activity_location }
+			scope:host.location = {
+				graphical_wilderness_forest_trigger = yes
+			}
+		}
+		texture = "gfx/interface/illustrations/event_scenes/forest.dds"
+		environment = "environment_event_forest"
+		ambience = "event:/SFX/Events/Backgrounds/deciduous_forest_day"
+	}
 
-        every_attending_character = {
-            limit = { is_hostage_warden = yes has_bp2_dlc_trigger = yes NOT = { this = scope:host } }
-            trigger_event = { id = bp2_yearly.6120 days = 2 }
-        }
-    }
+	background = { #mountains, settled
+		trigger = {
+			NOT = { scope:host.location = scope:activity.activity_location }
+			scope:host.location = {
+				graphical_wilderness_mountains_trigger = yes
+				exists = province_owner
+			}
+		}
+		texture = "gfx/interface/illustrations/event_scenes/ep2_travel_mountains.dds"
+		environment = "environment_travel_mountain_settlement"
+		ambience = "event:/SFX/Events/Backgrounds/mountains_day"
+	}
+	background = { #mountains, unsettled
+		trigger = {
+			NOT = { scope:host.location = scope:activity.activity_location }
+			scope:host.location = {
+				graphical_wilderness_mountains_trigger = yes
+				NOT = { exists = province_owner }
+			}
+		}
+		texture = "gfx/interface/illustrations/event_scenes/mountains.dds"
+		environment = "environment_event_mountains"
+		ambience = "event:/SFX/Events/Backgrounds/mountains_day"
+	}
 
-    #################################
-    # FINAL WRAP-UP
-    #################################
+	background = { #steppe, settled
+		trigger = {
+			NOT = { scope:host.location = scope:activity.activity_location }
+			scope:host.location = {
+				graphical_wilderness_steppe_trigger = yes
+				exists = province_owner
+			}
+		}
+		texture = "gfx/interface/illustrations/event_scenes/ep2_travel_steppe.dds"
+		environment = "environment_travel_steppe_settlement"
+		ambience = "event:/SFX/Events/Backgrounds/steppe_day"
+	}
+	background = { #steppe, unsettled
+		trigger = {
+			NOT = { scope:host.location = scope:activity.activity_location }
+			scope:host.location = {
+				graphical_wilderness_steppe_trigger = yes
+				NOT = { exists = province_owner }
+			}
+		}
+		texture = "gfx/interface/illustrations/event_scenes/steppe.dds"
+		environment = "environment_event_steppe"
+		ambience = "event:/SFX/Events/Backgrounds/steppe_day"
+	}
 
-    on_complete = {
-        if = {
-            limit = { this = scope:host }
-            scope:host = {
-                trigger_event = giantess_feast.9000
-                disburse_feast_activity_rewards = yes
-            }
-        }
-        else = {
-            if = {
-                limit = { is_alive = yes NOT = { this = scope:host } is_imprisoned = no }
+	background = { #drylands (formerly desert)
+		trigger = {
+			NOT = { scope:host.location = scope:activity.activity_location }
+			scope:host.location = {
+				graphical_drylands_trigger = yes
+			}
+		}
+		texture = "gfx/interface/illustrations/event_scenes/drylands.dds"
+		environment = "environment_event_desert"
+		ambience = "event:/SFX/Events/Backgrounds/desert_day"
+	}
 
-                if = {
-                    limit = { is_murder_feast = yes scope:host = { NOT = { has_variable = murder_feast_murder_back_down } } }
-                    trigger_event = feast_default.8061
-                }
-                else = {
-                    disburse_feast_reveler_rewards = yes
-                    trigger_event = giantess_feast.9001
-                }
-            }
-        }
-    }
+	background = { #wetlands
+		trigger = {
+			NOT = { scope:host.location = scope:activity.activity_location }
+			scope:host.location = {
+				graphical_wilderness_wetlands_trigger = yes
+			}
+		}
+		texture = "gfx/interface/illustrations/event_scenes/bp1_wetlands.dds"
+		environment = "environment_event_bp1_wetlands" 
+		ambience = "event:/SFX/Events/Backgrounds/deciduous_forest_day"
+	}
+
+	background = { #jungle
+		trigger = {
+			NOT = { scope:host.location = scope:activity.activity_location }
+			scope:host.location = {
+				graphical_wilderness_jungle_trigger = yes
+			}
+		}
+		texture = "gfx/interface/illustrations/event_scenes/bp1_jungle.dds"
+		environment = "environment_event_bp1_jungle"
+		ambience = "event:/SFX/Events/Backgrounds/deciduous_forest_day"
+	}
+
+	background = { #plains, settled
+		trigger = {
+			NOT = { scope:host.location = scope:activity.activity_location }
+			scope:host.location = {
+				graphical_plains_trigger = yes
+				exists = province_owner
+			}
+		}
+		texture = "gfx/interface/illustrations/event_scenes/ep2_travel_hills.dds"
+		environment = "environment_travel_hills_settlement"
+		ambience = "event:/SFX/Events/Backgrounds/fields_farms_day"
+	}
+	background = { #plains, unsettled
+		trigger = {
+			NOT = { scope:host.location = scope:activity.activity_location }
+			scope:host.location = {
+				graphical_plains_trigger = yes
+				NOT = { exists = province_owner }
+			}
+		}
+		texture = "gfx/interface/illustrations/event_scenes/bp1_plains.dds"
+		environment = "environment_event_bp1_plains"
+		ambience = "event:/SFX/Events/Backgrounds/fields_farms_day"
+	}
+
+	background = { #hills, settled
+		trigger = {
+			NOT = { scope:host.location = scope:activity.activity_location }
+			scope:host.location = {
+				graphical_hills_trigger = yes
+				exists = province_owner
+			}
+		}
+		texture = "gfx/interface/illustrations/event_scenes/ep2_travel_hills.dds"
+		environment = "environment_travel_hills_settlement"
+		ambience = "event:/SFX/Events/Backgrounds/fields_farms_day"
+	}
+	background = { #hills, unsettled
+		trigger = {
+			NOT = { scope:host.location = scope:activity.activity_location }
+			scope:host.location = {
+				graphical_hills_trigger = yes
+				NOT = { exists = province_owner }
+			}
+		}
+		texture = "gfx/interface/illustrations/event_scenes/bp1_hills.dds"
+		environment = "environment_event_bp1_hills"
+		ambience = "event:/SFX/Events/Backgrounds/fields_farms_day"
+	}
+
+	background = { #sea
+		trigger = {
+			NOT = { scope:host.location = scope:activity.activity_location }
+			scope:host.location = {
+				is_sea_province = yes
+			}
+		}
+		texture = "gfx/interface/illustrations/event_scenes/fp1_ocean.dds"
+		environment = "environment_event_fp1_ocean"
+		ambience = "event:/DLC/FP1/SFX/Events/event_ocean_longship"
+	}
+	# End Travel
+	background = {
+		texture = "gfx/interface/illustrations/event_scenes/feast.dds"
+		environment = "environment_event_feast"
+		ambience = "event:/SFX/Events/Backgrounds/feasthall"
+		music = "grandfeast_cue"
+	}
+
+	window_characters = {
+
+		guest = {
+			camera = camera_event_center
+			
+			effect = {
+				every_attending_character = {
+					limit = {
+						scope:host.location = scope:activity.activity_location
+					}
+					add_to_list = characters
+				}
+			}
+
+			scripted_animation = {
+				triggered_animation = {
+					trigger = {
+						scope:character = { has_trait = zealous }
+					}
+					animation = personality_zealous
+				}
+				triggered_animation = {
+					trigger = {
+						scope:character = { has_trait = cynical }
+					}
+					animation = { boredom personality_cynical }
+				}
+				#Fallback
+				animation = personality_compassionate
+			}
+		}
+
+		guest = {
+			camera = camera_event_center
+			
+			effect = {
+				every_attending_character = {
+					limit = {
+						scope:host.location = scope:activity.activity_location
+					}
+					add_to_list = characters
+				}
+			}
+
+			scripted_animation = {
+				triggered_animation = {
+					trigger = {
+						scope:character = { has_trait = zealous }
+					}
+					animation = personality_zealous
+				}
+				triggered_animation = {
+					trigger = {
+						scope:character = { has_trait = cynical }
+					}
+					animation = { boredom personality_cynical }
+				}
+				#Fallback
+				animation = personality_compassionate
+			}
+		}
+		
+		host = {
+			camera = camera_event_center
+			
+			effect = {
+				if = {
+					limit = {
+						scope:host.location = scope:activity.activity_location
+					}
+					scope:host = {
+						add_to_list = characters
+					}
+				}
+			}
+
+			scripted_animation = {
+				triggered_animation = {
+					trigger = {
+						scope:character.location = { is_sea_province = yes }
+					}
+					animation = { survey }
+				}
+				animation = idle
+			}
+		}
+		
+		travel_host = {
+			camera = camera_activity_horse
+			
+			effect = {
+				if = {
+					limit = {
+						NOR = {
+							scope:host.location = scope:activity.activity_location
+							scope:host.location = { is_sea_province = yes }
+						}
+					}
+					scope:host = {
+						add_to_list = characters
+					}
+				}
+			}
+
+			scripted_animation = {
+				triggered_animation = {
+					trigger = { scope:character = { has_trait = impatient } }
+					animation = { jockey_gallop }
+				}
+				animation = jockey_walk
+			}
+		}
+
+		guest = {
+			camera = camera_event_center
+			
+			effect = {
+				every_attending_character = {
+					limit = {
+						scope:host.location = scope:activity.activity_location
+					}
+					add_to_list = characters
+				}
+			}
+
+			scripted_animation = {
+				triggered_animation = {
+					trigger = {
+						scope:character = { has_trait = zealous }
+					}
+					animation = personality_zealous
+				}
+				triggered_animation = {
+					trigger = {
+						scope:character = { has_trait = cynical }
+					}
+					animation = { boredom personality_cynical }
+				}
+				#Fallback
+				animation = personality_compassionate
+			}
+		}
+
+		guest = {
+			camera = camera_event_center
+			
+			effect = {
+				every_attending_character = {
+					limit = {
+						scope:host.location = scope:activity.activity_location
+					}
+					add_to_list = characters
+				}
+			}
+
+			scripted_animation = {
+				triggered_animation = {
+					trigger = {
+						scope:character = { has_trait = zealous }
+					}
+					animation = personality_zealous
+				}
+				triggered_animation = {
+					trigger = {
+						scope:character = { has_trait = cynical }
+					}
+					animation = { boredom personality_cynical }
+				}
+				#Fallback
+				animation = personality_compassionate
+			}
+		}
+	}
 }

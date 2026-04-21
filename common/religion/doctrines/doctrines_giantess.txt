@@ -1,4 +1,102 @@
-﻿##############################################################
+﻿
+########################################
+#   Giantess acceptance doctrine        
+########################################
+
+doctrine_giantess_acceptance = {
+	group = "crimes"
+	doctrine_giantess_acceptance_demonized = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_giantess_acceptance_demonized }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_giantess_acceptance_accepted }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_giantess_acceptance_worshipped }
+				multiply = faith_changed_doctrine_cost_mult_four_step
+			}
+		}
+		traits = {
+			sins = { giantess }
+		}
+		parameters = {
+			giantess_demonized = yes
+		}
+	}
+	doctrine_giantess_acceptance_shunned = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = _acceptance }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_giantess_acceptance_worshipped }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		parameters = {
+			giantess_shunned = yes
+		}
+	}
+	doctrine_giantess_acceptance_accepted = {
+		piety_cost = {
+			value = faith_tenet_cost_massive
+			if = {
+				limit = { has_doctrine = doctrine_giantess_acceptance_accepted }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_giantess_acceptance_demonized }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		parameters = {
+			giantess_accepted = yes
+		}
+	}	
+    doctrine_giantess_acceptance_worshipped = {
+		can_pick = {
+			custom_tooltip = {
+				text = doctrine_allmother_tt
+				custom_tooltip = {
+					text = faith_must_be_allmother_tt
+					religion = religion:allmother_worship_religion
+				}
+			}
+		}
+		piety_cost = {
+			value = faith_tenet_cost_massive
+			if = {
+				limit = { has_doctrine = doctrine_giantess_acceptance_worshipped }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = _acceptance }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_giantess_acceptance_demonized }
+				multiply = faith_changed_doctrine_cost_mult_four_step
+			}
+		}
+		traits = {
+			virtues = { giantess giantess_sex_slave }
+		}
+		parameters = {
+			giantess_worshipped = yes
+		}
+	}
+}
+
+
+
+##############################################################
 # GIANTESS TENETS
 ##############################################################
 
@@ -65,7 +163,7 @@ doctrine_giantess_tenets = {
                 text = incompatible_tenet_giantess_trigger
                 NOR = {
                     doctrine:tenet_macrophilitism = { is_in_list = selected_doctrines }
-                    # doctrine:tenet_macrocentrism = { is_in_list = selected_doctrines }  # commented — doctrine removed from mod
+                    doctrine:tenet_macrosuprematism = { is_in_list = selected_doctrines }
                 }
             }
         }
@@ -75,12 +173,90 @@ doctrine_giantess_tenets = {
         }
 
         character_modifier = {
-            county_opinion_add = 0
+            county_opinion_add = -20
         }
 
         traits = {
             virtues = { callous sadistic lustful }
             sins    = { compassionate chaste }
+        }
+    }
+
+    ##############################################################
+    # GREEK TITANS - Greek path
+    ##############################################################
+
+    tenet_greek_titans = {
+        icon = core_tenet_greek_titans
+
+        piety_cost = {
+            value = faith_tenet_cost_mid
+        }
+
+        is_shown = {
+            religion_tag = allmother_worship_religion
+        }
+
+        can_pick = {
+            custom_description = {
+                text = incompatible_tenet_giantess_trigger
+                NOR = {
+                    doctrine:tenet_macrophilitism = { is_in_list = selected_doctrines }
+                    doctrine:tenet_macrosuprematism = { is_in_list = selected_doctrines }
+                }
+            }
+        }
+
+        parameters = {
+            # naked_adherents_active = yes    # commented — optional/unimplemented
+        }
+
+        character_modifier = {
+            county_opinion_add = 10
+        }
+
+        traits = {
+            virtues = { arrogant zealous }
+            sins    = { craven cynical }
+        }
+    }
+
+    ##############################################################
+    # JOTUNS - Norse path
+    ##############################################################
+
+    tenet_jotuns = {
+        icon = core_tenet_jotuns
+
+        piety_cost = {
+            value = faith_tenet_cost_mid
+        }
+
+        is_shown = {
+            religion_tag = allmother_worship_religion
+        }
+
+        can_pick = {
+            custom_description = {
+                text = incompatible_tenet_giantess_trigger
+                NOR = {
+                    doctrine:tenet_macrophilitism = { is_in_list = selected_doctrines }
+                    doctrine:tenet_macrosuprematism = { is_in_list = selected_doctrines }
+                }
+            }
+        }
+
+        parameters = {
+            # naked_adherents_active = yes    # commented — optional/unimplemented
+        }
+
+        character_modifier = {
+            county_opinion_add = -20
+        }
+
+        traits = {
+            virtues = { sadistic zealous }
+            sins    = { compassionate cynical }
         }
     }
 }

@@ -1,0 +1,11 @@
+giantess_feast_event_selection = {
+	trigger = {
+		is_ruler = yes
+		exists = scope:activity
+	}
+    random_events = {
+		#10 = feast_main_stew_flood.0001    # commented out for easier testing of giantess_feast_event.0001
+		#25 = feast_main_live_fowl.0001
+		200 = giantess_feast_event.0001
+	}
+}
