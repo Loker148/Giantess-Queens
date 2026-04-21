@@ -1,0 +1,34 @@
+##############################################################
+# GIANTESS-THEMED PROVINCES
+##############################################################
+
+### c_pembrokeshire / Dyfed
+1654 = {    # Pembroke / Penfro
+    860.1.1 = {
+        culture = welsh
+        faith   = macrophilitism
+        holding = castle_holding
+    }
+}
+
+### VASTVAGBORG (Norse giantess religion province)
+280 = {     # VASTVAGBORG
+    860.1.1 = {
+        culture = norse
+        faith   = macrosuprematism
+        holding = tribal_holding
+    }
+}
+
+### c_tarnowska
+4965 = {    # Tarnow
+    860.1.1 = {
+        culture = polish
+        faith   = macrocentrism
+        holding = tribal_holding
+    }
+    966.4.14 = {
+        faith   = catholic
+        holding = castle_holding
+    }
+}
