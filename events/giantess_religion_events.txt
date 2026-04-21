@@ -1,0 +1,729 @@
+﻿namespace = giantess_religion
+
+#Merchant gives you map
+giantess_religion.0001 = {
+	type = character_event
+	title = giantess_religion.0001.t
+	desc = giantess_religion.0001.desc
+	left_portrait = root
+	theme = crown
+	#Agree
+	option = {
+		remove_short_term_gold = 100
+		add_character_flag = {
+			flag = bought_map
+			years = 100
+		}
+		name = giantess_religion.0001.desc.a
+		custom_tooltip = giantess_religion.0001.a.tt
+	}
+	#Stop fooling me
+	option = {
+		name = giantess_religion.0001.desc.b
+	}
+}
+
+#You try to decipher the map
+giantess_religion.0002 = {
+	type = character_event
+	title = giantess_religion.0002.t
+	desc = giantess_religion.0002.desc
+	left_portrait = root
+	theme = crown
+	override_background = {
+		reference = study
+	}
+	#Try it
+	option = {
+		duel = {
+			skill = learning
+			value = medium_skill_rating
+			desc = outcome_in_a_few_days
+			60 = {		
+				desc = giantess_religion.0002.a.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 5
+				}
+				custom_tooltip = giantess_religion.0002.a.success.tt
+				trigger_event = { id = giantess_religion.0003 days = 5 } #You read the text
+			}
+			40 = {		
+				desc = giantess_religion.0002.a.falure
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -5
+				}
+				custom_tooltip = giantess_religion.0002.a.falure.tt
+				trigger_event = { id = giantess_religion.0004 days = 5 } #You fail to read the text
+			}
+		}
+
+		name = giantess_religion.0002.desc.a
+	}
+	#Try really hard
+	option = {
+		name = giantess_religion.0002.desc.b
+
+		duel = {
+			skill = learning
+			value = medium_skill_rating
+			desc = outcome_in_a_few_days
+			100 = {		
+				desc = giantess_religion.0002.a.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 5
+				}
+				custom_tooltip = giantess_religion.0002.a.success.tt
+				trigger_event = { id = giantess_religion.0003 days = 5 } #You read the text
+			}
+			0 = {		
+				desc = giantess_religion.0002.a.falure
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -5
+				}
+				custom_tooltip = giantess_religion.0002.a.falure.tt
+				trigger_event = { id = giantess_religion.0004 days = 5 } #You fail to read the text
+			}
+		}
+		stress_impact = {
+			base = medium_stress_impact_gain
+			lazy = minor_stress_impact_gain
+			impatient = minor_stress_impact_gain
+		}	
+	}
+}
+
+#You deciphered the map
+giantess_religion.0003 = {
+	type = character_event
+	title = giantess_religion.0003.t
+	desc = giantess_religion.0003.desc
+	left_portrait = root
+	theme = crown
+	override_background = {
+		reference = study
+	}
+	#Good
+	option = {
+		remove_character_flag = bought_map
+		add_character_flag = {
+			flag = deciphered_map
+			years = 100
+		}
+		name = giantess_religion.0003.desc.a
+	}
+}
+
+#You failed to decipher the map
+giantess_religion.0004 = {
+	type = character_event
+	title = giantess_religion.0004.t
+	desc = giantess_religion.0004.desc
+	left_portrait = root
+	theme = crown
+	override_background = {
+		reference = study
+	}
+	#Bad
+	option = {
+		name = giantess_religion.0004.desc.a
+	}
+}
+
+#Entering the temple, feet
+giantess_religion.0005 = {
+	type = character_event
+	title = giantess_religion.0005.t
+	desc = giantess_religion.0005.desc
+	left_portrait = {
+		character = root
+		animation = fear
+	}
+	right_portrait = {
+		character = scope:giantess
+		animation = anger
+	}
+	theme = battle
+	override_background = {
+		reference = temple
+	}
+	immediate = {
+		create_character = {
+			age = { 25 30 }
+			trait = beauty_good_1
+			trait = giantess
+			random_traits = yes
+			gender_female_chance = 100
+			dynasty = none
+			faith = faith:macrosuprematism
+			culture = this.culture
+			location = root.capital_province
+			save_scope_as = giantess
+		}
+	}
+	after = {
+		hidden_effect = {
+			scope:giantess = { make_giantess_effect = yes }
+		}
+	}
+	#Attempt to break free
+	option = {
+		name = giantess_religion.0005.desc.a
+		duel = {
+			skill = prowess
+			value = medium_skill_rating
+			desc = giantess_religion.0005.desc.a
+			#Success
+			50 = {		
+				desc = giantess_religion.0005.desc.a.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 8
+				}
+				custom_tooltip = giantess_religion.0005.desc.a.success.tt
+				trigger_event =  giantess_religion.0007  #Vore
+			}
+			#Fail
+			50 = {		
+				desc = giantess_religion.0005.desc.a.fail
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -3
+				}
+				custom_tooltip = giantess_religion.0005.desc.a.fail.tt
+				trigger_event = giantess_religion.0006 #Crushed under feet
+			}
+		}
+	}
+}
+
+#Crushed under foot in the temple
+giantess_religion.0006 = {
+	type = character_event
+	title = giantess_religion.0006.t
+	desc = giantess_religion.0006.desc
+	left_portrait = {
+		character = root
+		animation = fear
+	}
+	right_portrait = {
+		character = scope:giantess
+		animation = anger
+	}
+	theme = battle
+	override_background = {
+		reference = temple
+	}
+	#You die
+	option = {
+		name = giantess_religion.0006.desc.a
+		add_character_flag = {
+			flag = death_barefoot_crush
+			days = 1
+		}
+		giantess_death_effect = {
+			TINY = root
+			GIANTESS = scope:giantess
+		}
+	}
+}
+
+#Survive footcrush, time for some vore
+giantess_religion.0007 = {
+	type = character_event
+	title = giantess_religion.0007.t
+	desc = giantess_religion.0007.desc
+	left_portrait = {
+		character = root
+		animation = fear
+	}
+	right_portrait = {
+		character = scope:giantess
+		animation = anger
+	}
+	theme = battle
+	override_background = {
+		reference = temple
+	}
+
+	#Struggle hard
+	option = {
+		name = giantess_religion.0007.a
+		add_character_flag = {
+			flag = mouth_struggle
+			days = 1
+		}
+		duel = {
+			skill = prowess
+			value = {
+				add = medium_skill_rating
+				if = {
+					limit = { scope:giantess = { has_trait = arrogant } }
+					add = 5
+				}
+			}
+			desc = giantess_religion.0007.desc.a
+			#Success
+			50 = {		
+				desc = giantess_religion.0007.desc.a.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 8
+				}
+				custom_tooltip = giantess_religion.0007.desc.a.success.tt
+				trigger_event =  giantess_religion.0009
+			}
+			#Fail
+			50 = {		
+				desc = giantess_religion.0007.desc.a.fail
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -3
+				}
+				custom_tooltip = giantess_religion.0007.desc.a.fail.tt
+				trigger_event = giantess_religion.0008 #Swallowed whole
+			}
+		}
+	}
+#Praise the giantess
+	option = {
+		name = giantess_religion.0007.b
+		add_character_flag = {
+			flag = mouth_worship
+			days = 1
+		}
+		duel = {
+			skill = diplomacy
+			value = {
+				add = medium_skill_rating
+				if = {
+					limit = { scope:giantess = { has_trait = arrogant } }
+					add = -5
+				}
+				if = {
+					limit = { scope:giantess = { has_trait = sadistic } }
+					add = 5
+				}
+				if = {
+					limit = { scope:giantess = { has_trait = callous } }
+					add = 5
+				}
+			}
+			desc = giantess_religion.0007.desc.b
+			#Success
+			50 = {		
+				desc = giantess_religion.0007.desc.a.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 7
+				}
+				custom_tooltip = giantess_religion.0007.desc.a.success.tt
+				trigger_event =  giantess_religion.0009
+			}
+			#Fail
+			50 = {		
+				desc = giantess_religion.0007.desc.a.fail
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -3
+				}
+				custom_tooltip = giantess_religion.0007.desc.a.fail.tt
+				trigger_event = giantess_religion.0008 #Swallowed whole
+			}
+		}
+	}
+}
+#Swallowed in temple
+giantess_religion.0008 = {
+	type = character_event
+	title = giantess_religion.0008.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+			    trigger = { has_character_flag =  mouth_struggle }
+				desc = giantess_religion.0008.desc_struggle
+			}
+			triggered_desc = {
+			    trigger = { has_character_flag =  mouth_worship }
+				desc = giantess_religion.0008.desc_worship
+			}
+		}
+		desc = giantess_religion.0008.desc
+	}
+	left_portrait = {
+		character = root
+		animation = fear
+	}
+	right_portrait = {
+		character = scope:giantess
+		animation = anger
+	}
+	theme = battle
+	override_background = {
+		reference = temple
+	}
+	option = {
+		name = giantess_religion.0008.desc.a
+		add_character_flag = {
+			flag = execution_swallow
+			days = 1
+		}
+		giantess_death_effect = {
+			TINY = root
+			GIANTESS = scope:giantess
+		}
+	}
+}
+
+#Success in temple, you win
+giantess_religion.0009 = {
+	type = character_event
+	title = giantess_religion.0009.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+			    trigger = { has_character_flag =  mouth_struggle }
+				desc = giantess_religion.0008.desc_struggle
+			}
+			triggered_desc = {
+			    trigger = { has_character_flag =  mouth_worship }
+				desc = giantess_religion.0008.desc_worship
+			}
+		}
+		desc = giantess_religion.0009.desc
+		first_valid = {
+			triggered_desc = {
+			    trigger = { is_female = yes }
+				desc = giantess_religion.0009.desc_female
+			}
+			triggered_desc = {
+			    trigger = { is_female = no }
+				desc = giantess_religion.0009.desc_male
+			}
+		}
+	}
+	left_portrait = {
+		character = root
+	}
+	right_portrait = {
+		character = scope:giantess
+	}
+	theme = battle
+	override_background = {
+		reference = temple
+	}
+	immediate = {
+		set_global_variable = {
+			name = giantesses_founded
+			value = yes
+		}
+		remove_character_flag = deciphered_map
+	}
+	#Become main giantess
+	option = {
+		name = giantess_religion.0009.desc.a
+		trigger = { is_female = yes }
+		make_giantess_effect = yes
+		add_courtier = scope:giantess
+		trigger_event = { id = giantess_religion.0010  days = 10 }
+		every_independent_ruler = {
+			limit = {
+				highest_held_title_tier >= tier_duchy
+				age >= 18
+				is_ai = yes
+				is_landed = yes
+				NOT = { has_trait = giantess }
+			}
+			random = {
+				chance = 50
+				trigger_event = giantess_religion.00011
+			}
+		}
+	}
+
+	#Giantess takes throne
+	option = {
+		name = giantess_religion.0009.desc.b
+		if = {
+			limit = { is_female = no }
+			every_spouse = { divorce = root }
+			marry = scope:giantess
+		}
+		create_title_and_vassal_change = {
+			type = swear_fealty
+			save_scope_as = change
+			add_claim_on_loss = no
+		}
+		root = {
+			capital_county = {
+				change_title_holder = {
+					holder = scope:giantess
+					change = scope:change
+					take_baronies = no
+				}
+			}
+			every_held_title = {
+				if = {
+					limit = {
+						tier = root.primary_title.tier
+					}
+					change_title_holder = {
+						holder = scope:giantess
+						change = scope:change
+					}
+				}
+				else_if = {
+					limit = {
+						OR = {
+							NOT = { exists = scope:secondary_title }
+							tier > scope:secondary_title.tier
+						}
+					}
+					save_temporary_scope_as = secondary_title
+				}
+			}
+		}
+			
+		root = {
+			if = {
+				limit = {
+					exists = scope:secondary_title
+				}
+				every_vassal = {
+					limit = {
+						primary_title.tier >= scope:secondary_title.tier
+						NOT = {
+							primary_title.tier = tier_barony
+						}
+					}
+					change_liege = {
+						liege = scope:giantess
+						change = scope:change
+					}
+				}
+			}
+		}
+			
+		root = {
+			change_liege = {
+				liege = scope:giantess
+				change = scope:change
+			}
+		}
+		resolve_title_and_vassal_change = scope:change
+		scope:giantess = { trigger_event = { id = giantess_religion.0010  days = 10 } }
+		
+		every_independent_ruler = {
+			limit = {
+				highest_held_title_tier >= tier_duchy
+				age >= 25
+				NOT = { has_trait = giantess }
+				is_ai = yes
+				is_landed = yes
+			}
+			random = {
+				chance = 50
+				trigger_event = giantess_religion.00011
+			}
+		}
+	}
+}
+
+#Becoming giantess leader, OP bonuses
+giantess_religion.0010 = {
+	type = character_event
+	title = giantess_religion.00010.t
+	desc = giantess_religion.00010.desc
+	left_portrait = {
+		character = this
+	}
+	theme = battle
+	override_background = {
+		reference = temple
+	}
+	immediate = {
+		#create_character = {
+		#	age = { 18 30 }
+		#	random_traits = yes
+		#	gender_female_chance = 100
+		#	dynasty = none
+		#	faith = faith:macrocentrism
+		#	culture = this.culture
+		#	location = this.capital_province
+		#	save_scope_as = giantess1
+		#}
+		create_character = {
+			age = { 18 30 }
+			random_traits = yes
+			gender_female_chance = 100
+			dynasty = none
+			faith = faith:macrophilitism
+			culture = this.culture
+			location = this.capital_province
+			save_scope_as = giantess2
+		}
+		create_character = {
+			age = { 18 30 }
+			random_traits = yes
+			gender_female_chance = 100
+			dynasty = none
+			faith = faith:macrophilitism
+			culture = this.culture
+			location = this.capital_province
+			save_scope_as = giantess3
+		}
+		create_character = {
+			age = { 18 30 }
+			random_traits = yes
+			gender_female_chance = 100
+			dynasty = none
+			faith = faith:macrosuprematism
+			culture = this.culture
+			location = this.capital_province
+			save_scope_as = giantess4
+		}
+
+	}
+	after = {
+		hidden_effect = {
+			scope:giantess1 = { make_giantess_effect = yes }
+			scope:giantess2 = { make_giantess_effect = yes }
+			scope:giantess3 = { make_giantess_effect = yes }
+			scope:giantess4 = { make_giantess_effect = yes }
+		}
+	}
+	#OP bonuses
+	option = {
+		name = giantess_religion.00010.desc.a
+
+		#add_courtier = scope:giantess1
+		add_courtier = scope:giantess2
+		add_courtier = scope:giantess3
+		add_courtier = scope:giantess4
+		#add_courtier = scope:giantess5
+		
+		add_gold = 500
+		add_piety = 1000
+		add_prestige = 1000
+		spawn_army = {
+			name = giantess_event_troops
+			inheritable = no
+			uses_supply = no
+			levies = {
+				value = 5000
+			}
+			men_at_arms = {
+				type = giantess_worshippers
+				stacks = 25
+			}
+			location = capital_province
+		}
+		#trigger_event = giantess_religion.00012
+	}
+}
+
+#giantess take over internationaly
+giantess_religion.0011 = {
+	type = character_event
+	title = giantess_religion.00011.t
+	desc = giantess_religion.00011.desc
+	left_portrait = {
+		character = root
+		animation = fear
+	}
+	right_portrait = {
+		character = scope:giantess_conqueror
+		animation = anger
+	}
+	theme = battle
+	override_background = {
+		reference = temple
+	}
+	immediate = {
+		create_character = {
+			age = { 18 25 }
+			trait = giantess
+			random_traits = yes
+			gender_female_chance = 100
+			dynasty = none
+			faith = faith:macrosuprematism
+			culture = this.culture
+			location = root.capital_province
+			save_scope_as = giantess_conqueror
+		}
+	}
+	after = {
+		hidden_effect = {
+			scope:giantess_conqueror = { make_giantess_effect = yes }
+		}
+	}
+	option = {
+		create_title_and_vassal_change = {
+			type = swear_fealty
+			save_scope_as = change
+			add_claim_on_loss = no
+		}
+		root = {
+			capital_county = {
+				change_title_holder = {
+					holder = scope:giantess_conqueror
+					change = scope:change
+					take_baronies = no
+				}
+			}
+			every_held_title = {
+				if = {
+					limit = {
+						tier = root.primary_title.tier
+					}
+					change_title_holder = {
+						holder = scope:giantess_conqueror
+						change = scope:change
+					}
+				}
+				else_if = {
+					limit = {
+						OR = {
+							NOT = { exists = scope:secondary_title }
+							tier > scope:secondary_title.tier
+						}
+					}
+					save_temporary_scope_as = secondary_title
+				}
+			}
+		}
+			
+		root = {
+			if = {
+				limit = {
+					exists = scope:secondary_title
+				}
+				every_vassal = {
+					limit = {
+						primary_title.tier >= scope:secondary_title.tier
+						NOT = {
+							primary_title.tier = tier_barony
+						}
+					}
+					change_liege = {
+						liege = scope:giantess_conqueror
+						change = scope:change
+					}
+				}
+			}
+		}
+			
+		root = {
+			change_liege = {
+				liege = scope:giantess_conqueror
+				change = scope:change
+			}
+		}
+		resolve_title_and_vassal_change = scope:change
+		scope:giantess_conqueror = { trigger_event = { id = giantess_religion.0010  days = 10 } }
+	}
+}
+

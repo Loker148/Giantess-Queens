@@ -1,0 +1,331 @@
+﻿namespace = giantess_craving
+
+##############################################################
+# GIANTESS CRAVING — MAIN EVENT
+##############################################################
+
+# "I have a sudden urge to..."
+giantess_craving.0001 = {
+    type = character_event
+    title = giantess_craving.0001.t
+    desc  = giantess_craving.0001.desc
+
+    left_portrait = {
+        character  = scope:giantess
+        animation  = dismissal
+    }
+
+    right_portrait = scope:vassal
+
+    theme = prison
+    override_background = {
+        reference = corridor_day
+    }
+
+    immediate = {
+        save_scope_as = giantess
+        save_scope_as = actor
+
+        random_vassal = {
+            limit = {
+                NOT = { has_trait = giantess }
+                age >= 18
+                is_available_adult = yes
+            }
+            weight = {
+                base = 1
+                modifier = {
+                    add  = 10
+                    is_ai = no
+                }
+            }
+            save_scope_as = vassal
+            save_scope_as = recipient
+        }
+    }
+
+    ##############################################################
+    # OPTION A — RESIST IMPULSES
+    ##############################################################
+
+    option = {
+        name = giantess_craving.0001.desc.a
+
+        if = {
+            limit = {
+                faith = {
+                    has_doctrine = tenet_macrophilitism
+                }
+            }
+            add_piety = minor_piety_gain
+        }
+
+        stress_impact = {
+            base         = medium_stress_impact_gain
+            lustful      = minor_stress_impact_gain
+            impatient    = minor_stress_impact_gain
+            arbitrary    = minor_stress_impact_gain
+            chaste       = minor_stress_impact_loss
+            patient      = minor_stress_impact_loss
+            just         = minor_stress_impact_loss
+            compassionate = minor_stress_impact_loss
+        }
+
+        ai_chance = {
+            base = 50
+            modifier = {
+                add = 10
+                scope:giantess.faith = { has_doctrine = tenet_macrophilitism }
+            }
+            modifier = { add = 10 has_trait = chaste }
+            modifier = { add = 10 has_trait = patient }
+            modifier = { add = 10 has_trait = just }
+            modifier = { add = 10 has_trait = compassionate }
+            modifier = { add = -50 stress >= 150 }
+        }
+    }
+
+    ##############################################################
+    # OPTION B — BUTTCRUSH
+    ##############################################################
+
+    option = {
+        name = giantess_craving.0001.desc.b
+
+        trigger = {
+            NOT = { has_trait = compassionate }
+        }
+
+        stress_impact = {
+            base    = medium_stress_impact_loss
+            sadistic = minor_stress_impact_loss
+            callous  = minor_stress_impact_loss
+            wrathful = minor_stress_impact_loss
+        }
+
+        ai_chance = {
+            base = 10
+        }
+
+        save_scope_value_as = { name = torture_method value = flag:buttcrush }
+        trigger_event = giantess_torture.0002
+    }
+
+    ##############################################################
+    # OPTION C — FOOTCRUSH
+    ##############################################################
+
+    option = {
+        name = giantess_craving.0001.desc.c
+
+        trigger = {
+            NOT = { has_trait = compassionate }
+        }
+
+        stress_impact = {
+            base    = medium_stress_impact_loss
+            sadistic = minor_stress_impact_loss
+            callous  = minor_stress_impact_loss
+            wrathful = minor_stress_impact_loss
+        }
+
+        ai_chance = {
+            base = 10
+        }
+
+        save_scope_value_as = { name = torture_method value = flag:footcrush }
+        trigger_event = giantess_torture.0002
+    }
+
+    ##############################################################
+    # OPTION D — VORE (LEADS TO 0002)
+    ##############################################################
+
+    option = {
+        name = giantess_craving.0001.desc.d
+
+        trigger = {
+            OR = {
+                has_trait = gluttonous
+                NOT = { has_trait = compassionate }
+            }
+        }
+
+        stress_impact = {
+            base      = medium_stress_impact_loss
+            gluttonous = minor_stress_impact_loss
+            sadistic   = minor_stress_impact_loss
+            callous    = minor_stress_impact_loss
+        }
+
+        ai_chance = {
+            base = 10
+            modifier = {
+                add = 20
+                has_trait = gluttonous
+            }
+        }
+
+        trigger_event = giantess_craving.0002
+    }
+
+    ##############################################################
+    # OPTION E — BOOBSQUISH
+    ##############################################################
+
+    option = {
+        name = giantess_craving.0001.desc.e
+
+        trigger = {
+            NOR = {
+                has_trait = sadistic
+                has_trait = callous
+            }
+        }
+
+        stress_impact = {
+            base        = medium_stress_impact_loss
+            compassionate = minor_stress_impact_loss
+            lustful       = minor_stress_impact_loss
+            generous      = minor_stress_impact_loss
+        }
+
+        ai_chance = {
+            base = 10
+        }
+
+        save_scope_value_as = { name = torture_method value = flag:boobsquish }
+        trigger_event = giantess_torture.0002
+    }
+
+    ##############################################################
+    # OPTION F — KISS (VORE TRACK)
+    ##############################################################
+
+    option = {
+        name = giantess_craving.0001.desc.f
+
+        trigger = {
+            NOR = {
+                has_trait = sadistic
+                has_trait = callous
+            }
+        }
+
+        stress_impact = {
+            base        = medium_stress_impact_loss
+            compassionate = minor_stress_impact_loss
+            lustful       = minor_stress_impact_loss
+            generous      = minor_stress_impact_loss
+        }
+
+        ai_chance = {
+            base = 10
+        }
+
+        save_scope_value_as = { name = torture_method value = flag:kiss }
+        trigger_event = giantess_torture.0002
+    }
+
+    ##############################################################
+    # OPTION G — HAND TORTURE / PRAISE
+    ##############################################################
+
+    option = {
+        name = giantess_craving.0001.desc.g
+
+        trigger = {
+            OR = {
+                has_trait = arrogant
+                has_trait = zealous
+                has_trait = ambitious
+            }
+        }
+
+        stress_impact = {
+            base = major_stress_impact_loss
+        }
+
+        ai_chance = {
+            base = 20
+        }
+
+        save_scope_value_as = { name = torture_method value = flag:hand }
+        trigger_event = giantess_torture.0002
+    }
+}
+
+##############################################################
+# VORE SEQUENCE — GIANTESS PERSPECTIVE
+##############################################################
+
+giantess_craving.0002 = {
+    type  = character_event
+    title = giantess_craving.0002.t
+    desc  = giantess_craving.0002.desc
+
+    theme = prison
+    override_background = {
+        reference = corridor_day
+    }
+
+    left_portrait = {
+        character = scope:giantess
+        animation = dismissal
+    }
+
+    right_portrait = {
+        character = scope:vassal
+        animation = fear
+    }
+
+    option = {
+        name = giantess_craving.0002.desc.a
+
+        scope:vassal = {
+            add_character_flag = {
+                flag = execution_swallow
+                days = 1
+            }
+            trigger_event = giantess_craving.0003
+        }
+
+        show_as_tooltip = {
+            giantess_execute_prisoner_effect = {
+                VICTIM      = scope:vassal
+                EXECUTIONER = scope:giantess
+            }
+        }
+    }
+}
+
+##############################################################
+# VORE SEQUENCE — VASSAL PERSPECTIVE
+##############################################################
+
+giantess_craving.0003 = {
+    type  = character_event
+    title = giantess_craving.0003.t
+    desc  = giantess_craving.0003.desc
+
+    left_portrait = {
+        character = scope:giantess
+        animation = dismissal
+    }
+
+    right_portrait = {
+        character = scope:vassal
+        animation = fear
+    }
+
+    theme = crown
+
+    option = {
+        name = giantess_craving.0003.desc.a
+
+        giantess_execute_prisoner_effect = {
+            VICTIM      = scope:vassal
+            EXECUTIONER = scope:giantess
+        }
+    }
+}
