@@ -2,7 +2,7 @@
 
  make_giantess_interaction:0 "Turn into a giantess"
  #executions
- giantess_execute_prisoner_interaction:0 "Giantess execution"
+ giantess_execute_prisoner_interaction:0 "Giantess Execution"
  giantess_execute_prisoner_interaction_desc:0 "Execute the prisoner with your assets"
  giantess_execution.0003.t:0 "Difficult choice"
  giantess_execution.0003_desc:0 "[recipient.GetName] crossed my path and now it's time for [recipient.GetHerHim] to pay! But how should I execute [recipient.GetHerHim]? Which of my body parts will end this bug's life?"
@@ -51,3 +51,12 @@
  giantess_unbirth_desc:0 "ask [recipient.GetShortUINamePossessiveNoTooltip] to sacrifice himself to [recipient.GetHerHis] goddess."
  unbirth_interaction:0 "Demand to unbirth him"
  giantess_unbirth_desc:0 "mmm"
+
+
+ giantess_coerce_prisoner_interaction: "Coerce Prisoner"
+ giantess_coerce_prisoner_interaction_desc: "Coerce the prisoner into granting you a title or die to your assets"
+ ginatess_coerce.0001.t: "Demanding a Title"
+ ginatess_coerce.0001.desc: "With [recipient.GetName] in my prison, I can force them to grant me a title or die to my domineering form."
+ ginatess_coerce.0001.a: "Fine, take it!"
+ ginatess_coerce.0001.b: "#EMP Just kill me!#!"
+ giantess_coerce_fail_tooltip: "[recipient.GetName|U] will be executed"
