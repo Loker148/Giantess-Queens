@@ -1,0 +1,171 @@
+﻿giantess_capture_cb = {
+    group = conquest
+    ai_only_against_neighbors = yes
+
+    ########################################
+    # WHO CAN DECLARE
+    ########################################
+
+    allowed_for_character = {
+        has_trait = giantess
+        is_landed_ruler = yes
+    }
+
+    allowed_against_character = {
+        is_independent_ruler = yes
+        NOT = { has_trait = giantess }    # optional: giantesses can't CB each other
+    }
+
+    ########################################
+    # COST
+    ########################################
+
+    cost = {
+        prestige = {
+            add = {
+                value = 100
+                desc = CB_BASE_COST
+            }
+        }
+    }
+
+    ########################################
+    # INVALIDATION CHECKS
+    ########################################
+
+    should_invalidate = {
+        OR = {
+            scope:attacker = { is_imprisoned = yes }
+            scope:defender = { is_imprisoned = yes }
+        }
+    }
+
+    ########################################
+    # DECLARATION
+    ########################################
+
+    on_declaration = {
+        on_declared_war = yes
+    }
+
+    ########################################
+    # ON VICTORY
+    ########################################
+
+    on_victory_desc = {
+        desc = giantess_capture_cb_victory_desc
+    }
+
+    on_victory = {
+
+        # Release any POWs held by attacker normally
+        scope:attacker = { show_pow_release_message_effect = yes }
+
+        # -----------------------------
+        # CAPTURE 2–5 RANDOM CHARACTERS
+        # -----------------------------
+
+        scope:defender = {
+            every_courtier_or_guest = {
+                limit = { age >= 16 }
+                add_to_list = potential_captives
+            }
+        }
+
+        scope:attacker = {
+            # How many to capture
+            random_list = {
+                40 = { set_variable = { name = num_to_capture value = 2 } }
+                30 = { set_variable = { name = num_to_capture value = 3 } }
+                20 = { set_variable = { name = num_to_capture value = 4 } }
+                10 = { set_variable = { name = num_to_capture value = 5 } }
+            }
+
+            # Capture loop
+            define_variable_list = captives_taken
+
+            repeat_variable = {
+                variable = num_to_capture
+
+                random_in_list = {
+                    list = potential_captives
+                    add_to_list = captives_taken
+                    save_temporary_scope_as = chosen_captive
+
+                    imprison = {
+                        target = scope:chosen_captive
+                        type = dungeon
+                    }
+                }
+            }
+
+            # Flavor event (optional)
+            trigger_event = giantess_cb.0001
+        }
+
+        # Alliances prestige effects
+        modify_allies_of_participants_fame_values = {
+            WINNER = scope:attacker
+            FAME_BASE = major_prestige_value
+            IS_RELIGIOUS_WAR = no
+        }
+
+        # Standard truce creation
+        add_truce_attacker_victory_effect = yes
+    }
+
+    ########################################
+    # ON WHITE PEACE
+    ########################################
+
+    on_white_peace_desc = {
+        desc = giantess_capture_cb_white_peace_desc
+    }
+
+    on_white_peace = {
+        scope:attacker = {
+            add_prestige = { value = medium_prestige_loss }
+        }
+        add_truce_attacker_victory_effect = yes
+    }
+
+    ########################################
+    # ON DEFEAT
+    ########################################
+
+    on_defeat_desc = {
+        desc = giantess_capture_cb_defeat_desc
+    }
+
+    on_defeat = {
+
+        scope:attacker = {
+            show_pow_release_message_effect = yes
+            add_prestige = { value = major_prestige_loss }
+        }
+
+        # Defender doesn’t capture anyone unless you want them to (optional)
+        modify_allies_of_participants_fame_values = {
+            WINNER = scope:defender
+            FAME_BASE = major_prestige_value
+            IS_RELIGIOUS_WAR = no
+        }
+
+        add_truce_attacker_defeat_effect = yes
+    }
+
+    ########################################
+    # NAMES
+    ########################################
+
+    cb_name = "giantess_CAPTURE_CB_NAME"
+    war_name = "giantess_CAPTURE_WAR_NAME"
+    war_name_base = "giantess_CAPTURE_WAR_NAME_BASE"
+
+    ########################################
+    # AI
+    ########################################
+
+    ai_score = { value = 50 }
+    ai_score_mult = { value = 1 }
+}

@@ -1,0 +1,105 @@
+﻿##############################################################
+# GIANTESS ELECTIVE — BASED ON TANISTRY
+##############################################################
+
+giantess_elective = {
+
+    ##############################################################
+    # ELECTOR VOTE STRENGTH
+    ##############################################################
+
+    elector_vote_strength = {
+        base = 1
+
+        modifier = {                   # Current ruler boost
+            desc = tooltip_elective_current_ruler
+            add = 5
+            this = scope:holder
+        }
+
+        modifier = {                   # House Head boost
+            desc = tooltip_giantess_vote_strength_current_house_head
+            add = 1
+            exists = scope:holder.house.house_head
+            this = scope:holder.house.house_head
+        }
+
+        modifier = {                   # Dynast boost
+            desc = tooltip_giantess_vote_strength_current_dynast
+            add = 3
+            exists = scope:holder.dynasty.dynast
+            this = scope:holder.dynasty.dynast
+        }
+
+        modifier = {                   # Powerful Vassals
+            desc = tooltip_feudal_vote_strength_powerful_vassal
+            add = {
+                value = 1
+                if = {
+                    limit = {
+                        max_military_strength > scope:holder.max_military_strength
+                    }
+                    add = 1
+                }
+            }
+            NOT = { this = scope:holder }
+            is_powerful_vassal = yes
+            liege = scope:holder
+        }
+
+        modifier = {                   # Regent/Diarch
+            desc = tooltip_feudal_vote_strength_is_diarch
+            add = 1
+            is_diarch_of_target = scope:holder
+        }
+    }
+
+    ##############################################################
+    # ELECTOR LIST
+    ##############################################################
+
+    electors = {
+        add = holder
+        add = holder_direct_vassals
+        add = title_claimants
+    }
+
+    ##############################################################
+    # CANDIDATE SCORING
+    ##############################################################
+
+    candidate_score = {
+        base = 0
+
+        # Standard feudal voting logic
+        elector_self_voting_pattern_feudal_elective_modifier        = yes
+        holder_voting_pattern_feudal_elective_modifier              = yes
+
+        # Removed duplicate — you called your giantess modifier twice
+        # elector_voting_pattern_circumstances_giantess_elective_modifier = yes   # duplicate
+
+        elector_voting_pattern_prestige_piety_feudal_elective_modifier = yes
+        elector_voting_pattern_traits_feudal_elective_modifier         = yes
+        elector_voting_pattern_opinion_feudal_elective_modifier        = yes
+        elector_voting_pattern_circumstances_misc_elective_modifier    = yes
+
+        ##############################################################
+        # GIANTESS-SPECIFIC ELECTIVE LOGIC
+        ##############################################################
+
+        elector_voting_pattern_circumstances_giantess_elective_modifier = yes
+    }
+
+    ##############################################################
+    # VALID CANDIDATES
+    ##############################################################
+
+    candidates = {
+        add = {
+            type = holder_dynasty
+            limit = {
+                feudal_elective_potential_landless_dynastic_candidate_trigger = yes
+            }
+        }
+    }
+}

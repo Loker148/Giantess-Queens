@@ -1,0 +1,335 @@
+﻿###############################################
+# Giantess Prison Interactions (Updated)
+# - Kept core behavior
+# - Fixed alignment check syntax
+# - Left vanilla-like AI logic intact
+###############################################
+
+giantess_execute_prisoner_interaction = {
+	interface_priority = 200
+	common_interaction = yes
+	category = interaction_category_prison
+	special_interaction = execute_prisoner_interaction
+	desc = giantess_execute_prisoner_interaction_desc
+
+	ai_targets = {
+		ai_recipients = prisoners
+	}
+	ai_frequency = 3
+
+	ai_potential = {
+		is_at_war = no
+	}
+
+	ai_will_do = {
+		base = 0
+
+		opinion_modifier = {
+			trigger = {
+				NOT = { scope:actor = scope:recipient }
+			}
+			opinion_target = scope:recipient
+			multiplier = -1
+		}
+
+		ai_value_modifier = {
+			ai_compassion = -1
+		}
+
+		modifier = {
+			add = -20
+			ai_compassion >= low_positive_ai_value
+			scope:recipient = { is_adult = no }
+		}
+
+		# Try to avoid Kinslaying
+		modifier = {
+			add = -20
+			scope:actor.dynasty = scope:recipient.dynasty
+			NOT = {
+				faith = { has_doctrine = doctrine_kinslaying_any_dynasty_member_crime }
+			}
+		}
+		modifier = {
+			add = -20
+			is_close_or_extended_family_of = scope:recipient
+			NOT = {
+				faith = { has_doctrine = doctrine_kinslaying_extended_family_crime }
+			}
+		}
+		modifier = {
+			add = -20
+			is_close_family_of = scope:recipient
+			NOT = {
+				faith = { has_doctrine = doctrine_kinslaying_close_kin_crime }
+			}
+		}
+
+		modifier = {
+			add = 50
+			has_execute_reason = scope:recipient
+			OR = {
+				has_trait = sadistic
+				has_trait = lunatic
+			}
+		}
+
+		# Evil giantesss love killing tinies – fixed alignment var check
+		modifier = {
+			add = 50
+			scope:actor = {
+				var:alignment = flag:evil
+			}
+		}
+
+		# Executing your way to new titles is a worthy cause...
+		modifier = {
+			add = 20
+			scope:actor = {
+				has_execute_reason = scope:recipient
+				ai_greed > 0
+				any_heir_title = {
+					exists = holder
+					holder = scope:recipient
+					place_in_line_of_succession = {
+						target = scope:actor
+						value > 2
+					}
+				}
+			}
+		}
+
+		# Vengeful characters enjoy executing their rivals
+		modifier = {
+			add = 20
+			scope:actor = {
+				has_execute_reason = scope:recipient
+				ai_vengefulness >= medium_positive_ai_value
+				OR = {
+					has_relation_rival = scope:recipient
+					has_relation_nemesis = scope:recipient
+					scope:recipient = {
+						is_spouse_of = scope:actor
+						exposed_cheating_on_spouse_trigger = { SPOUSE = scope:actor }
+					}
+				}
+			}
+		}
+
+		# Executing your way to new titles is a worthy cause... and very greedy characters need no execution reason
+		modifier = {
+			add = 35
+			scope:actor = {
+				ai_greed >= very_high_positive_ai_value
+				any_heir_title = {
+					exists = holder
+					holder = scope:recipient
+					place_in_line_of_succession = {
+						target = scope:actor
+						value > 2
+					}
+				}
+			}
+		}
+
+		# Very vengeful characters need no execution reason
+		modifier = {
+			add = 35
+			scope:actor = {
+				ai_vengefulness >= very_high_positive_ai_value
+				OR = {
+					has_relation_rival = scope:recipient
+					has_relation_nemesis = scope:recipient
+					scope:recipient = {
+						is_spouse_of = scope:actor
+						exposed_cheating_on_spouse_trigger = { SPOUSE = scope:actor }
+					}
+				}
+			}
+		}
+
+		# Safety: don't execute without *some* reason
+		modifier = {
+			factor = 0
+			scope:actor = {
+				NOR = {
+					has_execute_reason = scope:recipient
+					has_relation_rival = scope:recipient
+					has_relation_nemesis = scope:recipient
+					NOT = {
+						scope:recipient = { is_vassal_of = scope:actor }
+					}
+					scope:recipient = {
+						is_spouse_of = scope:actor
+						exposed_cheating_on_spouse_trigger = { SPOUSE = scope:actor }
+					}
+					any_heir_title = {
+						exists = holder
+						holder = scope:recipient
+						place_in_line_of_succession = {
+							target = scope:actor
+							value > 2
+						}
+					}
+					scope:actor.faith = {
+						has_doctrine = tenet_macrosuprematism
+					}
+				}
+			}
+		}
+	}
+
+	is_shown = {
+		scope:recipient = {
+			is_imprisoned_by = scope:actor
+			age >= 18
+			NOT = { has_trait = giantess }
+		}
+		scope:actor = {
+			has_trait = giantess
+			age >= 16
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		# Prisoner can't be protected by strong hook
+		scope:recipient = {
+			NOT = { has_strong_hook = scope:actor }
+		}
+		scope:recipient = {
+			custom_description = {
+				text = "currently_being_tortured"
+				NOT = { has_character_flag = is_being_tortured }
+			}
+		}
+	}
+
+	on_accept = {
+		if = {
+			limit = {
+				scope:recipient = { is_imprisoned_by = scope:actor }
+			}
+			scope:actor = {
+				stress_impact = {
+					base = medium_stress_impact_loss
+					compassionate = minor_stress_impact_gain
+					forgiving = minor_stress_impact_gain
+				}
+			}
+			scope:actor = {
+				trigger_event = giantess_execution.0003
+			}
+		}
+	}
+
+	auto_accept = yes
+}
+
+###############################################
+
+giantess_torture_interaction = {
+	interface_priority = 50
+	common_interaction = yes
+	category = interaction_category_prison
+	desc = giantess_torture_interaction_desc
+
+	cooldown_against_recipient = {
+		years = 1
+	}
+
+	is_shown = {
+		scope:recipient = {
+			is_imprisoned_by = scope:actor
+		}
+		scope:recipient = {
+			age >= 18
+			NOT = { has_trait = giantess }
+			is_vassal_of = scope:actor
+		}
+		scope:actor = {
+			age >= 16
+			has_trait = giantess
+			has_variable = alignment
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		scope:recipient = {
+			custom_description = {
+				text = "currently_being_tortured"
+				NOT = { has_character_flag = is_being_tortured }
+			}
+		}
+	}
+
+	is_highlighted = {
+		always = yes
+	}
+
+	on_accept = {
+		scope:recipient = {
+			add_character_flag = {
+				flag = is_being_tortured
+				months = 6
+			}
+		}
+
+		# EFFECT TOOLTIP
+		show_as_tooltip = {
+			scope:recipient = {
+				add_character_modifier = {
+					modifier = recently_tortured
+					years = 1
+				}
+			}
+		}
+
+		scope:actor = {
+			giantess_mana_change = {
+				CHANGE = miniscule_mana_gain
+			}
+			stress_impact = {
+				base = minor_stress_impact_loss
+			}
+		}
+
+		# EVENTS
+		hidden_effect = {
+			scope:recipient = {
+				if = {
+					limit = {
+						NOT = { has_variable = ass_skill }
+					}
+					init_tiny_skills = yes
+				}
+			}
+			scope:actor = {
+				trigger_event = giantess_torture.0001
+			}
+		}
+
+		# Dark Insights perk support
+		if = {
+			limit = {
+				scope:actor = { has_perk = dark_insights_perk }
+			}
+			scope:actor = {
+				dark_insights_skill_gain_roll_effect = yes
+			}
+		}
+	}
+
+	auto_accept = yes
+
+	# AI
+	ai_targets = {
+		ai_recipients = prisoners
+	}
+	ai_frequency = 3
+	ai_potential = {
+		always = yes
+	}
+	ai_will_do = {
+		base = 100
+	}
+}

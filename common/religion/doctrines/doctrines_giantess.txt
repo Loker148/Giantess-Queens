@@ -1,0 +1,86 @@
+﻿##############################################################
+# GIANTESS TENETS
+##############################################################
+
+doctrine_giantess_tenets = {
+    group = "core_tenets"
+    number_of_picks = 3
+
+    ##############################################################
+    # MACROPHILITISM — GENTLE GIANTESS PATH
+    ##############################################################
+
+    tenet_macrophilitism = {
+        icon = core_tenet_household_gods
+
+        piety_cost = {
+            value = faith_tenet_cost_low
+        }
+
+        is_shown = {
+            religion_tag = allmother_worship_religion
+        }
+
+        can_pick = {
+            custom_description = {
+                text = incompatible_tenet_giantess_trigger
+                NOR = {
+                    #doctrine:tenet_macrocentrism = { is_in_list = selected_doctrines }   # commented — doctrine removed from mod
+                    doctrine:tenet_macrosuprematism = { is_in_list = selected_doctrines }
+                }
+            }
+        }
+
+        parameters = {
+            # naked_adherents_active = yes    # commented — optional/unimplemented
+        }
+
+        character_modifier = {
+            county_opinion_add = 0
+        }
+
+        traits = {
+            virtues = { compassionate chaste }
+            sins    = { callous sadistic lustful }
+        }
+    }
+
+    ##############################################################
+    # MACROSUPREMATISM — DOMINANT GIANTESS PATH
+    ##############################################################
+
+    tenet_macrosuprematism = {
+        icon = core_tenet_household_gods
+
+        piety_cost = {
+            value = faith_tenet_cost_low
+        }
+
+        is_shown = {
+            religion_tag = allmother_worship_religion
+        }
+
+        can_pick = {
+            custom_description = {
+                text = incompatible_tenet_giantess_trigger
+                NOR = {
+                    doctrine:tenet_macrophilitism = { is_in_list = selected_doctrines }
+                    # doctrine:tenet_macrocentrism = { is_in_list = selected_doctrines }  # commented — doctrine removed from mod
+                }
+            }
+        }
+
+        parameters = {
+            # naked_adherents_active = yes    # commented — optional/unimplemented
+        }
+
+        character_modifier = {
+            county_opinion_add = 0
+        }
+
+        traits = {
+            virtues = { callous sadistic lustful }
+            sins    = { compassionate chaste }
+        }
+    }
+}

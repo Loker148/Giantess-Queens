@@ -1,0 +1,521 @@
+﻿###############################################
+# Giantess Core Interactions (Updated)
+###############################################
+
+make_giantess_interaction = {
+	category = interaction_category_friendly
+	common_interaction = yes
+	# is_ai = no   # UNSAFE TOP-LEVEL KEY, replaced by is_ai check in is_shown below
+	desc = make_giantess_desc
+
+	auto_accept = yes
+	use_diplomatic_range = no
+	ignores_pending_interaction_block = yes
+
+	is_shown = {
+		scope:actor = {
+			has_trait = giantess
+			piety >= 500
+			is_ai = no        # Player-only, safe form
+		}
+		scope:recipient = {
+			age >= 1
+			is_male = no
+			NOT = { has_trait = giantess }
+			liege = scope:actor
+		}
+	}
+
+	on_auto_accept = {
+		scope:actor = {
+			add_piety = -500
+		}
+		scope:recipient = {
+			add_trait = giantess
+		}
+	}
+
+	# You disabled AI use via is_ai = no, but the AI blocks are still here
+	# in case you ever want them again.
+	ai_potential = {
+		is_at_war = no
+	}
+
+	ai_target_quick_trigger = {
+		adult = yes
+	}
+
+	ai_targets = {
+		ai_recipients = vassals
+		chance = 1
+	}
+
+	ai_frequency = 1
+
+	ai_will_do = {
+		base = 0
+
+		modifier = {
+			add = 5000
+			scope:recipient = { is_landed = yes }
+		}
+		modifier = {
+			add = 10000
+			scope:recipient = {
+				is_powerful_vassal_of = scope:actor
+			}
+		}
+		modifier = {
+			add = -500000
+			scope:recipient = {
+				has_trait = giantess_sex_slave
+			}
+		}
+	}
+}
+
+###############################################
+
+giantess_ask_sex = {
+	category = interaction_category_vassal
+	common_interaction = yes
+	popup_on_receive = yes
+	pause_on_receive = yes
+
+	ai_maybe = yes
+	ai_min_reply_days = 1
+	ai_max_reply_days = 1
+
+	can_send_despite_rejection = yes
+
+	pre_answer_maybe_key = ANSWER_MIGHT_SUCCEED
+	pre_answer_no_key = ANSWER_CANT_SUCCEED
+	pre_answer_yes_key = ANSWER_WILL_SUCCEED
+	pre_answer_maybe_breakdown_key = ANSWER_SUM_CHANCE
+
+	on_decline_summary = giantess_sex_decline_summary
+	desc = giantess_ask_sex_desc
+	notification_text = GIANTESS_ASK_SEX
+
+	# auto_accept = no  # REPLACED BY LOGIC BLOCK BELOW
+
+	is_shown = {
+		scope:actor = {
+			has_trait = giantess
+			age >= 18
+		}
+		scope:recipient = {
+			age >= 25
+			NOT = { has_trait = giantess }
+			exists = liege
+			liege = scope:actor
+		}
+		NOT = { scope:actor = scope:recipient }
+	}
+
+	is_valid_showing_failures_only = {
+		custom_description = {
+			text = "recently_had_sex_giantess"
+			scope:actor = {
+				NOR = {
+					has_opinion_modifier = {
+						target = scope:recipient
+						modifier = tiny_refused_sex
+					}
+					has_opinion_modifier = {
+						target = scope:recipient
+						modifier = tiny_refused_sex_crime
+					}
+					has_opinion_modifier = {
+						target = scope:recipient
+						modifier = tiny_recently_had_sex
+					}
+				}
+			}
+		}
+		scope:recipient = {
+			is_available_adult = yes
+		}
+		scope:actor = {
+			is_available_adult = yes
+		}
+	}
+
+	send_option = {
+		is_valid = {
+			scope:actor = { has_usable_hook = scope:recipient }
+		}
+		flag = hook
+		localization = SCHEME_HOOK
+	}
+	send_options_exclusive = no
+
+	ai_targets = {
+		ai_recipients = vassals
+	}
+	ai_frequency = 3
+
+	on_auto_accept = {
+		scope:recipient = {
+			trigger_event = tiny_sex.0001
+		}
+	}
+
+	on_accept = {
+		hidden_effect = {
+			scope:recipient = {
+				if = {
+					limit = { NOT = { has_variable = ass_skill } }
+					init_tiny_skills = yes
+				}
+			}
+		}
+		scope:actor = {
+			add_opinion = {
+				target = scope:recipient
+				modifier = tiny_recently_had_sex
+			}
+			trigger_event = giantess_sex.0002
+		}
+	}
+
+	on_decline = {
+		scope:actor = {
+			trigger_event = giantess_sex.0003
+		}
+	}
+
+	# Auto-accept logic (hooks / loyalty)
+	auto_accept = {
+		custom_description = {
+			text = "spending_hook"
+			subject = scope:actor
+			object = scope:recipient
+			scope:hook = yes
+			scope:actor = {
+				has_strong_hook = scope:recipient
+			}
+		}
+		custom_description = {
+			text = "tiny_is_loyal"
+			subject = scope:actor
+			object = scope:recipient
+			scope:actor = {
+				has_opinion_modifier = {
+					target = scope:recipient
+					modifier = tiny_loyal
+				}
+			}
+		}
+	}
+
+	ai_accept = {
+		base = 20
+
+		modifier = {
+			scope:hook = yes
+			add = 40
+			desc = SCHEME_WEAK_HOOK_USED
+		}
+		modifier = {
+			add = 10
+			scope:recipient = {
+				has_dread_level_towards = {
+					target = scope:actor
+					level = 1
+				}
+			}
+			desc = INTIMIDATED_REASON
+		}
+		modifier = {
+			add = 20
+			scope:recipient = {
+				has_dread_level_towards = {
+					target = scope:actor
+					level = 2
+				}
+			}
+			desc = COWED_REASON
+		}
+		opinion_modifier = {
+			who = scope:recipient
+			opinion_target = scope:actor
+			multiplier = 0.8
+			desc = AI_OPINION_REASON
+		}
+		modifier = {
+			scope:actor = {
+				has_variable = alignment
+				trigger_if = {
+					limit = { has_variable = alignment }
+					var:alignment = flag:gentle
+				}
+			}
+			add = 20
+			desc = AI_GIANTESS_GENTLE
+		}
+		modifier = {
+			scope:actor = {
+				has_variable = alignment
+				trigger_if = {
+					limit = { has_variable = alignment }
+					var:alignment = flag:evil
+				}
+			}
+			add = -20
+			desc = AI_GIANTESS_EVIL
+		}
+		modifier = {
+			add = 20
+			scope:recipient = { has_trait = lustful }
+			desc = AI_TINY_LUSTFUL
+		}
+	}
+
+	ai_will_do = {
+		base = 100
+		modifier = {
+			add = 1000
+			scope:recipient = {
+				has_opinion_modifier = {
+					target = scope:actor
+					modifier = tiny_loyal
+				}
+			}
+		}
+		modifier = {
+			# The AI will only use a Hook if they couldn't otherwise do this
+			scope:hook = yes
+			add = -1
+		}
+	}
+}
+
+###############################################
+
+show_giantess_information_interaction = {
+	category = interaction_category_friendly
+	common_interaction = yes
+	interface_priority = 100
+	desc = show_giantess_information_interaction_desc
+
+	auto_accept = yes
+	use_diplomatic_range = no
+	ignores_pending_interaction_block = yes
+
+	is_shown = {
+		scope:actor = { is_ai = no }
+		scope:recipient = {
+			has_trait = giantess
+			has_variable = skill_specialization
+		}
+	}
+
+	on_auto_accept = {
+		scope:actor = {
+			trigger_event = giantess_skill.0008
+		}
+	}
+
+	ai_will_do = {
+		base = 0
+	}
+}
+
+###############################################
+
+show_tiny_information_interaction = {
+	category = interaction_category_friendly
+	common_interaction = yes
+	interface_priority = 100
+	desc = show_tiny_information_interaction_desc
+
+	auto_accept = yes
+	use_diplomatic_range = no
+	ignores_pending_interaction_block = yes
+
+	is_shown = {
+		scope:actor = { is_ai = no }
+		scope:recipient = {
+			NOT = { has_trait = giantess }
+		}
+	}
+
+	on_auto_accept = {
+		hidden_effect = {
+			scope:recipient = {
+				if = {
+					limit = { NOT = { has_variable = ass_skill } }
+					init_tiny_skills = yes
+				}
+			}
+		}
+		scope:actor = {
+			trigger_event = giantess_skill.0009
+		}
+	}
+
+	ai_will_do = {
+		base = 0
+	}
+}
+
+###############################################
+
+unbirth_interaction = {
+	category = interaction_category_hostile
+	common_interaction = yes
+	popup_on_receive = yes
+	pause_on_receive = yes
+
+	desc = giantess_unbirth_desc
+	greeting = negative
+	notification_text = giantess_unbirth_interaction_text
+
+	auto_accept = yes
+
+	is_shown = {
+		scope:actor = {
+			has_trait = giantess
+			age >= 18
+		}
+		scope:recipient = {
+			age >= 30
+			is_male = yes
+			NOT = { has_trait = giantess }
+			exists = liege
+			liege = scope:actor
+			NOT = { has_character_modifier = giantess_refused_unbirth }
+		}
+		NOT = { scope:actor = scope:recipient }
+		NOT = { scope:actor = { has_character_modifier = recently_unbirthed } }
+		NOT = { scope:actor = { is_pregnant = yes } }
+	}
+
+	## Original direct pregnancy/death effects commented for later review
+	## on_auto_accept = {
+	## 	scope:actor = {
+	## 		make_pregnant_no_checks = { father = scope:recipient number_of_children = 1 known_bastard = no }
+	## 	}
+	## 	scope:recipient = {
+	## 		death = {
+	## 			death_reason = death_unbirth_willing
+	## 			killer = scope:actor
+	## 		}
+	## 	}
+	## }
+
+	ai_potential = {
+		is_at_war = no
+	}
+
+	ai_target_quick_trigger = {
+		adult = yes
+	}
+
+	ai_targets = {
+		ai_recipients = vassals
+		ai_recipients = courtiers
+		chance = 1
+	}
+
+	ai_frequency = 80
+
+	ai_will_do = {
+		base = 80
+
+		modifier = {
+			add = 100
+			scope:recipient = { has_trait = intellect_good_1 }
+		}
+		modifier = {
+			add = 200
+			scope:recipient = { has_trait = intellect_good_2 }
+		}
+		modifier = {
+			add = 300
+			scope:recipient = { has_trait = intellect_good_3 }
+		}
+		modifier = {
+			add = -100
+			scope:recipient = { has_trait = intellect_bad_1 }
+		}
+		modifier = {
+			add = -200
+			scope:recipient = { has_trait = intellect_bad_2 }
+		}
+		modifier = {
+			add = -300
+			scope:recipient = { has_trait = intellect_bad_3 }
+		}
+		modifier = {
+			add = 100
+			scope:recipient = { has_trait = beauty_good_1 }
+		}
+		modifier = {
+			add = 200
+			scope:recipient = { has_trait = beauty_good_2 }
+		}
+		modifier = {
+			add = 300
+			scope:recipient = { has_trait = beauty_good_3 }
+		}
+		modifier = {
+			add = -100
+			scope:recipient = { has_trait = beauty_bad_1 }
+		}
+		modifier = {
+			add = -200
+			scope:recipient = { has_trait = beauty_bad_2 }
+		}
+		modifier = {
+			add = -300
+			scope:recipient = { has_trait = beauty_bad_3 }
+		}
+		modifier = {
+			add = 100
+			scope:recipient = { has_trait = physique_good_1 }
+		}
+		modifier = {
+			add = 200
+			scope:recipient = { has_trait = physique_good_2 }
+		}
+		modifier = {
+			add = 300
+			scope:recipient = { has_trait = physique_good_3 }
+		}
+		modifier = {
+			add = -100
+			scope:recipient = { has_trait = physique_bad_1 }
+		}
+		modifier = {
+			add = -200
+			scope:recipient = { has_trait = physique_bad_2 }
+		}
+		modifier = {
+			add = -300
+			scope:recipient = { has_trait = physique_bad_3 }
+		}
+		#modifier = {
+		#	add = 1000
+		#	scope:recipient = { is_ai = yes }
+		#}
+		modifier = {
+			add = -10000
+			scope:recipient = { is_spouse_of = scope:actor }
+		}
+		modifier = {
+			add = 1000000
+			scope:recipient = { is_concubine_of = scope:actor }
+		}
+	}
+
+	on_auto_accept = {
+		scope:recipient = {
+			trigger_event = { id = giantess_unbirth.0001 days = 7 }
+		}
+	}
+}
+
+# reward_or_punish_tiny_interaction is already commented out in your file,
+# so I've left it exactly as-is for future use.

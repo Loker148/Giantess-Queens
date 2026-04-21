@@ -1,0 +1,88 @@
+﻿##############################################################
+# GIANTESS RANK-UP THRESHOLDS
+##############################################################
+
+ass_giantess_rank_up_1_threshold = 4
+ass_giantess_rank_up_2_threshold = 14
+ass_giantess_rank_up_3_threshold = 49
+
+vore_giantess_rank_up_1_threshold = 4
+vore_giantess_rank_up_2_threshold = 14
+vore_giantess_rank_up_3_threshold = 49
+
+feet_giantess_rank_up_1_threshold = 4
+feet_giantess_rank_up_2_threshold = 14
+feet_giantess_rank_up_3_threshold = 49
+
+##############################################################
+# MISC GIANTESS VALUES
+##############################################################
+
+macrocentrism_execute_tyranny_gain = 2
+vore_weight_gain_value = 2
+
+##############################################################
+# FEAST DUTY VALUES
+##############################################################
+
+giantess_feast_vassal_duty = 6
+giantess_feast_local_duty = 1
+giantess_feast_guest_duty  = 6
+
+# duplicate removed (identical key to above)
+
+##############################################################
+# LOYALTY VALUES
+##############################################################
+
+minor_loyalty_gain  = 10
+medium_loyalty_gain = 25
+major_loyalty_gain  = 50
+
+minor_loyalty_loss  = -25
+medium_loyalty_loss = -50
+major_loyalty_loss  = -100
+
+minor_loyalty_cost  = 50
+medium_loyalty_cost = 100
+major_loyalty_cost  = 200
+
+unloyalty_threshold = -50
+
+##############################################################
+# SKILL SYSTEM VALUES
+##############################################################
+
+giantess_default_skill_max = 25
+tiny_default_skill_max     = 25
+
+skill_levelup_threshold = 100
+
+miniscule_xp_gain = 25
+minor_xp_gain     = 50
+medium_xp_gain    = 100
+major_xp_gain     = 200
+massive_xp_gain   = 500
+
+##############################################################
+# MANA VALUES
+##############################################################
+
+miniscule_mana_gain = 1
+minor_mana_gain     = 2
+medium_mana_gain    = 5
+major_mana_gain     = 10
+massive_mana_gain   = 25
+
+miniscule_mana_loss = -1
+minor_mana_loss     = -2
+medium_mana_loss    = -5
+major_mana_loss     = -10
+massive_mana_loss   = -25
+
+##############################################################
+# SPECIALIZATION & ARMY
+##############################################################
+
+specialization_skill_bonus = 25
+min_slave_army            = 500

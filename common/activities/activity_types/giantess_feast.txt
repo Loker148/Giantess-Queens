@@ -1,0 +1,362 @@
+﻿activity_giantess_feast = {
+
+    is_shown = {
+        highest_held_title_tier > tier_barony
+        is_landed_or_landless_administrative = yes
+        has_trait = giantess
+
+        # AI may not start while at war
+        trigger_if = {
+            limit = { is_ai = yes }
+            is_at_war = no
+        }
+    }
+
+    can_start_showing_failures_only = { is_available_adult = yes }
+
+    is_valid = {
+        scope:host = {
+            is_imprisoned = no
+            is_landed_or_landless_administrative = yes
+            NOT = { is_incapable = yes }
+        }
+
+        trigger_if = {
+            limit = { is_current_phase_active = yes }
+            has_attending_activity_guests = yes
+        }
+    }
+
+    on_invalidated = {
+
+        # refund pot – updated syntax
+        set_variable = {
+            name = gf_gold_recoup_value
+            value = {
+                value = 0
+                add = scope:activity.var:gf_refund_pot
+                multiply = 0.75
+            }
+        }
+
+        # Host incapable
+        if = {
+            limit = { scope:host = { is_incapable = yes } }
+            scope:host = { trigger_event = activity_system.0330 }
+            every_attending_character = {
+                limit = { NOT = { this = scope:host } }
+                trigger_event = activity_system.0331
+            }
+        }
+
+        # Host imprisoned
+        if = {
+            limit = { scope:host = { is_imprisoned = yes } }
+            every_attending_character = {
+                limit = { NOT = { this = scope:host } }
+                trigger_event = giantess_feast.5005
+            }
+            scope:host = { trigger_event = giantess_feast.5004 }
+        }
+
+        # Host loses land
+        else_if = {
+            limit = { scope:host = { is_landed_or_landless_administrative = no } }
+            every_attending_character = { trigger_event = activity_system.0320 }
+        }
+
+        # Nobody showed up
+        if = {
+            limit = { has_attending_activity_guests = no }
+            scope:host = { trigger_event = giantess_feast.0002 }
+        }
+    }
+
+    on_host_death = {
+        every_attending_character = {
+            limit = { is_alive = yes }
+            trigger_event = { id = giantess_feast.5003 days = 2 }
+        }
+    }
+
+    province_filter = domicile_domain
+    ai_province_filter = capital
+    max_province_icons = 5
+
+    cost = {
+        gold = {
+            add = feast_activity_cost
+        }
+    }
+
+    ui_predicted_cost = {
+        gold = {
+            add = feast_activity_cost
+            divide = 5
+            ceiling = yes
+            multiply = 5
+        }
+    }
+
+    cooldown = { years = 2 }
+    is_grand_activity = no
+
+    #################################
+    #         AI LOGIC
+    #################################
+
+    ai_will_do = {
+        value = 100
+
+        # Plague handling (updated for CK3 epidemic system)
+        if = {
+            limit = {
+                any_held_title = {
+                    tier = tier_county
+                    any_county_province = {
+                        any_province_epidemic = { count >= 1 outbreak_intensity < apocalyptic }
+                    }
+                }
+                would_follow_social_distancing_value >= -1
+            }
+            add = -60
+        }
+
+        else_if = {
+            limit = {
+                any_realm_county = {
+                    any_county_province = {
+                        any_province_epidemic = { count >= 1 outbreak_intensity < apocalyptic }
+                    }
+                }
+            }
+            add = -20
+        }
+
+        if = {
+            limit = {
+                any_held_title = {
+                    tier = tier_county
+                    any_county_province = {
+                        any_province_epidemic = { count >= 1 outbreak_intensity = apocalyptic }
+                    }
+                }
+            }
+            add = -200
+        }
+
+        else_if = {
+            limit = {
+                any_realm_county = {
+                    any_county_province = {
+                        any_province_epidemic = { count >= 1 outbreak_intensity = apocalyptic }
+                    }
+                }
+            }
+            add = -40
+        }
+    }
+
+    ai_check_interval = 60
+
+    ai_will_select_province = {
+        value = 10
+        if = {
+            limit = { this = scope:host.capital_province }
+            add = 30
+        }
+    }
+
+    #################################
+    #           OPTIONS
+    #################################
+
+    options = { }
+
+    #################################
+    #           PHASES
+    #################################
+
+    max_guest_arrival_delay_time = { months = 8 }
+
+    phases = {
+        giantess_feast_phase = {
+            is_predefined = yes
+            order = 1
+
+            on_phase_active = {
+
+                # Host behavior
+                if = {
+                    limit = { this = scope:host }
+                    scope:activity = { progress_activity_phase_after = { months = 1 } }
+
+                    if = {
+                        limit = {
+                            scope:activity = {
+                                any_attending_character = {
+                                    count = 0
+                                    NOT = { this = scope:host }
+                                }
+                            }
+                        }
+                        trigger_event = giantess_feast.0002
+                    }
+                    else = {
+                        trigger_event = giantess_feast.0003
+                    }
+                }
+
+                # Guest behavior
+                else = {
+                    if = {
+                        limit = {
+                            exists = var:booked_for_a_party
+                            var:booked_for_a_party = { NOT = { this = scope:activity.activity_host } }
+                        }
+                        trigger_event = feast.0010
+                    }
+                    else = {
+                        random_list = {
+                            0 = { modifier = { add = 100 scope:host = { has_variable = murder_feast_perpetrator_var } } }
+                            100 = { trigger_event = giantess_feast.0004 }
+                        }
+
+                        if = {
+                            limit = { NOT = { has_trait = temperate } }
+                            reveler_points_gain_effect = { CHANGE = 1 RANDOM_CHANGE = 1 }
+                            remove_variable = booked_for_a_party
+                        }
+                    }
+                }
+            }
+
+            on_end = {
+                target_weight_modifier_effect = { VALUE = vore_weight_gain_value }
+            }
+        }
+    }
+
+    #################################
+    # GUEST RULES
+    #################################
+
+    max_guests = 40
+
+    guest_invite_rules = {
+        rules = {
+            2 = activity_invite_rule_lovers
+            2 = activity_invite_rule_rivals_if_appropriate
+            3 = activity_invite_rule_extended_family
+            4 = activity_invite_neighbouring_rulers
+            5 = activity_invite_rule_knights
+            6 = activity_invite_mp
+        }
+        defaults = {
+            1 = activity_invite_rule_friends
+            1 = activity_invite_rule_close_family
+            1 = activity_invite_rule_liege
+            1 = activity_invite_rule_vassals
+            2 = activity_invite_rule_fellow_vassals
+            3 = activity_invite_rule_courtiers
+            4 = activity_invite_rule_guests
+            1 = activity_invite_spouses
+            1 = activity_invite_rule_landless_adventurers_restricted_range_opinion
+            2 = activity_invite_neighbouring_rulers
+        }
+    }
+
+    can_be_activity_guest = {
+        is_adult = yes
+        has_trait = giantess
+        in_diplomatic_range = scope:host
+    }
+
+    host_intents = {
+        intents = { reduce_stress_intent }
+        default = reduce_stress_intent
+    }
+
+    guest_intents = {
+        intents = { reduce_stress_intent }
+        default = reduce_stress_intent
+    }
+
+    guest_join_chance = {
+        base = 100
+        base_activity_modifier = yes
+        activity_guest_shared_ai_accept_modifier = yes
+    }
+
+    #################################
+    # EVENT PULSES
+    #################################
+
+    pulse_actions = {
+        entries = {
+            spouse_skill_diplomacy_improves spouse_gives_host_prestige spouse_manages_feast_splendidly spouse_impresses_clergy spouse_gives_hook
+            relation_gains_friend children_bonding hook_trusting_guest guest_tells_fantastic_joke
+            excellent_food lauded_food guest_impressed_by_court_artifact friend_lauds_efforts courtly_vassals_appeased impressed_courtly_vassal
+            impressed_guest_honor guest_of_honor_impressed guest_of_honor_praised
+            guest_chokes_on_bone guest_brawl spouse_insults_host ridiculed_food
+            host_gains_diplo_xp host_gains_steward_xp host_gains_intrigue_xp
+            leftover_food_giveaway virtuous_feast noble_privileges good_kitty good_puppy antiquarian_admires_artifact jester_entertained_guests apa_executioner
+        }
+        chance_of_no_event = 5
+    }
+
+    #################################
+    # STARTUP
+    #################################
+
+    on_start = {
+        set_variable = { name = host_var value = scope:host }
+
+        add_activity_log_entry = {
+            key = feast_start_log
+            character = scope:host
+            score = 10
+        }
+
+        # Send food to non-giantess vassals
+        scope:host = {
+            every_vassal = {
+                limit = { age >= 18 NOT = { has_trait = giantess } }
+                trigger_event = { id = giantess_feast.1000 days = 2 }
+            }
+        }
+
+        every_attending_character = {
+            limit = { is_hostage_warden = yes has_bp2_dlc_trigger = yes NOT = { this = scope:host } }
+            trigger_event = { id = bp2_yearly.6120 days = 2 }
+        }
+    }
+
+    #################################
+    # FINAL WRAP-UP
+    #################################
+
+    on_complete = {
+        if = {
+            limit = { this = scope:host }
+            scope:host = {
+                trigger_event = giantess_feast.9000
+                disburse_feast_activity_rewards = yes
+            }
+        }
+        else = {
+            if = {
+                limit = { is_alive = yes NOT = { this = scope:host } is_imprisoned = no }
+
+                if = {
+                    limit = { is_murder_feast = yes scope:host = { NOT = { has_variable = murder_feast_murder_back_down } } }
+                    trigger_event = feast_default.8061
+                }
+                else = {
+                    disburse_feast_reveler_rewards = yes
+                    trigger_event = giantess_feast.9001
+                }
+            }
+        }
+    }
+}

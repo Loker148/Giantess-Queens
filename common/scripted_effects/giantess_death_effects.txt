@@ -1,0 +1,207 @@
+﻿##############################################################
+# GIANTESS DEATH EFFECT (ALL EXECUTION METHODS)
+##############################################################
+
+giantess_death_effect = {
+
+    $TINY$ = { save_scope_as = tiny }
+    $GIANTESS$ = { save_scope_as = giantess }
+
+    ##############################################################
+    # ASS — AWARE
+    ##############################################################
+    if = {
+        limit = { scope:tiny = { has_character_flag = execution_ass } }
+
+        scope:giantess = {
+            ass_points_gain_effect = { CHANGE = 1 }
+            add_ass_xp = { CHANGE = miniscule_xp_gain }
+        }
+
+        scope:tiny = {
+            death = {
+                death_reason = death_ass
+                killer = scope:giantess
+            }
+        }
+    }
+
+    ##############################################################
+    # ASS — UNAWARE
+    ##############################################################
+    if = {
+        limit = { scope:tiny = { has_character_flag = unaware_ass } }
+
+        scope:giantess = {
+            ass_points_gain_effect = { CHANGE = 1 }
+            add_ass_xp = { CHANGE = miniscule_xp_gain }
+        }
+
+        scope:tiny = {
+            death = {
+                death_reason = death_ass
+                killer = scope:giantess
+            }
+        }
+    }
+
+    ##############################################################
+    # SWALLOW — AWARE
+    ##############################################################
+    if = {
+        limit = { scope:tiny = { has_character_flag = execution_swallow } }
+
+        scope:giantess = {
+            vore_points_gain_effect = { CHANGE = 1 }
+            #target_weight_modifier_effect removed (unused)
+            add_vore_xp = { CHANGE = miniscule_xp_gain }
+        }
+
+        scope:tiny = {
+            death = {
+                death_reason = death_swallow
+                killer = scope:giantess
+            }
+        }
+    }
+
+    ##############################################################
+    # SHOECRUSH — AWARE
+    ##############################################################
+    if = {
+        limit = { scope:tiny = { has_character_flag = execution_shoecrush } }
+
+        scope:giantess = {
+            feet_points_gain_effect = { CHANGE = 1 }
+            add_foot_xp = { CHANGE = miniscule_xp_gain }
+        }
+
+        scope:tiny = {
+            death = {
+                death_reason = death_shoecrush
+                killer = scope:giantess
+            }
+        }
+    }
+
+    ##############################################################
+    # SHOECRUSH — UNAWARE
+    ##############################################################
+    if = {
+        limit = { scope:tiny = { has_character_flag = unaware_shoecrush } }
+
+        scope:giantess = {
+            feet_points_gain_effect = { CHANGE = 1 }
+            add_foot_xp = { CHANGE = miniscule_xp_gain }
+        }
+
+        scope:tiny = {
+            death = {
+                death_reason = death_unaware_shoecrush
+                killer = scope:giantess
+            }
+        }
+    }
+
+    ##############################################################
+    # BAREFOOT CRUSH — AWARE
+    ##############################################################
+    if = {
+        limit = { scope:tiny = { has_character_flag = death_barefoot_crush } }
+
+        scope:giantess = {
+            feet_points_gain_effect = { CHANGE = 1 }
+            add_foot_xp = { CHANGE = miniscule_xp_gain }
+        }
+
+        scope:tiny = {
+            death = {
+                death_reason = death_barefoot_crush
+                killer = scope:giantess
+            }
+        }
+    }
+
+    ##############################################################
+    # BOOB SUFFOCATION — UNAWARE
+    ##############################################################
+    if = {
+        limit = { scope:tiny = { has_character_flag = death_boobs_suffocation_unaware } }
+
+        scope:giantess = {
+            add_boobs_xp = { CHANGE = miniscule_xp_gain }
+        }
+
+        scope:tiny = {
+            death = {
+                death_reason = death_boobs_suffocation_unaware
+                killer = scope:giantess
+            }
+        }
+    }
+
+    ##############################################################
+    # UNBIRTH — WILLING
+    ##############################################################
+    if = {
+        limit = { scope:tiny = { has_character_flag = death_unbirth } }
+
+        scope:giantess = {
+            make_pregnant_no_checks = {
+                father = scope:tiny
+                number_of_children = 1
+                known_bastard = no
+            }
+            set_pregnancy_gender = female
+            add_character_modifier = { modifier = recently_unbirthed years = 5 }
+            add_vagina_xp = { CHANGE = miniscule_xp_gain }
+        }
+
+        scope:tiny = {
+            death = {
+                death_reason = death_unbirth_willing
+                killer = scope:giantess
+            }
+        }
+    }
+
+    ##############################################################
+    # UNBIRTH — EXECUTION
+    ##############################################################
+    if = {
+        limit = { scope:tiny = { has_character_flag = execution_unbirth } }
+
+        scope:giantess = {
+            make_pregnant_no_checks = {
+                father = scope:tiny
+                number_of_children = 1
+                known_bastard = no
+            }
+            set_pregnancy_gender = female
+            add_character_modifier = { modifier = recently_unbirthed years = 5 }
+            add_vagina_xp = { CHANGE = miniscule_xp_gain }
+        }
+
+        scope:tiny = {
+            death = {
+                death_reason = death_unbirth_execution
+                killer = scope:giantess
+            }
+        }
+    }
+
+    ##############################################################
+    # FALLBACK (NO FLAG FOUND)
+    ##############################################################
+    else = {
+        scope:giantess = {
+            #add_boobs_xp = { CHANGE = miniscule_xp_gain }    # commented — unused failsafe
+        }
+        scope:tiny = {
+            death = {
+                death_reason = death_gts_mysterious_execution
+                killer = scope:giantess
+            }
+        }
+    }
+}

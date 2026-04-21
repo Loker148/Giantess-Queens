@@ -1,0 +1,188 @@
+﻿##############################################################
+# ASS — POINT GAIN
+##############################################################
+
+ass_points_gain_effect = {
+    if = {
+        limit = { NOT = { has_variable = ass_giantess_lifestyle_progress } }
+        set_variable = {
+            name  = ass_giantess_lifestyle_progress
+            value = $CHANGE$
+        }
+    }
+    else = {
+        change_variable = {
+            name = ass_giantess_lifestyle_progress
+            add  = $CHANGE$
+        }
+    }
+}
+
+##############################################################
+# ASS — RANK UP CHECK
+##############################################################
+
+ass_lifestyle_rank_up_check_effect = {
+
+    # Rank 0 → Rank 1
+    if = {
+        limit = {
+            NOT = { has_trait = ass_giantess }
+            var:ass_giantess_lifestyle_progress > ass_giantess_rank_up_1_threshold
+        }
+        set_variable = { name = ass_giantess_lifestyle_progress value = 0 }
+        add_trait = ass_giantess_1
+    }
+
+    # Rank 1 → Rank 2
+    else_if = {
+        limit = {
+            has_trait = ass_giantess_1
+            var:ass_giantess_lifestyle_progress > ass_giantess_rank_up_2_threshold
+        }
+        set_variable = { name = ass_giantess_lifestyle_progress value = 0 }
+        change_trait_rank = {
+            trait = ass_giantess
+            rank  = 1
+        }
+    }
+
+    # Rank 2 → Rank 3
+    else_if = {
+        limit = {
+            has_trait = ass_giantess_2
+            var:ass_giantess_lifestyle_progress > ass_giantess_rank_up_3_threshold
+        }
+        remove_variable = ass_giantess_lifestyle_progress
+        change_trait_rank = {
+            trait = ass_giantess
+            rank  = 1
+        }
+    }
+}
+
+##############################################################
+# VORE — POINT GAIN
+##############################################################
+
+vore_points_gain_effect = {
+    if = {
+        limit = { NOT = { has_variable = vore_giantess_lifestyle_progress } }
+        set_variable = {
+            name  = vore_giantess_lifestyle_progress
+            value = $CHANGE$
+        }
+    }
+    else = {
+        change_variable = {
+            name = vore_giantess_lifestyle_progress
+            add  = $CHANGE$
+        }
+    }
+}
+
+##############################################################
+# VORE — RANK UP CHECK
+##############################################################
+
+vore_lifestyle_rank_up_check_effect = {
+
+    # Rank 0 → Rank 1
+    if = {
+        limit = {
+            NOT = { has_trait = vore_giantess }
+            var:vore_giantess_lifestyle_progress > vore_giantess_rank_up_1_threshold
+        }
+        set_variable = { name = vore_giantess_lifestyle_progress value = 0 }
+        add_trait = vore_giantess_1
+    }
+
+    # Rank 1 → Rank 2
+    else_if = {
+        limit = {
+            has_trait = vore_giantess_1
+            var:vore_giantess_lifestyle_progress > vore_giantess_rank_up_2_threshold
+        }
+        set_variable = { name = vore_giantess_lifestyle_progress value = 0 }
+        change_trait_rank = {
+            trait = vore_giantess
+            rank  = 1
+        }
+    }
+
+    # Rank 2 → Rank 3
+    else_if = {
+        limit = {
+            has_trait = vore_giantess_2
+            var:vore_giantess_lifestyle_progress > vore_giantess_rank_up_3_threshold
+        }
+        remove_variable = vore_giantess_lifestyle_progress
+        change_trait_rank = {
+            trait = vore_giantess
+            rank  = 1
+        }
+    }
+}
+
+##############################################################
+# FEET — POINT GAIN
+##############################################################
+
+feet_points_gain_effect = {
+    if = {
+        limit = { NOT = { has_variable = feet_giantess_lifestyle_progress } }
+        set_variable = {
+            name  = feet_giantess_lifestyle_progress
+            value = $CHANGE$
+        }
+    }
+    else = {
+        change_variable = {
+            name = feet_giantess_lifestyle_progress
+            add  = $CHANGE$
+        }
+    }
+}
+
+##############################################################
+# FEET — RANK UP CHECK
+##############################################################
+
+feet_lifestyle_rank_up_check_effect = {
+
+    # Rank 0 → Rank 1
+    if = {
+        limit = {
+            NOT = { has_trait = feet_giantess }
+            var:feet_giantess_lifestyle_progress > feet_giantess_rank_up_1_threshold
+        }
+        set_variable = { name = feet_giantess_lifestyle_progress value = 0 }
+        add_trait = feet_giantess_1
+    }
+
+    # Rank 1 → Rank 2
+    else_if = {
+        limit = {
+            has_trait = feet_giantess_1
+            var:feet_giantess_lifestyle_progress > feet_giantess_rank_up_2_threshold
+        }
+        set_variable = { name = feet_giantess_lifestyle_progress value = 0 }
+        change_trait_rank = {
+            trait = feet_giantess
+            rank  = 1
+        }
+    }
+
+    # Rank 2 → Rank 3
+    else_if = {
+        limit = {
+            has_trait = feet_giantess_2
+            var:feet_giantess_lifestyle_progress > feet_giantess_rank_up_3_threshold
+        }
+        remove_variable = feet_giantess_lifestyle_progress
+        change_trait_rank = {
+            trait = feet_giantess
+            rank  = 1
+        }
+    }
+}
