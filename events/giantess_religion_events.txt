@@ -726,4 +726,27 @@ giantess_religion.0011 = {
 		scope:giantess_conqueror = { trigger_event = { id = giantess_religion.0010  days = 10 } }
 	}
 }
+# Assign new giantess acceptance doctrine
+giantess_religion.0012 = {
+	scope = none
+	hidden = yes
+
+	immediate = {
+		every_religion_global = {
+			every_faith = {
+				giantess_acceptance_doctrine_assign_effect = yes
+			}
+		}
+	}
+}
+
+giantess_religion.0013 = {
+	hidden = yes
+
+	immediate = {
+		root.faith = {
+			giantess_acceptance_doctrine_assign_effect = yes
+		}
+	}
+}
 

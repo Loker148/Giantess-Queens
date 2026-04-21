@@ -1,0 +1,6 @@
+k_titanes = {
+	textured_emblem = { texture = "_default"}
+}
+k_jotunheim = {
+	textured_emblem = { texture = "_default"}
+}
