@@ -1,0 +1,7 @@
+﻿l_english:
+ #succession laws local
+
+ giantess_elective_succession_law:0 "Giantess Elective"
+ giantess_elective_succession_law_effects:2 "The [ruler|E] and all [vassals|E] above the [rank|E] of [baron|E] and one or two ranks below the [title|E] can nominate a [title_heir|E] — the Domina — from among the members of the ruler's [dynasty|E]. Vassals will tend to favor older, distant giantess over [close_family|E]."
+
+

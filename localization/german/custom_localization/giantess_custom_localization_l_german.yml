@@ -1,0 +1,13 @@
+﻿l_german:
+
+ ASS:0 "Arsch"
+ VORE:0 "Vore"
+ FOOT:0 "Fuß"
+ BOOBS:0 "Brüste"
+ VAGINA:0 "Vagina"
+ NO_SPECIALIZATION:0 "Keine Spezialisierung"
+ GENTLE_GIANTESS:0 "Sie ist eine sanfte Riesin"
+ EVIL_GIANTESS:0 "Sie ist eine böse Riesin"
+ NEUTRAL_GIANTESS:0 "Sie ist eine neutrale Riesin"
+ GIANTESS_DESCRIPTION:0 "[ROOT.Char.Custom('GiantessAlignment')]. Sie spezialisiert sich in [ROOT.Char.Custom('GiantessPreference')]. Ihre Blutkraft ist [ROOT.Var('giantess_blood_power').GetValue].\n\n Arsch-Fähigkeit — [ROOT.Var('ass_skill').GetValue]. Fuß-Fähigkeit — [ROOT.Var('foot_skill').GetValue]. Vore-Fähigkeit — [ROOT.Var('vore_skill').GetValue]. Brüste-Fähigkeit — [ROOT.Var('boobs_skill').GetValue]. Vagina-Fähigkeit — [ROOT.Var('vagina_skill').GetValue].\n\nSie hat [ROOT.Var('giantess_mana').GetValue] Mana-Punkte. Sie hat [ROOT.Var('slaves_number').GetValue] Sklaven."
+ TINY_DESCRIPTION:0 "[ROOT.Char.GetFirstName] spezialisiert sich in [ROOT.Char.Custom('GiantessPreference')].\n\n Arsch-Fähigkeit — [ROOT.Var('ass_skill').GetValue]. Fuß-Fähigkeit — [ROOT.Var('foot_skill').GetValue]. Vore-Fähigkeit — [ROOT.Var('vore_skill').GetValue]. Brüste-Fähigkeit — [ROOT.Var('boobs_skill').GetValue]. Vagina-Fähigkeit — [ROOT.Var('vagina_skill').GetValue].\n\n[ROOT.Char.GetFirstName] hat [ROOT.Var('tiny_loyaty').GetValue] Treuheits-Punkte."

@@ -1,0 +1,5 @@
+﻿l_english:
+
+ trait_giantess_sex_slave:0 "Giantess's sex slave"
+ trait_giantess_sex_slave_desc:0 "This person is a sex slave of their giantess liege, whether they want it or not."
+ trait_giantess_sex_slave_character_desc:0 "[ROOT.GetCharacter.GetFirstNameNoTooltip] is a sex slave of their giantess liege, whether [ROOT.GetCharacter.GetSheHe] wants it or not."
