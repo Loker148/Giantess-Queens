@@ -95,7 +95,7 @@ allmother_worship_religion = {
     ##############################################################
 
     localization = {
-        HighGodName                      = giantess_high_god_name
+        HighGodName                     = giantess_high_god_name
         HighGodNamePossessive           = giantess_high_god_name_possessive
         HighGodNameSheHe                = giantess_high_god_she_he
         HighGodHerselfHimself           = CHARACTER_HERSELF
