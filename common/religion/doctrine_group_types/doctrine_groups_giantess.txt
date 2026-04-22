@@ -4,12 +4,25 @@
 ############################################
 
 doctrine_giantess_acceptance = {
-	group = "crimes"
+	category = "crimes"
     
     doctrine_types = {
         doctrine_giantess_acceptance_demonized
         doctrine_giantess_acceptance_shunned
         doctrine_giantess_acceptance_accepted	
         doctrine_giantess_acceptance_worshipped
+    }
+}
+
+doctrine_giantess_tenets = {
+	category = "core_tenets"
+
+	number_of_picks = 3
+
+	doctrine_types = {
+        tenet_macrophilitism
+        tenet_macrosuprematism
+        tenet_greek_titans
+        tenet_jotuns
     }
 }
