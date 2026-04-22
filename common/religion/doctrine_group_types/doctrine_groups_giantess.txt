@@ -1,0 +1,15 @@
+############################################
+#   Giantess Acceptance Doctrine Group     
+#   Updated to 1.19 by Banan
+############################################
+
+doctrine_giantess_acceptance = {
+	group = "crimes"
+    
+    doctrine_types = {
+        doctrine_giantess_acceptance_demonized
+        doctrine_giantess_acceptance_shunned
+        doctrine_giantess_acceptance_accepted	
+        doctrine_giantess_acceptance_worshipped
+    }
+}
