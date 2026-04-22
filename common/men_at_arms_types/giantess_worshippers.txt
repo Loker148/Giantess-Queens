@@ -47,5 +47,5 @@ giantess_worshippers = {
     ##############################################################
 
     stack = 100
-    icon = heavy_infantry
+    icon = giantess_worshippers
 }

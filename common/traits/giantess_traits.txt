@@ -22,15 +22,16 @@ giantess = {
     child_inheritance_sex = female
     #genetic = yes
     physical = yes
+	good = yes
 
-    county_opinion_add = 50
-    vassal_opinion     = 10
     same_opinion       = 20
 
     birth           = 0
     random_creation = 0
 
     flag = is_naked
+    
+	ruler_designer_cost = 200
 
     desc = {
         first_valid = {
@@ -41,6 +42,22 @@ giantess = {
             desc = trait_giantess_character_desc
         }
     }
+
+    triggered_opinion = {
+		parameter = doctrine_giantess_acceptance_demonized
+		opinion_modifier = giantess_demonized
+		ignore_opinion_value_if_same_trait = yes
+	}
+	triggered_opinion = {
+		parameter = doctrine_giantess_shunned
+		opinion_modifier = giantess_shunned
+		ignore_opinion_value_if_same_trait = yes
+	}
+    triggered_opinion = {
+		parameter = doctrine_giantess_acceptance_worshipped
+		opinion_modifier = giantess_worshipped
+		ignore_opinion_value_if_same_trait = yes
+	}
 }
 
 ##############################################################

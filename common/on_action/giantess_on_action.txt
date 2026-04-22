@@ -160,6 +160,7 @@ on_18th_birthday = {
 on_game_start_after_lobby = {
     events = {
         giantess_skill.0007
+	  	giantess_religion.0012 # for adding doctrines
     }
 }
 
@@ -181,4 +182,10 @@ on_raid_loot_delivered = {
     events = {
         giantess_siege.0006
     }
+}
+
+on_faith_created = {
+	events = {
+		giantess_religion.0013
+	}
 }

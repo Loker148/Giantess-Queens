@@ -37,6 +37,7 @@ allmother_worship_religion = {
     doctrine = doctrine_kinslaying_close_kin_crime
     doctrine = doctrine_deviancy_accepted
     doctrine = doctrine_witchcraft_accepted
+    doctrine = doctrine_giantess_acceptance_worshipped
 
     ##############################################################
     # CLERICAL
@@ -87,14 +88,14 @@ allmother_worship_religion = {
         { name = "holy_order_champions_of_allmother" }
     }
 
-    holy_order_maa = { giantess_worshippers }
+    holy_order_maa = { giantess_worshippers giantess_warriors}
 
     ##############################################################
     # LOCALIZATION KEYS
     ##############################################################
 
     localization = {
-        HighGodName                      = giantess_high_god_name
+        HighGodName                     = giantess_high_god_name
         HighGodNamePossessive           = giantess_high_god_name_possessive
         HighGodNameSheHe                = giantess_high_god_she_he
         HighGodHerselfHimself           = CHARACTER_HERSELF
@@ -285,6 +286,61 @@ allmother_worship_religion = {
             doctrine = tenet_macrosuprematism
             doctrine = tenet_ancestor_worship
             doctrine = tenet_sanctity_of_nature
+        }
+
+        ##############################################################
+        # GREEK TITANS
+        ##############################################################
+
+        greek_titans = {
+            color = { 158 66 35 }
+            icon = hellenic
+            reformed_icon = hellenic_reformed
+
+            holy_site = rome
+			holy_site = athens
+			holy_site = alexandria
+			holy_site = carthage
+			holy_site = olympus
+
+            doctrine = doctrine_temporal_head
+            doctrine = doctrine_clerical_succession_temporal_fixed_appointment
+            doctrine = doctrine_pilgrimage_local_rites
+
+			doctrine = tenet_communal_identity
+			doctrine = tenet_esotericism
+            doctrine = tenet_greek_titans
+        }
+
+        ##############################################################
+        # JOTUNISM
+        ##############################################################
+
+        jotunism = {
+            color = { 75 103 115 }
+            icon = germanic
+            reformed_icon = germanic_reformed
+
+            holy_site = uppsala
+			holy_site = jorvik
+			holy_site = paderborn
+			holy_site = konugardr
+			holy_site = ranaheim
+            
+			doctrine = unreformed_faith_doctrine
+
+            doctrine = doctrine_temporal_head
+            doctrine = doctrine_clerical_succession_temporal_fixed_appointment
+            doctrine = doctrine_pilgrimage_forbidden
+
+			doctrine = tenet_warmonger
+            # Gruesome Festivals, else Human Sacrifice.
+			doctrine_selection_pair = {
+				requires_dlc_flag = the_northern_lords
+				doctrine = tenet_gruesome_festivals
+				fallback_doctrine = tenet_human_sacrifice
+			}
+            doctrine = tenet_jotuns
         }
     }
 }

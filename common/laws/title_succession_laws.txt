@@ -24,10 +24,7 @@ title_succession_laws = {
 
                 OR = {
                     faith = {
-                        OR = {
-                            has_doctrine = tenet_macrophilitism
-                            has_doctrine = tenet_macrosuprematism
-                        }
+                        has_doctrine = doctrine_giantess_acceptance_worshipped
                     }
                     has_trait = giantess
                 }

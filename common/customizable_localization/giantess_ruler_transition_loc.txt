@@ -1,0 +1,18 @@
+GameOverMessageNotableAchievements = {
+	type = character
+
+    text = {
+        localization_key = SUCCESSION_EVENT_WINDOW_END_DATE_CREATED_SWITZERLAND_DESC
+        trigger = {
+            exists = global_var:flag_formed_titanes_kingdom
+            dynasty = global_var:flag_formed_titanes_kingdom.dynasty
+        }
+    }
+    text = {
+        localization_key = SUCCESSION_EVENT_WINDOW_END_DATE_CREATED_SWITZERLAND_DESC
+        trigger = {
+            exists = global_var:flag_formed_jotunheim_kingdom
+            dynasty = global_var:flag_formed_jotunheim_kingdom.dynasty
+        }
+    }
+}

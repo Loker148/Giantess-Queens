@@ -55,8 +55,8 @@
 
  giantess_coerce_prisoner_interaction: "Coerce Prisoner"
  giantess_coerce_prisoner_interaction_desc: "Coerce the prisoner into granting you a title or die to your assets"
- ginatess_coerce.0001.t: "Demanding a Title"
- ginatess_coerce.0001.desc: "With [recipient.GetName] in my prison, I can force them to grant me a title or die to my domineering form."
- ginatess_coerce.0001.a: "Fine, take it!"
- ginatess_coerce.0001.b: "#EMP Just kill me!#!"
+ giantess_coerce.0001.t: "Demanding my Title"
+ giantess_coerce.0001.desc: "As I was rotting in my cell, guards suddenly barged in, tied my hands, and dragged me out into a very large, private, room where the towering figure of [actor.GetName|U] sat expectantly.\n\nWhen [actor.GetSheHe] noticed my arrival, [actor.GetSheHe] picked me up and placed me on the table beside [actor.GetHerHim].\n\n[actor.GetSheHe] presented me with an ultimatum:\n'Relinquish [target.GetName] or perish.\n\nThe demand is pretty clear..."
+ giantess_coerce.0001.a: "Fine, take it!"
+ giantess_coerce.0001.b: "#EMP Just kill me!#!"
  giantess_coerce_fail_tooltip: "[recipient.GetName|U] will be executed"

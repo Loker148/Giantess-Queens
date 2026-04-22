@@ -215,24 +215,24 @@ giantess_siege.0003 = {
 				random_list = {
 					#Vore
 					33 = {
-							add_character_flag = {
-								flag = execution_swallow
-								days = 1
+						add_character_flag = {
+							flag = execution_swallow
+							days = 1
 						}
 					}
 					#Ass
 					33 = {
-							add_character_flag = {
-								flag = execution_ass
-								days = 1
-							}
+						add_character_flag = {
+							flag = execution_ass
+							days = 1
+						}
 					}
 					#Feet
 					33 = {
-							add_character_flag = {
-								flag = execution_shoecrush
-								days = 1
-							}
+						add_character_flag = {
+							flag = execution_shoecrush
+							days = 1
+						}
 					}
 				}
 				trigger_event = giantess_siege.0005

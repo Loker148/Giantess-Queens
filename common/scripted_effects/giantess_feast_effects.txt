@@ -1,236 +1,208 @@
-﻿##############################################################
-# FEAST — EAT PRISONER LOGIC
-##############################################################
-
-giantess_feast_eat_prisoner_effect = {
-
-    if = {
-        limit = {
-            exists = scope:activity
-            scope:host = {
-                any_prisoner = {
-                    NOT = { has_character_flag = will_be_eaten }
-                    NOT = { has_trait = giantess }
-                    age >= 30
-                    count > 0
-                }
-            }
-        }
-
-        ##############################################################
-        # SELECT A PRISONER TO BE EATEN
-        ##############################################################
-        scope:host = {
-            random_prisoner = {
-                limit = {
-                    NOT = { has_character_flag = will_be_eaten }
-                    NOT = { has_trait = giantess }
-                    age >= 30
-                }
-                add_character_flag = { flag = will_be_eaten days = 100 }
-                save_scope_as = tiny
-            }
-        }
-
-        trigger_event = { id = giantess_feast.0005 days = 5 }
-    }
-
-    ##############################################################
-    # FEAST ENDS (NO VALID TARGETS)
-    ##############################################################
-    else = {
-        scope:host = {
-            if = {
-                limit = { NOT = { has_character_flag = feast_ending } }
-                add_character_flag = { flag = feast_ending days = 20 }
-                trigger_event = giantess_feast.9000
-            }
-        }
-    }
+﻿giantess_feast_eat_prisoner_effect = {
+	if = {
+		limit = {
+			exists = scope:activity
+			scope:host = {
+				any_prisoner = {
+					NOT = { has_character_flag = will_be_eaten }
+					NOT = { has_trait = giantess }
+					age >= 30
+					count > 0
+				}
+			}
+		}
+		#Eat someone
+		scope:host = {
+			random_prisoner = {
+				limit = { 
+					NOT = { 
+						has_character_flag = will_be_eaten 
+						has_trait = giantess
+					}
+					age >= 30
+			 	}
+				add_character_flag = {
+					flag = will_be_eaten
+					days = 100
+				}
+				save_scope_as = tiny
+			}
+		}
+		trigger_event = { id = giantess_feast.0005 days = 5 }
+	}
+	else = {
+		scope:host = {
+			if = {
+				limit = { NOT = { has_character_flag =  feast_ending } }
+				add_character_flag = {
+					flag = feast_ending
+					days = 20
+				}
+				trigger_event = giantess_feast.9000
+			}
+		}
+	}
 }
-
-##############################################################
-# GUEST FEAST END — STRESS MODIFIER
-##############################################################
 
 giantess_feast_end_guest_effect = {
-    stress_impact = {
-        base        = medium_stress_loss
-        gluttonous  = medium_stress_impact_loss
-        gregarious  = medium_stress_impact_loss
-        shy         = medium_stress_impact_gain
-    }
+	stress_impact = {
+		base = medium_stress_loss
+		gluttonous = medium_stress_impact_loss
+		gregarious = medium_stress_impact_loss
+		shy = medium_stress_impact_gain
+	}
 }
-
-##############################################################
-# HOST SUCCESSFUL FEAST EFFECT
-##############################################################
 
 giantess_hosted_successful_feast_effect = {
-    add_prestige = medium_prestige_gain
-
-    scope:activity = {
-        every_attending_character = {
-            limit = { NOT = { this = root } }
-            custom = every_guest_scope_tt
-            add_opinion = {
-                target    = root
-                modifier  = giantess_hosted_successful_feast
-            }
-        }
-    }
+	add_prestige = medium_prestige_gain
+	scope:activity = {
+		every_attending_character = {
+			limit = { NOT = { this = root } }
+			custom = every_guest_scope_tt
+			add_opinion = {
+				target = root
+				modifier = giantess_hosted_successful_feast
+			}
+		}
+	}
 }
-
-##############################################################
-# VASSAL SENDS PEASANTS — COUNTER
-##############################################################
 
 giantess_send_peasants_feast_effect = {
-
-    # initialize counter
-    if = {
-        limit = { NOT = { exists = local_var:num_of_peasants } }
-        set_local_variable = { name = num_of_peasants value = 1 }
-    }
-    else = {
-        change_local_variable = { name = num_of_peasants add = 1 }
-    }
-
-    # send the peasant if duty not met
-    if = {
-        limit = { local_var:num_of_peasants <= giantess_feast_vassal_duty }
-        giantess_send_peasant_feast_effect = yes
-    }
+	if = {
+		limit = {
+			NOT = { exists = local_var:num_of_peasants }
+		}
+		set_local_variable = {
+			name = num_of_peasants
+			value = 1
+		}
+	} 
+	else = {
+		change_local_variable = {
+			name = num_of_peasants
+			add = 1
+		}
+	}
+	if = {
+		limit = { # Check the number of peasants sent
+			local_var:num_of_peasants <= giantess_feast_vassal_duty
+		}
+		giantess_send_peasant_feast_effect = yes
+	}
 }
-
-##############################################################
-# CREATE SINGLE PEASANT CHARACTER + IMPRISON
-##############################################################
 
 giantess_send_peasant_feast_effect = {
-
-    create_character = {
-        age = { 30 50 }
-        random_traits = yes
-        gender_female_chance = 30
-        dynasty = none
-        faith = faith:macrosuprematism
-        culture = this.culture
-        location = root.capital_province
-        save_scope_as = peasant1
-    }
-
-    scope:giantess = {
-        imprison = {
-            target = scope:peasant1
-            type = house_arrest
-        }
-    }
-
-    giantess_send_peasants_feast_effect = yes
+	create_character = {
+		age = { 30 50 }
+		random_traits = yes
+		gender_female_chance = 30
+		dynasty = none
+		faith = faith:macrosuprematism
+		culture = this.culture
+		location = root.capital_province
+		save_scope_as = peasant1
+	}
+	scope:giantess = {
+		imprison = { 
+			target = scope:peasant1
+			type = house_arrest
+		}
+	}
+	giantess_send_peasants_feast_effect = yes
 }
-
-##############################################################
-# VASSAL SENDS PRISONERS — COUNTER
-##############################################################
 
 giantess_send_prisoners_feast_effect = {
-
-    if = {
-        limit = { NOT = { exists = local_var:num_of_prisoners } }
-        set_local_variable = { name = num_of_prisoners value = 1 }
-    }
-    else = {
-        change_local_variable = { name = num_of_prisoners add = 1 }
-    }
-
-    if = {
-        limit = { local_var:num_of_prisoners <= giantess_feast_vassal_duty }
-        giantess_send_prisoner_feast_effect = yes
-    }
+	if = {
+		limit = {
+			NOT = { exists = local_var:num_of_prisoners }
+		}
+		set_local_variable = {
+			name = num_of_prisoners
+			value = 1
+		}
+	} 
+	else = {
+		change_local_variable = {
+			name = num_of_prisoners
+			add = 1
+		}
+	}
+	if = {
+		limit = { # Check the number of peasants sent
+			local_var:num_of_prisoners <= giantess_feast_vassal_duty
+		}
+		giantess_send_prisoner_feast_effect = yes
+	}
 }
-
-##############################################################
-# SELECT RANDOM PRISONER TO SEND
-##############################################################
 
 giantess_send_prisoner_feast_effect = {
-
-    random_prisoner = {
-        limit = {
-            NOT = { has_trait = giantess }
-            age >= 18
-        }
-        save_scope_as = prisoner
-
-        scope:giantess = {
-            imprison = {
-                target = scope:prisoner
-                type = house_arrest
-            }
-        }
-    }
-
-    giantess_send_prisoners_feast_effect = yes
+	random_prisoner = {
+		limit = { 
+			NOT = { 
+				has_trait = giantess
+			}
+			age >= 18
+	 	}
+		save_scope_as = prisoner
+		scope:giantess = {
+			imprison = { 
+				target = scope:prisoner
+				type = house_arrest
+			}
+		}
+	}
+	giantess_send_prisoners_feast_effect = yes
 }
 
-##############################################################
-# GUEST SENDS PEASANTS (4 AT ONCE)
-##############################################################
-
 guest_send_peasant_feast_effect = {
-
-    create_character = {
-        age = { 30 50 }
-        random_traits = yes
-        gender_female_chance = 30
-        dynasty = none
-        faith = faith:macrosuprematism
-        culture = this.culture
-        location = root.capital_province
-        save_scope_as = peasant1
-    }
-    create_character = {
-        age = { 30 50 }
-        random_traits = yes
-        gender_female_chance = 30
-        dynasty = none
-        faith = faith:macrosuprematism
-        culture = this.culture
-        location = root.capital_province
-        save_scope_as = peasant2
-    }
-    create_character = {
-        age = { 30 50 }
-        random_traits = yes
-        gender_female_chance = 30
-        dynasty = none
-        faith = faith:macrosuprematism
-        culture = this.culture
-        location = root.capital_province
-        save_scope_as = peasant3
-    }
-    create_character = {
-        age = { 30 50 }
-        random_traits = yes
-        gender_female_chance = 30
-        dynasty = none
-        faith = faith:macrosuprematism
-        culture = this.culture
-        location = root.capital_province
-        save_scope_as = peasant4
-    }
-
-    scope:giantess = {
-
-        # CK3 can only imprison ONE target per imprison block.
-        # Left unchanged, but the engine will only apply the first.
-        imprison = {
-            target = scope:peasant1
-            target = scope:peasant2     # ignored by engine
-            target = scope:peasant3     # ignored by engine
-            target = scope:peasant4     # ignored by engine
-            type = house_arrest
-        }
-    }
+	create_character = {
+		age = { 30 50 }
+		random_traits = yes
+		gender_female_chance = 30
+		dynasty = none
+		faith = faith:macrosuprematism
+		culture = this.culture
+		location = root.capital_province
+		save_scope_as = peasant1
+	}
+		create_character = {
+		age = { 30 50 }
+		random_traits = yes
+		gender_female_chance = 30
+		dynasty = none
+		faith = faith:macrosuprematism
+		culture = this.culture
+		location = root.capital_province
+		save_scope_as = peasant2
+	}
+		create_character = {
+		age = { 30 50 }
+		random_traits = yes
+		gender_female_chance = 30
+		dynasty = none
+		faith = faith:macrosuprematism
+		culture = this.culture
+		location = root.capital_province
+		save_scope_as = peasant3
+	}
+		create_character = {
+		age = { 30 50 }
+		random_traits = yes
+		gender_female_chance = 30
+		dynasty = none
+		faith = faith:macrosuprematism
+		culture = this.culture
+		location = root.capital_province
+		save_scope_as = peasant4
+	}
+	scope:giantess = {
+		imprison = { 
+			target = scope:peasant1
+			target = scope:peasant2
+			target = scope:peasant3
+			target = scope:peasant4
+			
+			type = house_arrest
+		}
+	}
 }

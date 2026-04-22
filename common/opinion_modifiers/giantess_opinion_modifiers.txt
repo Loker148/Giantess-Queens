@@ -97,3 +97,29 @@ refused_unbirth = {
     revoke_title_reason = yes
     # stacking = yes   # commented out — Paradox warns against stacking crime reasons
 }
+
+##############################################################
+# DOCTRINE OPINION MODIFIERS
+##############################################################
+
+giantess_demonized = {
+    opinion = -50
+    imprisonment_reason = yes
+    execute_reason = yes
+    banish_reason = yes
+    revoke_title_reason = yes
+}
+giantess_shunned = {
+    opinion = -35
+    imprisonment_reason = yes
+    execute_reason = yes
+    banish_reason = yes
+    revoke_title_reason = yes
+}
+giantess_worshipped = {
+    opinion = 30
+    imprisonment_reason = yes
+    execute_reason = yes
+    banish_reason = yes
+    revoke_title_reason = yes
+}

@@ -1,0 +1,38 @@
+@correct_culture_primary_score = 100
+@better_than_the_alternatives_score = 50
+@always_primary_score = 1000
+@never_primary_score = -1000
+
+#########################################
+#		Giantess Realms Titles
+#########################################
+
+# Greek Realm
+k_titanes = { # The Tītânes
+	color = { 191 147 52 }
+	can_be_named_after_dynasty = no
+	can_use_nomadic_naming = no	
+	definite_form = yes
+	capital = c_thessalia # Larissa
+	always_follows_primary_heir = yes
+	ruler_uses_title_name = yes
+	
+	ai_primary_priority = {
+		add = @always_primary_score
+	}
+}
+
+# Norse Realm
+k_jotunheim = { # Jötunheimr
+	color = { 218 179 255 }
+	can_be_named_after_dynasty = no
+	can_use_nomadic_naming = no	
+	definite_form = yes
+	capital = c_vastvag # Vágar
+	always_follows_primary_heir = yes	
+	ruler_uses_title_name = yes
+	
+	ai_primary_priority = {		
+		add = @always_primary_score
+	}
+}
