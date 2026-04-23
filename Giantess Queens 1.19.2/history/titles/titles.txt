@@ -1,0 +1,17 @@
+##############################################################
+# GIANTESS RULER TITLES
+##############################################################
+
+# Cara rules Pembrokeshire in Wales
+c_pembrokeshire = {
+    860.1.1 = {
+        holder = 950001   # Cara, Welsh giantess ruler
+    }
+}
+
+# Zophia rules Tarnowska in Poland
+c_tarnowska = {
+    860.1.1 = {
+        holder = 950006   # Zophia, Polish giantess ruler
+    }
+}
