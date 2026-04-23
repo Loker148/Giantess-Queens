@@ -1,0 +1,364 @@
+﻿namespace = giantess_siege
+
+scripted_trigger giantess_siege_0001_can_be_captured = {
+	# Captured characters must be located in the raided barony itself.
+	location = scope:barony.title_province
+
+	# Reasons to exclude characters from the capture pool:
+	NOR = {
+		# If the raiders have defeated the holder's army, but the army has not yet retreated to a different province, shield them from capture by the raid.
+		exists = commanding_army
+		exists = knight_army
+
+		# Is imprisoned in the barony stay prisoners (special case, any courtiers/vassals of the raider will get released elsewhere).
+		#is_imprisoned = yes
+		#Can't capture giantess
+		has_trait = giantess
+	}
+}
+
+#Settlement captured, choose action
+giantess_siege.0001 = {
+	type = character_event
+	title = giantess_siege.0001.t
+	desc = {
+		desc = giantess_siege.0001.desc
+		triggered_desc = {
+			trigger = {
+				has_variable = alignment
+				trigger_if = {
+					limit = { has_variable = alignment }
+					var:alignment = flag:evil
+				}
+			}
+			desc = giantess_siege.0001.evil.desc
+		}
+	}
+
+	left_portrait = root
+	theme = war
+
+	trigger = {
+		scope:county = {
+			NOR = {
+				has_county_modifier = giantess_county_rampaged
+				has_county_modifier = giantess_county_enslaved
+			}
+		}
+		has_trait = giantess
+	}
+
+	immediate = {
+		save_scope_as = giantess
+		trigger_event = giantess_skill.0007
+		set_variable = {
+			name = slaves_number_increase
+			value = 1000
+			days = 30
+		}
+		change_variable = {
+			name = slaves_number_increase
+			multiply = {	
+				value =	scope:county.development_level
+				round = yes
+			}
+		}
+		set_local_variable = {
+			name = gold_gain
+			value = scope:county.development_level
+		}
+		change_local_variable = {
+			name = gold_gain
+			multiply = 5
+		}
+		set_local_variable = {
+			name = prestige_gain
+			value = scope:county.development_level
+		}
+		change_local_variable = {
+			name = prestige_gain
+			multiply = 25
+		}
+		scope:county = {
+			holder = {
+				if = {
+					limit = {
+						NOT = {
+								has_trait = giantess
+							}
+						giantess_siege_0001_can_be_captured = yes 
+						age >= 18
+					}	
+					add_to_list = capture_attempt_targets
+				}
+				every_courtier_or_guest = {
+					limit = { 
+						NOT = {
+								has_trait = giantess
+							}
+						giantess_siege_0001_can_be_captured = yes 
+						age >= 18
+					}
+					add_to_list = capture_attempt_targets
+				}
+			}
+		}
+	}
+
+	#Do nothing
+	option = {
+		name = giantess_siege.0001.a
+		ai_chance = {
+			base = 0
+		}
+	}
+
+	#The settlement will be enslaved
+	option = {
+		name = giantess_siege.0001.b
+		add_gold = local_var:gold_gain
+		if = {
+			limit = {
+				NOT = {  has_variable = slaves_number} 
+			}
+			set_variable = {
+				name = slaves_number
+				value = 0
+			}
+		}
+		trigger_event = giantess_siege.0002
+		ai_chance = {
+			base = 50
+		}
+	}
+	#The settlement will be rampaged
+	option = {
+		name = giantess_siege.0001.c
+		trigger = {
+			has_variable = alignment
+			trigger_if = {
+				limit = { has_variable = alignment }
+				var:alignment = flag:evil
+			}
+		}
+		add_gold = local_var:gold_gain
+		add_prestige =  local_var:prestige_gain
+		add_piety =  local_var:prestige_gain
+		trigger_event = giantess_siege.0003
+		ai_chance = {
+			base = 50
+		}
+	}
+}
+
+#Settlement enslaved
+giantess_siege.0002 = {
+	type = character_event
+	title = giantess_siege.0002.t
+	desc = giantess_siege.0002.desc
+
+	left_portrait = root
+	theme = war
+
+	option = {
+		name = giantess_siege.0002.a
+		scope:county = {
+			change_development_level = {
+				subtract = scope:county.development_level
+				multiply = 0.4
+				floor = yes
+			}
+			add_county_modifier = {
+				modifier = giantess_county_enslaved
+				years = 5
+			}
+		}
+		hidden_effect = {
+			change_variable = {
+				name = slaves_number
+				add = var:slaves_number_increase
+			}
+			every_in_list = {
+				list = capture_attempt_targets
+				trigger_event = giantess_siege.0004
+			}
+		}
+	}
+
+}
+
+#Settlement rampaged
+giantess_siege.0003 = {
+	type = character_event
+	title = giantess_siege.0003.t
+	desc = giantess_siege.0003.desc
+
+	left_portrait = root
+	theme = war
+
+	option = {
+		name = giantess_siege.0003.a
+		scope:county = {
+			change_development_level = {
+				subtract = scope:county.development_level
+				multiply = 0.75
+				floor = yes
+			}
+			add_county_modifier = {
+				modifier = giantess_county_rampaged
+				years = 10
+			}
+		}
+		hidden_effect = {
+			every_in_list = {
+				list = capture_attempt_targets
+				random_list = {
+					#Vore
+					33 = {
+						add_character_flag = {
+							flag = execution_swallow
+							days = 1
+						}
+					}
+					#Ass
+					33 = {
+						add_character_flag = {
+							flag = execution_ass
+							days = 1
+						}
+					}
+					#Feet
+					33 = {
+						add_character_flag = {
+							flag = execution_shoecrush
+							days = 1
+						}
+					}
+				}
+				trigger_event = giantess_siege.0005
+			}
+		}
+	}
+}
+
+#I was captured by the giantess
+giantess_siege.0004 = {
+	type = character_event
+	title = giantess_siege.0004.t
+	desc = giantess_siege.0004.desc
+
+	left_portrait = {
+		character = scope:giantess
+		animation = dismissal
+	}
+	right_portrait = {
+		character = this
+		animation = fear
+	}
+	theme = war
+
+	option = {
+		name = giantess_siege.0004.a
+		scope:giantess = {
+			imprison = {
+				target = prev
+				type = dungeon
+			}
+		}
+	}
+}
+
+#I was killed during a rampage by the giantess
+giantess_siege.0005 = {
+	type = character_event
+	title = giantess_siege.0005.t
+	desc = {
+		desc = giantess_siege.0005.desc
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					has_character_flag = execution_swallow
+				}
+				desc = giantess_siege.0005.swallow.desc
+			}
+			triggered_desc = {
+				trigger = {
+					has_character_flag = execution_ass
+				}
+				desc = giantess_siege.0005.ass.desc
+			}
+			triggered_desc = {
+				trigger = {
+					has_character_flag = execution_shoecrush
+				}
+				desc = giantess_siege.0005.shoecrush.desc
+			}
+		}
+	}
+
+	left_portrait = {
+		character = scope:giantess
+		animation = anger
+	}
+	right_portrait = {
+		character = this
+		animation = fear
+	}
+	theme = war
+
+	option = {
+		name = giantess_siege.0005.a
+		giantess_death_effect = {
+			TINY = this
+			GIANTESS = scope:giantess
+		}
+	}
+}
+
+#End of raid, giantess gets slaves
+giantess_siege.0006 = {
+	hidden = yes
+	scope = army
+
+	trigger = {
+		scope:raider = {
+			has_trait = giantess
+		}
+	}
+	immediate = {
+		
+		set_variable = {
+			name = slaves_number_increase
+			value = 10
+			days = 30
+		}
+		change_variable = {
+			name = slaves_number_increase
+			multiply = {	
+				value =	root.raid_loot
+				round = yes
+			}
+		}
+		scope:raider = {
+			if = {
+				limit = {
+					NOT = {  has_variable = slaves_number }
+				}
+				set_variable = {
+					name = slaves_number
+					value = 0
+				}
+			}
+			change_variable = {
+				name = slaves_number
+				add = ROOT.var:slaves_number_increase
+			}
+			send_interface_message = {
+				type = event_raid_good
+				title = giantess_siege.0006.t
+				desc = giantess_siege.0006.desc
+				right_icon = root.army_commander
+			}
+		}
+	}
+}

@@ -1,0 +1,274 @@
+namespace = giantess_travel
+
+giantess_travel.0001 = {
+	type = character_event
+	title = giantess_travel.0001.t
+	desc = giantess_travel.0001.desc
+	
+	theme = travel
+	left_portrait = {
+		#character = 
+		#animation = personality_honorable 
+	}
+	right_portrait = {
+		#character = 
+		#animation = personality_honorable 
+	}
+	lower_right_portrait = {}
+	
+	trigger = {
+		is_travelling = yes
+		current_travel_plan = {
+			any_entourage_character = {
+				count >= 3
+				age >= 18
+				has_trait = giantess
+			}
+		}
+		NOT = { has_trait = giantess }
+	}
+	immediate = {
+		save_scope_as = tiny_lord
+		current_travel_plan = {
+			random_entourage_character = {
+				limit = {
+					age >= 18
+					has_trait = giantess
+				}
+				save_scope_as = giantess
+			}
+			random_entourage_character = {
+				limit = {
+					age >= 18
+					NOT = { has_trait = giantess }
+				}
+				save_scope_as = tiny
+			}
+		}
+		
+	}
+	option = {
+		name = giantess_travel.0001.a
+		trigger_event = {
+			id = giantess_travel.0002
+			days = { 1 3 }
+		}
+	}
+}
+
+giantess_travel.0002 = {
+	type = character_event
+	hidden = yes
+	
+	#Resist my foul impulses...
+	option = {
+		name = giantess_craving.0001.desc.a
+		if = {
+			limit = {
+				faith = {
+					has_doctrine = tenet_macrophilitism
+				}
+			}
+			add_piety = minor_piety_gain
+		}
+		stress_impact = {
+			base = medium_stress_impact_gain
+			lustful = minor_stress_impact_gain
+			impatient = minor_stress_impact_gain
+			arbitrary = minor_stress_impact_gain
+			chaste = minor_stress_impact_loss
+			patient = minor_stress_impact_loss
+			just = minor_stress_impact_loss
+			compassionate = minor_stress_impact_loss
+		}
+		trigger_event = {
+			id = giantess_travel.0003
+			days = { 1 3 }
+		}
+		ai_chance = {
+			base = 50
+			modifier = {
+				add = 10
+				scope:giantess.faith = { has_doctrine = tenet_macrophilitism }
+			}
+			modifier = {
+				add = 10
+				has_trait = chaste
+			}
+			modifier = {
+				add = 10
+				has_trait = patient
+			}
+			modifier = {
+				add = 10
+				has_trait = just
+			}
+			modifier = {
+				add = 10
+				has_trait = compassionate
+			}
+			modifier = {
+				add = -50
+				stress >= 150
+			}
+			modifier = {
+				add = -10
+				NOT = { has_character_flag = gts_travel_hire }
+			}
+			modifier = {
+				add = 50
+				scope:giantess = {
+					has_relation_lover = scope:tiny
+				}
+			}
+		}
+	}
+
+	#Buttcrush
+	option = {
+		name = giantess_craving.0001.desc.b
+		trigger = {
+			NOT = {
+				has_trait = compassionate
+			}
+		}
+		stress_impact = {
+			base = medium_stress_impact_loss
+			sadistic = minor_stress_impact_loss
+			callous = minor_stress_impact_loss
+			wrathful = minor_stress_impact_loss
+		}
+		ai_chance = {
+			base = 10
+		}
+		save_scope_value_as = { name = torture_method value = flag:buttcrush }
+		trigger_event = giantess_torture.0002
+	}
+	#Footcrush
+	option = {
+		name = giantess_craving.0001.desc.c
+		trigger = {
+			NOT = {
+				has_trait = compassionate
+			}
+		}
+		stress_impact = {
+			base = medium_stress_impact_loss
+			sadistic = minor_stress_impact_loss
+			callous = minor_stress_impact_loss
+			wrathful = minor_stress_impact_loss
+		}
+		ai_chance = {
+			base = 10
+		}
+		save_scope_value_as = { name = torture_method value = flag:footcrush }
+		trigger_event = giantess_torture.0002
+	}
+	#Vore
+	option = {
+		name = giantess_craving.0001.desc.d
+		trigger = {
+			OR = {
+				has_trait = gluttonous
+				NOT = { has_trait = compassionate }
+			}
+		}
+		stress_impact = {
+			base = medium_stress_impact_loss
+			gluttonous = minor_stress_impact_loss
+			sadistic = minor_stress_impact_loss
+			callous = minor_stress_impact_loss
+		}
+		ai_chance = {
+			base = 10
+			modifier = {
+				add = 20
+				has_trait = gluttonous
+			}
+		}
+		trigger_event = giantess_craving.0002
+	}
+	#Boob squish
+	option = {
+		name = giantess_craving.0001.desc.e
+		trigger = {
+			NOR = {
+				has_trait = sadistic
+				has_trait = callous
+			}
+		}
+		stress_impact = {
+			base = medium_stress_impact_loss
+			compassionate = minor_stress_impact_loss
+			lustful = minor_stress_impact_loss
+			generous = minor_stress_impact_loss
+		}
+		ai_chance = {
+			base = 10
+		}
+		save_scope_value_as = { name = torture_method value = flag:boobsquish }
+		trigger_event = giantess_torture.0002
+	}
+	#Kiss
+	option = {
+		name = giantess_craving.0001.desc.f
+		trigger = {
+			NOR = {
+				has_trait = sadistic
+				has_trait = callous
+			}
+		}
+		stress_impact = {
+			base = medium_stress_impact_loss
+			compassionate = minor_stress_impact_loss
+			lustful = minor_stress_impact_loss
+			generous = minor_stress_impact_loss
+		}
+		ai_chance = {
+			base = 10
+		}
+		save_scope_value_as = { name = torture_method value = flag:kiss }
+		trigger_event = giantess_torture.0002
+	}
+	#Hand torture/praise
+	option = {
+		name = giantess_craving.0001.desc.g
+		trigger = {
+			OR = {
+				has_trait = arrogant
+				has_trait = zealous
+				has_trait = ambitious
+			}
+		}
+		stress_impact = {
+			base = major_stress_impact_loss
+		}
+		ai_chance = {
+			base = 20
+		}
+		save_scope_value_as = { name = torture_method value = flag:hand }
+		trigger_event = giantess_torture.0002
+	}
+}
+
+#Was it your imagination? (gts chose to resist)
+giantess_travel.0003 = {
+	type = character_event
+	title = giantess_travel.0003.t
+	desc = giantess_travel.0003.desc
+	
+	theme = travel
+	left_portrait = {
+		character = scope:tiny_lord
+		animation = personality_honorable 
+	}
+	right_portrait = {
+		character = scope:giantess
+		animation = personality_honorable 
+	}
+	
+
+	option = {
+		name = giantess_travel.0003.a
+	}
+}

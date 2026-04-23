@@ -1,0 +1,613 @@
+﻿namespace = tiny_sex
+#Giantess enforced sex
+tiny_sex.0001 = {
+	type = letter_event
+	sender = scope:actor
+	opening = {
+		desc = char_interaction.0030.opening
+	}
+	desc = tiny_sex.0001_desc
+	option = {
+		name = tiny_sex.0001_desc.a
+	}
+}
+
+#Giantess demands to worship ass
+tiny_sex.0004 = {
+	type = character_event
+	title = tiny_sex.0004.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					scope:giantess.var:alignment = flag:gentle
+				}
+				desc = tiny_sex.0004.desc.gentle
+			}
+			desc = tiny_sex.0004.desc.evil
+		}
+	}
+	theme = love
+	left_portrait = {
+		character = scope:giantess
+		triggered_animation = {
+			trigger = {
+				scope:giantess.var:alignment = flag:gentle
+			}
+			animation = love
+		}
+		animation = dismissal
+	}
+	right_portrait = {
+		character = scope:tiny
+		animation = admiration
+		
+	}
+	immediate = {
+		scope:tiny = {
+			add_character_flag = { 
+				flag = is_naked
+				days = 30
+			}
+		}
+	}
+	#Try hard
+	option = {
+		name = tiny_sex.0004.a
+		trigger = {
+			stress <= 150
+		}
+		stress_impact = {
+			base = medium_stress_impact_gain
+		}
+		random_list = {
+			#Success
+			70 = {
+				modifier = {
+					add = scope:tiny.var:ass_skill
+				}
+				scope:giantess = {
+					add_character_flag = {
+						flag = satisfied
+						days = 1
+					}
+				}
+				custom_tooltip = tiny_sex.0004.a.success
+			}
+			#Fail
+			30 = {
+				scope:giantess = {
+					add_character_flag = {
+						flag = unsatisfied
+						days = 1
+					}
+				}
+				custom_tooltip = tiny_sex.0004.a.fail
+			}
+		}
+		random_list = {
+			#No injury
+			60 = {
+				scope:giantess = {
+					trigger_event = giantess_sex.4
+				}
+				modifier = {
+					add = scope:tiny.var:ass_skill
+				}
+				modifier = {
+					scope:giantess.var:alignment = flag:gentle
+					add = scope:giantess.var:ass_skill
+				}
+				custom_tooltip = tiny_sex.0004.a.noinjury
+			}
+			#Injury
+			30 = {
+				trigger = {
+					NOR = {
+						has_trait = wounded_1
+						has_trait = wounded_2
+						has_trait = wounded_3
+					}
+				}
+				add_character_flag = {
+					flag = injury1
+					days = 1
+				}
+				trigger_event = tiny_sex.0006
+				custom_tooltip = tiny_sex.0004.a.injury1
+			}
+			#Severe injury
+			6 = {
+				trigger = {
+					NOR = {
+						has_trait = wounded_2
+						has_trait = wounded_3
+					}
+				}
+				add_character_flag = {
+					flag = injury2
+					days = 1
+				}
+				trigger_event = tiny_sex.0006
+				custom_tooltip = tiny_sex.0004.a.injury2
+			}
+			#Maimed
+			3 = {
+				trigger = {
+					NOT = {
+						has_trait = wounded_3
+					}
+				}
+				add_character_flag = {
+					flag = injury3
+					days = 1
+				}
+				trigger_event = tiny_sex.0006
+				custom_tooltip = tiny_sex.0004.a.injury3
+			}
+			#Death
+			1 = {
+				trigger_event = tiny_sex.0007
+				custom_tooltip = tiny_sex.0004.a.death
+			}
+		}
+		ai_chance = {
+			base = 100
+			opinion_modifier = {
+				opinion_target = scope:giantess
+				multiplier = 1
+			}
+		}
+	}
+	#Basic job
+	option = {
+		name = tiny_sex.0004.b
+		random_list = {
+			#Success
+			50 = {
+				modifier = {
+					add = scope:tiny.var:ass_skill
+				}
+				scope:giantess = {
+					add_character_flag = {
+						flag = satisfied
+						days = 1
+					}
+				}
+				custom_tooltip = tiny_sex.0004.a.success
+			}
+			#Fail
+			50 = {
+				scope:giantess = {
+					add_character_flag = {
+						flag = unsatisfied
+						days = 1
+					}
+				}
+				custom_tooltip = tiny_sex.0004.a.fail
+			}
+		}
+		random_list = {
+			#No injury
+			70 = {
+				modifier = {
+					add = scope:tiny.var:ass_skill
+				}
+				modifier = {
+					scope:giantess.var:alignment = flag:gentle
+					add = scope:giantess.var:ass_skill
+				}
+				scope:giantess = {
+					trigger_event = giantess_sex.4
+				}
+				custom_tooltip = tiny_sex.0004.a.noinjury
+			}
+			#Injury
+			20 = {
+				trigger = {
+					NOR = {
+						has_trait = wounded_1
+						has_trait = wounded_2
+						has_trait = wounded_3
+					}
+				}
+				add_character_flag = {
+					flag = injury1
+					days = 1
+				}
+				trigger_event = tiny_sex.0005
+				custom_tooltip = tiny_sex.0004.a.injury1
+			}
+			#Severe injury
+			4 = {
+				trigger = {
+					NOR = {
+						has_trait = wounded_2
+						has_trait = wounded_3
+					}
+				}
+				add_character_flag = {
+					flag = injury2
+					days = 1
+				}
+				trigger_event = tiny_sex.0005
+				custom_tooltip = tiny_sex.0004.a.injury2
+			}
+			#Maimed
+			3 = {
+				trigger = {
+					NOT = {
+						has_trait = wounded_3
+					}
+				}
+				add_character_flag = {
+					flag = injury1
+					days = 1
+				}
+				trigger_event = tiny_sex.0005
+				custom_tooltip = tiny_sex.0004.a.injury3
+			}
+			#Death
+			3 = {
+				trigger_event = tiny_sex.0006
+				custom_tooltip = tiny_sex.0004.a.death
+			}
+		}
+		ai_chance = {
+			base = 100
+			opinion_modifier = {
+				opinion_target = scope:giantess
+				multiplier = -1
+			}
+		}
+	}
+}
+
+#Injury
+tiny_sex.0005 = {
+	type = character_event
+	title = tiny_sex.0005.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					has_character_flag = injury1
+				}
+				desc = tiny_sex.0005.desc_injury1
+			}
+			triggered_desc = {
+				trigger = {
+					has_character_flag = injury2
+				}
+				desc = tiny_sex.0005.desc_injury2
+			}
+			triggered_desc = {
+				trigger = {
+					has_character_flag = injury3
+				}
+				desc = tiny_sex.0005.desc_injury3
+			}
+		}
+	}
+	theme = love
+	left_portrait = {
+		character = scope:giantess
+		triggered_animation = {
+			trigger = {
+				scope:giantess.var:alignment = flag:gentle
+			}
+			animation = love
+		}
+		animation = dismissal
+	}
+	
+	right_portrait = {
+		character = scope:tiny
+		animation = severlywounded
+	}
+	immediate = {
+		play_music_cue = mx_cue_stress
+		scope:tiny = {
+			add_character_flag = is_naked
+		}
+	}
+	option = {
+		name = tiny_sex.0005.a
+		if = {
+			limit = {
+				has_character_flag = injury1
+			}
+			add_trait = wounded_1
+		}
+		if = {
+			limit = {
+				has_character_flag = injury2
+			}
+			add_trait = wounded_2
+		}
+		if = {
+			limit = {
+				has_character_flag = injury3
+			}
+			add_trait = wounded_3
+		}
+		scope:giantess = {
+			trigger_event = giantess_sex.4
+		}
+	}
+}
+
+#Death
+tiny_sex.0006 = {
+	type = character_event
+	title = tiny_sex.0006.t
+	desc = tiny_sex.0006.desc
+	theme = love
+	left_portrait = {
+		character = scope:giantess
+		triggered_animation = {
+			trigger = {
+				scope:giantess.var:alignment = flag:gentle
+			}
+			animation = love
+		}
+		animation = dismissal
+	}
+	right_portrait = {
+		character = scope:tiny
+		animation = fear
+	}
+	immediate = {
+		play_music_cue = mx_cue_stress
+		scope:tiny = {
+			add_character_flag = is_naked#added naked here
+		}
+	}
+	option = {
+		name = tiny_sex.0006.a
+		scope:tiny = {
+			add_character_flag = {
+				flag = unaware_ass
+				days = 1
+			}
+		}
+		giantess_death_effect = {
+			TINY = scope:tiny
+			GIANTESS = scope:giantess
+		}
+		scope:giantess = {
+			trigger_event = giantess_sex.4
+			remove_character_flag = satisfied
+			remove_character_flag = unsatisfied
+		}
+	}
+}
+
+#Conclusion, ass
+tiny_sex.0007 = {
+	type = character_event
+	title = tiny_sex.0007.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					scope:giantess = {
+						has_character_flag = satisfied
+					}
+				}
+				desc = tiny_sex.0007.desc_satisfied
+			}
+			triggered_desc = {
+				trigger = {
+					has_character_flag = unsatisfied_leave
+				}
+				desc = tiny_sex.0007.desc_unsatisfied_leave
+			}
+			desc = tiny_sex.0007.desc_unsatisfied_kill
+		}
+	}
+	theme = love
+	left_portrait = {
+		character = scope:giantess
+		triggered_animation = {
+			trigger = {
+				scope:giantess = {
+					has_character_flag = satisfied
+				}
+			}
+			animation = happiness
+		}
+		animation = anger
+	}
+	right_portrait = {
+		character = scope:tiny
+		triggered_animation = {
+			trigger = {
+				scope:giantess = {
+					has_character_flag = satisfied
+				}
+			}
+			animation = happiness
+		}
+		animation = severlywounded
+	}
+	immediate = {
+		scope:tiny = {
+			remove_character_flag = is_naked #remove naked here
+		}
+	}
+	
+	#Satisfied, cool
+	option = {
+		name = tiny_sex.0007.desc.a
+		trigger = {
+			scope:giantess = {
+				has_character_flag = satisfied
+			}
+		}
+		sex_success_tiny_effect = {
+			TINY = scope:tiny
+			GIANTESS = scope:giantess
+		}
+		scope:tiny = {
+			remove_character_flag = is_naked
+		}
+	}
+	#Not satisfied, I leave, not good
+	option = {
+		name = tiny_sex.0007.desc.b
+		trigger = {
+			has_character_flag = unsatisfied_leave
+		}
+		scope:giantess = {
+			remove_character_flag = unsatisfied
+		}
+		sex_fail_tiny_effect = {
+			TINY = scope:tiny
+			GIANTESS = scope:giantess
+		}
+	}
+	#Not satisfied, I die
+	option = {
+		name = tiny_sex.0007.desc.c
+		trigger = {
+			has_character_flag = unsatisfied_kill
+		}
+		scope:giantess = {
+			remove_character_flag = unsatisfied
+		}
+		scope:tiny = {
+			add_character_flag = {
+				flag = execution_ass
+				days = 1
+			}
+		}
+		
+		giantess_death_effect = {
+			TINY = scope:tiny
+			GIANTESS = scope:giantess
+		}
+	}
+	
+	after = {
+		add_ass_xp = {
+			CHANGE = major_xp_gain
+		}
+	}
+}
+
+#Giantess demands tits sex
+tiny_sex.0008 = {
+	type = character_event
+	title = tiny_sex.0008.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					scope:giantess.var:alignment = flag:gentle
+				}
+				desc = tiny_sex.0008.desc.gentle
+			}
+			desc = tiny_sex.0008.desc.evil
+		}
+		triggered_desc = {
+			trigger = {
+				scope:sex_status = flag:nipple_success
+			}
+			desc = tiny_sex.0008.desc.nipple_success
+		}
+		triggered_desc = {
+			trigger = {
+				scope:sex_status = flag:nipple_fail
+			}
+			desc = tiny_sex.0008.desc.nipple_fail
+		}
+		triggered_desc = {
+			trigger = {
+				scope:sex_status = flag:squish_success
+			}
+			desc = tiny_sex.0008.desc.squish_success
+		}
+		triggered_desc = {
+			trigger = {
+				scope:sex_status = flag:squish_fail
+			}
+			desc = tiny_sex.0008.desc.squish_fail
+		}
+	}
+	theme = boobsquish_gentle
+	left_portrait = {
+		character = scope:giantess
+		triggered_animation = {
+			trigger = {
+				OR = {
+					scope:sex_status = flag:nipple_success
+					scope:sex_status = flag:squish_success
+				}
+			}
+			animation = love
+		}
+		animation = dismissal
+	}
+	right_portrait = {
+		character = scope:tiny
+		animation = ecstasy
+	}
+	immediate = {
+		scope:tiny = {
+			add_character_flag = is_naked #naked flag here
+		}
+	}
+	#Success
+	option = {
+		trigger = {
+			OR = {
+				scope:sex_status = flag:nipple_success
+				scope:sex_status = flag:squish_success
+			}
+		}
+		name = tiny_sex.0008.a
+		sex_success_tiny_effect = {
+			TINY = scope:tiny
+			GIANTESS = scope:giantess
+		}
+		scope:tiny = { remove_character_flag = is_naked } #removed naked flag?
+		add_boobs_xp = {
+			CHANGE = major_xp_gain
+		}
+	}
+	#Fail
+	option = {
+		trigger = {
+			scope:sex_status = flag:nipple_fail
+		}
+		name = tiny_sex.0008.b
+		sex_fail_tiny_effect = {
+			TINY = scope:tiny
+			GIANTESS = scope:giantess
+		}
+		add_boobs_xp = {
+			CHANGE = major_xp_gain
+		}
+	}
+	#Death
+	option = {
+		trigger = {
+			scope:sex_status = flag:squish_fail
+		}
+		name = tiny_sex.0008.c
+		add_character_flag = {
+			flag = death_boobs_suffocation_unaware
+			days = 1
+		}
+		giantess_death_effect = {
+			TINY = scope:tiny
+			GIANTESS = scope:giantess
+		}
+	}
+	after = {
+		scope:giantess = {
+			trigger_event = giantess_sex.0006
+		}
+	}
+}

@@ -1,0 +1,599 @@
+﻿namespace = giantess_feast
+
+#Invite to feast
+giantess_feast.0001 = {
+	type = letter_event
+	desc = giantess_feast.0001.desc
+	sender = scope:sender
+	opening = {
+		desc = feast.1501.opening
+	}
+	trigger = {
+		is_available_for_activity_trigger = yes
+		exists = scope:activity.activity_host
+		NOT = { exists = var:is_handling_feast_invitation }
+	}
+	immediate = {
+		scope:activity.activity_host = {
+			save_scope_as = sender
+		}
+		scope:activity.activity_location = {
+			barony = {
+				save_scope_as = barony
+			}
+		}
+		set_variable = {
+			name = is_handling_feast_invitation
+			value = scope:sender
+			days = 20
+		}
+	}
+	#Accept
+	option = {
+		name = giantess_feast.0001.a
+		play_music_cue = mx_cue_banquet
+		accept_activity_invite = scope:activity
+		set_variable = {
+			name = booked_for_a_party
+			value = scope:sender
+			days = 20
+		}
+		stress_impact = {
+			comfort_eater = minor_stress_loss
+			drunkard = minor_stress_loss
+		}
+		ai_chance = {
+			base = 100
+			opinion_modifier = {
+				opinion_target = scope:sender
+			}
+		}
+	}
+
+	#Decline
+	option = {
+		name = giantess_feast.0001.b
+		decline_activity_invite = scope:activity
+		stress_impact = {
+			inappetetic = minor_stress_loss
+			reclusive = minor_stress_loss
+		}
+		ai_chance = {
+			base = 10
+			ai_value_modifier = {
+				ai_boldness = 0.2
+			}
+		}
+	}
+}
+
+#No guests
+giantess_feast.0002 = {
+	type = character_event
+	title = giantess_feast.0002.t
+	desc = giantess_feast.0002.desc
+	theme = feast_activity
+	left_portrait = {
+		character = root
+		animation = sadness 
+	}
+
+	option = {
+		name = giantess_feast.0002.a
+		stress_impact = {
+			base = minor_stress_impact_gain
+			gregarious = minor_stress_impact_gain
+		}
+	}
+}
+
+#Key event
+giantess_feast.0003 = {
+	type = activity_event
+	#hidden = yes
+	title = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					is_murder_feast = yes
+				}
+				desc = feast.2001.t_murder
+			}
+			desc = feast.2001.t
+		}
+	}
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					is_murder_feast = yes
+				}
+				desc = feast.2001.desc_murder_feast
+			}
+			random_valid = {
+				triggered_desc = {
+					trigger = {
+						is_murder_feast = no
+						OR = {
+							has_trait = comfort_eater
+							has_trait = drunkard
+							has_trait = lifestyle_reveler
+							has_trait = gregarious
+							has_education_diplomacy_trigger = yes
+						}
+					}
+					desc = feast.2001.desc_gregarious
+				}
+				triggered_desc = {
+					trigger = {
+						is_murder_feast = no
+						OR = {
+							has_trait = shy
+							has_trait = reclusive
+							has_trait = paranoid
+							has_trait = craven
+						}
+					}
+					desc = feast.2001.desc_shy
+				}
+				triggered_desc = {
+					trigger = {
+						is_murder_feast = no
+						OR = {
+							has_trait = ambitious
+							has_trait = arrogant
+							has_trait = deceitful
+							has_trait = cynical
+							has_education_intrigue_trigger = yes
+						}
+					}
+					desc = feast.2001.desc_ambitious
+				}
+				triggered_desc = {
+					trigger = {
+						is_murder_feast = no
+						OR = {
+							has_trait = scholar
+							has_trait = theologian
+							has_education_learning_trigger = yes
+						}
+					}
+					desc = feast.2001.desc_nerd
+				}
+				triggered_desc = {
+					trigger = {
+						is_murder_feast = no
+						OR = {
+							has_trait = brave
+							has_trait = impatient
+							has_trait = wrathful
+							has_education_martial_trigger = yes
+						}
+					}
+					desc = feast.2001.desc_martial
+				}
+				triggered_desc = {
+					trigger = {
+						is_murder_feast = no
+						has_lustful_adjacent_trait_trigger = yes
+					}
+					desc = feast.2001.desc_lustful
+				}
+				desc = feast.2001.desc_fallback
+			}
+		}
+	}
+	theme = feast_activity
+	left_portrait = {
+		character = root
+		triggered_animation = {
+			trigger = { is_murder_feast = yes }
+			animation = scheme
+		}
+		animation = toast_goblet
+	}
+	center_portrait = {
+		trigger = { exists = scope:honorary_guest }
+		character = scope:honorary_guest
+		animation = personality_honorable
+	}
+	right_portrait = {
+		trigger = {
+			exists = scope:my_spouse
+			NOT = { scope:honorary_guest ?= scope:my_spouse }
+		}
+		character = scope:my_spouse
+		animation = ecstasy
+	}
+
+	trigger = {
+		this = scope:activity.activity_host
+	}
+
+	#immediate = {
+	#	scope:activity = {
+	#		every_participant = {
+	#			trigger_event = giantess_feast.0004
+	#		}
+	#	}
+	#	#trigger_event = { id = giantess_feast.9000 days = 30 }
+	#}
+	option = {
+		name = feast.2001.a
+		exclusive = yes
+		custom_tooltip = feast.2001.a.tt
+		giantess_send_peasants_feast_effect = yes
+		giantess_feast_eat_prisoner_effect = yes
+	}
+}
+
+#Feast starts
+giantess_feast.0004 = {
+	type = activity_event
+	title = giantess_feast.0004.t
+	desc = giantess_feast.0004.desc
+	theme = feast_activity
+	left_portrait = {
+		character = scope:activity.activity_host
+		animation = flirtation
+	}
+	center_portrait = {
+		character = scope:center_portrait
+		animation = toast_goblet
+	}
+	right_portrait = {
+		trigger = { 
+			NOT = { root = scope:center_portrait }
+		}
+		character = root
+		animation = happiness
+	}
+	option = {
+		name = giantess_feast.0004.a
+		giantess_feast_eat_prisoner_effect = yes
+	}
+}
+
+#Eating a prisoner
+giantess_feast.0005 = {
+	type = activity_event
+	title = giantess_feast.0005.t
+	desc = giantess_feast.0005.desc
+	theme = feast_activity
+	left_portrait = this
+	right_portrait = {
+		character = scope:tiny
+		animation = fear
+	}
+	immediate = { 
+		scope:tiny = {
+			add_character_flag = is_naked
+		}
+	}
+	option = {
+		name = giantess_feast.0005.a
+		save_scope_as = giantess
+		scope:tiny = {
+			trigger_event = giantess_feast.0006
+		}
+		giantess_feast_eat_prisoner_effect = yes
+	}
+}
+
+#Eating a prisoner, tiny perspective
+giantess_feast.0006 = {
+	type = character_event
+	title = giantess_feast.0006.t
+	desc = giantess_feast.0006.desc
+	theme = feast_activity
+	left_portrait = scope:giantess
+	right_portrait = {
+		character = scope:tiny
+		animation = fear
+	}
+	immediate = {
+		scope:tiny = {
+			add_character_flag = is_naked
+		}
+	}
+	option = {
+		name = giantess_feast.0006.a
+		scope:tiny = {
+			add_character_flag = {
+				flag = execution_swallow
+				days = 1
+			}
+		}
+		giantess_death_effect = {
+			TINY = scope:tiny
+			GIANTESS = scope:giantess
+		}
+		#scope:host = {
+			#send_interface_message = {
+			#	left_icon = scope:tiny
+			#	right_icon = scope:giantess
+			#	type = event_prowess_good_desc
+			#	title = giantess_feast.0006.message.t
+			#	desc = giantess_feast.0006.message.desc
+			#}
+		#}
+	}
+}
+
+#Host died, guest
+giantess_feast.5003 = {
+	type = character_event
+	title = giantess_feast.5003.t
+	desc = giantess_feast.5003.desc
+	theme = feast_activity
+	option = {
+		name = giantess_feast.5003.a
+	}
+}
+
+#Host imprisoned, host
+giantess_feast.5004 = {
+	type = character_event
+	title = giantess_feast.5004.t
+	desc = giantess_feast.5004.desc
+	theme = feast_activity
+	option = {
+		name = giantess_feast.5004.a
+	}
+}
+
+#Host imprisoned, guest
+giantess_feast.5005 = {
+	type = character_event
+	title = giantess_feast.5005.t
+	desc = giantess_feast.5005.desc
+	theme = feast_activity
+	option = {
+		name = giantess_feast.5005.a
+	}
+}
+
+#Feast ends
+giantess_feast.9000 = {
+	type = activity_event
+	hidden = yes
+	trigger = {
+		exists = scope:activity
+	}
+	immediate = {
+		scope:activity = {
+			every_attending_character = {
+				trigger_event = giantess_feast.9001
+			}
+			complete_activity = yes
+		}
+		giantess_hosted_successful_feast_effect = yes
+	}
+}
+
+#Feast ends, message
+giantess_feast.9001 = {
+	type = activity_event
+	title = giantess_feast.9001.t
+	desc = giantess_feast.9001.desc
+	theme = feast_activity
+	left_portrait = scope:giantess
+	option = {
+		name = giantess_feast.9001.a
+		giantess_feast_end_guest_effect = yes
+	}
+}
+
+#Vassals needs to provide food
+giantess_feast.1000 = {
+	type = letter_event
+	desc = giantess_feast.1000.desc
+	sender = scope:giantess
+	opening = {
+		desc = feast.1501.opening
+	}
+	immediate = {
+		save_scope_as = vassal
+	}
+	#Send peasants
+	option = {
+		name = giantess_feast.1000.a
+		giantess_send_peasants_feast_effect = yes
+		tiny_loyalty_change = { CHANGE = minor_loyalty_gain }
+		if = {
+			limit = {
+				faith = {
+					OR = {
+						has_doctrine = tenet_macrophilitism
+						has_doctrine = tenet_macrosuprematism
+					}
+				}
+			}
+			add_piety = medium_piety_gain
+		}
+		add_character_modifier = {
+			modifier = giantess_feast_vassal_sent_peasants
+			years = 5
+		}
+		scope:giantess = {
+			send_interface_message = {
+				left_icon = scope:vassal
+				type = event_prowess_good_desc
+				title = giantess_feast.1000.a.message.t
+				desc = giantess_feast.1000.a.message.desc
+			}
+		}
+		ai_chance = {
+			base = 10
+			modifier = {
+				faith = {
+					OR = {
+						has_doctrine = tenet_macrophilitism
+						has_doctrine = tenet_macrosuprematism
+					}
+				}
+				add = 100
+			}
+			opinion_modifier = {
+				opinion_target = scope:giantess
+			}
+		}
+	}
+	#Send prisoners
+	option = {
+		trigger = {
+			any_prisoner = {
+				age >= 18
+				NOT = { has_trait = giantess }
+				count >= 3
+			}
+		}
+		name = giantess_feast.1000.b
+		giantess_send_prisoners_feast_effect = yes
+		tiny_loyalty_change = { CHANGE = minor_loyalty_gain }
+		if = {
+			limit = {
+				faith = {
+					OR = {
+						has_doctrine = tenet_macrophilitism
+						has_doctrine = tenet_macrosuprematism
+					}
+				}
+			}
+			add_piety = medium_piety_gain
+		}
+		scope:giantess = {
+			send_interface_message = {
+				left_icon = scope:vassal
+				type = event_prowess_good_desc
+				title = giantess_feast.1000.b.message.t
+				desc = giantess_feast.1000.b.message.desc
+			}
+		}
+		ai_chance = {
+			base = 10
+			modifier = {
+				faith = {
+					OR = {
+						has_doctrine = tenet_macrophilitism
+						has_doctrine = tenet_macrosuprematism
+					}
+				}
+				add = 100
+			}
+			opinion_modifier = {
+				opinion_target = scope:giantess
+			}
+		}
+	}
+	#Go yourself
+	option = {
+		trigger = {
+			is_available_for_activity_trigger = yes
+		}
+		name = giantess_feast.1000.c
+		add_character_flag = {
+			flag = willing_vore
+			days = 200
+		}
+		#imprison_character_effect = {
+		#	TARGET = scope:vassal
+		#	IMPRISONER = scope:giantess
+		#	type = house_arrest
+		#}
+		scope:giantess = {
+			imprison = { 
+				target = scope:vassal
+				type = house_arrest
+			}
+		}
+		if = {
+			limit = {
+				faith = {
+					OR = {
+						has_doctrine = tenet_macrophilitism
+						has_doctrine = tenet_macrosuprematism
+					}
+				}
+			}
+			add_piety = major_piety_gain
+		}
+		scope:giantess = {
+			send_interface_message = {
+				left_icon = scope:vassal
+				type = event_prowess_good_desc
+				title = giantess_feast.1000.c.message.t
+				desc = giantess_feast.1000.c.message.desc
+			}
+		}
+		ai_chance = {
+			base = 0
+			modifier = {
+				faith = {
+					OR = {
+						has_doctrine = tenet_macrophilitism
+						has_doctrine = tenet_macrosuprematism
+					}
+				}
+				add = 20
+			}
+			modifier = {
+				faith = {
+					has_doctrine = tenet_macrosuprematism
+				}
+				add = 100
+			}
+			ai_value_modifier = {
+				ai_boldness = 1
+				min = 0
+			}
+			opinion_modifier = {
+				opinion_target = scope:giantess
+			}
+		}
+	}
+	#Send nothing
+	option = {
+		name = giantess_feast.1000.d
+		trigger = {
+			NOT = { 
+				has_opinion_modifier = {
+					target = scope:giantess
+					modifier = tiny_loyal
+				}
+			 }
+		}
+		if = {
+			limit = {
+				faith = {
+					OR = {
+						has_doctrine = tenet_macrophilitism
+						has_doctrine = tenet_macrosuprematism
+						has_doctrine = tenet_macrosuprematism
+					}
+				}
+			}
+			add_piety = major_piety_loss
+		}
+		tiny_loyalty_change = { CHANGE = minor_loyalty_loss }
+		scope:giantess = {
+			add_opinion = {
+				target = scope:vassal
+				modifier = giantess_vassal_neglected_feast
+			}
+			send_interface_message = {
+				left_icon = scope:vassal
+				type = event_prowess_good_desc
+				title = giantess_feast.1000.d.message.t
+				desc = giantess_feast.1000.d.message.desc
+			}
+		}
+		ai_chance = {
+			base = 50
+			ai_value_modifier = {
+				ai_boldness = 0.5
+				min = -50
+			}
+		}
+	}
+}
