@@ -1,0 +1,83 @@
+﻿##############################################################
+# GIANTESS — EFFECT LOCALIZATION (Updated & Clean)
+# Based on original file: giantess_effect_localization.txt
+##############################################################
+
+tiny_loyalty_change_desc = {
+    first  = I_GAIN_LOYALTY_POINTS
+    third  = I_GAIN_LOYALTY_POINTS
+    global = I_GAIN_LOYALTY_POINTS
+}
+
+giantess_mana_change_desc = {
+    first  = I_GAIN_MANA_POINTS
+    third  = I_GAIN_MANA_POINTS
+    global = I_GAIN_MANA_POINTS
+}
+
+##############################################################
+# SKILL GAINS
+##############################################################
+
+add_ass_skill_desc = {
+    first  = I_GAIN_ASS_SKILL
+    third  = HE_GAINS_ASS_SKILL
+    global = HE_GAINS_ASS_SKILL
+}
+
+add_vore_skill_desc = {
+    first  = I_GAIN_VORE_SKILL
+    third  = HE_GAINS_VORE_SKILL
+    global = HE_GAINS_VORE_SKILL
+}
+
+add_foot_skill_desc = {
+    first  = I_GAIN_FOOT_SKILL
+    third  = HE_GAINS_FOOT_SKILL
+    global = HE_GAINS_FOOT_SKILL
+}
+
+add_boobs_skill_desc = {
+    first  = I_GAIN_BOOBS_SKILL
+    third  = HE_GAINS_BOOBS_SKILL
+    global = HE_GAINS_BOOBS_SKILL
+}
+
+add_vagina_skill_desc = {
+    first  = I_GAIN_VAGINA_SKILL
+    third  = HE_GAINS_VAGINA_SKILL
+    global = HE_GAINS_VAGINA_SKILL
+}
+
+##############################################################
+# XP GAINS
+##############################################################
+
+add_ass_xp_desc = {
+    first  = I_GAIN_ASS_XP
+    third  = HE_GAINS_ASS_XP
+    global = HE_GAINS_ASS_XP
+}
+
+add_foot_xp_desc = {
+    first  = I_GAIN_FOOT_XP
+    third  = HE_GAINS_FOOT_XP
+    global = HE_GAINS_FOOT_XP
+}
+
+add_vore_xp_desc = {
+    first  = I_GAIN_VORE_XP
+    third  = HE_GAINS_VORE_XP
+    global = HE_GAINS_VORE_XP
+}
+
+add_boobs_xp_desc = {
+    first  = I_GAIN_BOOBS_XP
+    third  = HE_GAINS_BOOBS_XP
+    global = HE_GAINS_BOOBS_XP
+}
+
+add_vagina_xp_desc = {
+    first  = I_GAIN_VAGINA_XP
+    third  = HE_GAINS_VAGINA_XP
+    global = HE_GA_

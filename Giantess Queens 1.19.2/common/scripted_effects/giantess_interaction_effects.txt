@@ -1,0 +1,115 @@
+﻿##############################################################
+# TORTURE RECIPIENT EFFECT
+##############################################################
+
+# Sets var:stress_change. Does NOT apply stress — caller must handle it.
+giantess_torture_recipient_effect = {
+
+    scope:recipient = {
+
+        ##############################################################
+        # BASE SETUP
+        ##############################################################
+
+        add_character_modifier = {
+            modifier = recently_tortured
+            years = 1
+        }
+
+        set_variable = {
+            name = stress_change
+            value = 1
+        }
+
+        ##############################################################
+        # BUTTCRUSH
+        ##############################################################
+
+        if = {
+            limit = { scope:torture_method = flag:buttcrush }
+
+            change_variable = {
+                name = stress_change
+                multiply = {
+                    value    = scope:actor.var:ass_skill
+                    subtract = scope:recipient.var:ass_skill
+                }
+            }
+
+            add_ass_xp = { CHANGE = medium_xp_gain }
+        }
+
+        ##############################################################
+        # FOOTCRUSH
+        ##############################################################
+
+        if = {
+            limit = { scope:torture_method = flag:footcrush }
+
+            change_variable = {
+                name = stress_change
+                multiply = {
+                    value    = scope:actor.var:foot_skill
+                    subtract = scope:recipient.var:foot_skill
+                }
+            }
+
+            add_foot_xp = { CHANGE = medium_xp_gain }
+        }
+
+        ##############################################################
+        # “KISS” (VORE TRACK)
+        ##############################################################
+
+        if = {
+            limit = { scope:torture_method = flag:kiss }
+
+            change_variable = {
+                name = stress_change
+                multiply = {
+                    value    = scope:actor.var:vore_skill
+                    subtract = scope:recipient.var:vore_skill
+                }
+            }
+
+            add_vore_xp = { CHANGE = medium_xp_gain }
+        }
+
+        ##############################################################
+        # BOOBSQUISH
+        ##############################################################
+
+        if = {
+            limit = { scope:torture_method = flag:boobsquish }
+
+            change_variable = {
+                name = stress_change
+                multiply = {
+                    value    = scope:actor.var:boobs_skill
+                    subtract = scope:recipient.var:boobs_skill
+                }
+            }
+
+            add_boobs_xp = { CHANGE = medium_xp_gain }
+        }
+
+        ##############################################################
+        # FINALIZE VARIABLE
+        ##############################################################
+
+        clamp_variable = {
+            name = stress_change
+            min = 0
+            max = 300
+        }
+
+        ##############################################################
+        # REMOVE BLOCKING FLAG
+        ##############################################################
+
+        if = {
+            limit = { has_character_flag = is_being_tortured }
+            remove_character_flag = is_being_tortured
+        }
+    }
+}

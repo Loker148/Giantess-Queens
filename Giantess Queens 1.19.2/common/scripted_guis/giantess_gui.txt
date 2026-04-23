@@ -1,0 +1,40 @@
+﻿##############################################################
+# GIANTESS — EXECUTION BUTTON (CHARACTER INTERACTION GUI)
+##############################################################
+
+giantess_execute_button = {
+
+    scope = character              # root scope = clicked character
+    saved_scopes = { recipient }   # extra scopes passed to effect
+
+    confirm_title = giantess_execute_button_title
+    confirm_text  = giantess_execute_button_text
+
+    ##############################################################
+    # SHOW BUTTON CONDITIONS
+    ##############################################################
+    is_shown = {
+        scope:recipient = {
+            is_imprisoned_by = ROOT
+            age >= 18
+            NOT = { has_character_flag = is_being_tortured }
+        }
+        has_trait = giantess
+        age >= 16
+    }
+
+    ##############################################################
+    # VALID USE CONDITIONS (ALWAYS ON WHEN SHOWN)
+    ##############################################################
+    is_valid = {
+        always = yes
+    }
+
+    ##############################################################
+    # BUTTON EFFECT
+    ##############################################################
+    effect = {
+        save_scope_as = actor
+        trigger_event = giantess_execution.0003
+    }
+}

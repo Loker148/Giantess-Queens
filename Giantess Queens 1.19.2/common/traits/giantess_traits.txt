@@ -1,0 +1,290 @@
+﻿##############################################################
+# GIANTESS BASE TRAIT
+##############################################################
+
+giantess = {
+    opposites = { giant dwarf }
+
+    index = 701
+
+    prowess  = 100
+    martial  = 20
+    advantage = 50
+    fertility = 0.8
+    health    = 2
+
+    siege_phase_time             = -0.75
+    enemy_hard_casualty_modifier = 0.25
+    raid_speed                   = 1.0
+    dread_baseline_add           = 30
+
+    inherit_chance        = 100
+    child_inheritance_sex = female
+    #genetic = yes
+    physical = yes
+	good = yes
+
+    same_opinion       = 20
+
+    birth           = 0
+    random_creation = 0
+
+    flag = is_naked
+    
+	ruler_designer_cost = 200
+
+    desc = {
+        first_valid = {
+            triggered_desc = {
+                trigger = { NOT = { exists = this } }
+                desc = trait_giantess_desc
+            }
+            desc = trait_giantess_character_desc
+        }
+    }
+
+    triggered_opinion = {
+		parameter = doctrine_giantess_acceptance_demonized
+		opinion_modifier = giantess_demonized
+		ignore_opinion_value_if_same_trait = yes
+	}
+	triggered_opinion = {
+		parameter = doctrine_giantess_shunned
+		opinion_modifier = giantess_shunned
+		ignore_opinion_value_if_same_trait = yes
+	}
+    triggered_opinion = {
+		parameter = doctrine_giantess_acceptance_worshipped
+		opinion_modifier = giantess_worshipped
+		ignore_opinion_value_if_same_trait = yes
+	}
+}
+
+##############################################################
+# ASS GIANTESS LIFESTYLE TIERS
+##############################################################
+
+ass_giantess_1 = {
+    index = 702
+    category = lifestyle
+
+    dread_baseline_add = 10
+    vassal_opinion     = 5
+
+    group = ass_giantess
+    level = 1
+
+    desc = {
+        first_valid = {
+            triggered_desc = {
+                trigger = { NOT = { exists = this } }
+                desc = trait_ass_giantess_1
+            }
+            desc = trait_ass_giantess_1_character_desc
+        }
+    }
+}
+
+ass_giantess_2 = {
+    index = 703
+    category = lifestyle
+
+    dread_baseline_add = 20
+    vassal_opinion     = 10
+
+    group = ass_giantess
+    level = 2
+
+    desc = {
+        first_valid = {
+            triggered_desc = {
+                trigger = { NOT = { exists = this } }
+                desc = trait_ass_giantess_2
+            }
+            desc = trait_ass_giantess_2_character_desc
+        }
+    }
+}
+
+ass_giantess_3 = {
+    index = 704
+    category = lifestyle
+
+    dread_baseline_add = 30
+    vassal_opinion     = 15
+
+    group = ass_giantess
+    level = 3
+
+    desc = {
+        first_valid = {
+            triggered_desc = {
+                trigger = { NOT = { exists = this } }
+                desc = trait_ass_giantess_3
+            }
+            desc = trait_ass_giantess_3_character_desc
+        }
+    }
+}
+
+##############################################################
+# VORE GIANTESS LIFESTYLE TIERS
+##############################################################
+
+vore_giantess_1 = {
+    index = 705
+    category = lifestyle
+
+    dread_baseline_add = 10
+    vassal_opinion     = 5
+
+    group = vore_giantess
+    level = 1
+
+    desc = {
+        first_valid = {
+            triggered_desc = {
+                trigger = { NOT = { exists = this } }
+                desc = trait_vore_giantess_1
+            }
+            desc = trait_vore_giantess_1_character_desc
+        }
+    }
+}
+
+vore_giantess_2 = {
+    index = 706
+    category = lifestyle
+
+    dread_baseline_add = 20
+    vassal_opinion     = 10
+
+    group = vore_giantess
+    level = 2
+
+    desc = {
+        first_valid = {
+            triggered_desc = {
+                trigger = { NOT = { exists = this } }
+                desc = trait_vore_giantess_2
+            }
+            desc = trait_vore_giantess_2_character_desc
+        }
+    }
+}
+
+vore_giantess_3 = {
+    index = 707
+    category = lifestyle
+
+    dread_baseline_add = 30
+    vassal_opinion     = 15
+
+    group = vore_giantess
+    level = 3
+
+    desc = {
+        first_valid = {
+            triggered_desc = {
+                trigger = { NOT = { exists = this } }
+                desc = trait_vore_giantess_3
+            }
+            desc = trait_vore_giantess_3_character_desc
+        }
+    }
+}
+
+##############################################################
+# FEET GIANTESS LIFESTYLE TIERS
+##############################################################
+
+feet_giantess_1 = {
+    index = 709
+    category = lifestyle
+
+    dread_baseline_add = 10
+    vassal_opinion     = 5
+
+    group = feet_giantess
+    level = 1
+
+    desc = {
+        first_valid = {
+            triggered_desc = {
+                trigger = { NOT = { exists = this } }
+                desc = trait_feet_giantess_1
+            }
+            desc = trait_feet_giantess_1_character_desc
+        }
+    }
+}
+
+feet_giantess_2 = {
+    index = 710
+    category = lifestyle
+
+    dread_baseline_add = 20
+    vassal_opinion     = 10
+
+    group = feet_giantess
+    level = 2
+
+    desc = {
+        first_valid = {
+            triggered_desc = {
+                trigger = { NOT = { exists = this } }
+                desc = trait_feet_giantess_2
+            }
+            desc = trait_feet_giantess_2_character_desc
+        }
+    }
+}
+
+feet_giantess_3 = {
+    index = 711
+    category = lifestyle
+
+    dread_baseline_add = 30
+    vassal_opinion     = 15
+
+    group = feet_giantess
+    level = 3
+
+    desc = {
+        first_valid = {
+            triggered_desc = {
+                trigger = { NOT = { exists = this } }
+                desc = trait_feet_giantess_3
+            }
+            desc = trait_feet_giantess_3_character_desc
+        }
+    }
+}
+
+##############################################################
+# GIANTESS SEX SLAVE
+##############################################################
+
+giantess_sex_slave = {
+    index = 708
+
+    liege_opinion = 20
+    same_opinion  = 20
+
+    inherit_chance = 0
+    genetic = no
+    physical = no
+
+    birth           = 0
+    random_creation = 0
+
+    desc = {
+        first_valid = {
+            triggered_desc = {
+                trigger = { NOT = { exists = this } }
+                desc = trait_giantess_sex_slave_desc
+            }
+            desc = trait_giantess_sex_slave_character_desc
+        }
+    }
+}

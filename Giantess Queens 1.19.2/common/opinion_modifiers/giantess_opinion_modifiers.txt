@@ -1,0 +1,125 @@
+﻿##############################################################
+# TINY → GIANTESS RELATIONSHIP OPINIONS
+##############################################################
+
+tiny_refused_sex = {
+    opinion = -20
+    decaying = yes
+    stacking = yes
+    years = 10
+}
+
+tiny_refused_sex_crime = {
+    opinion = -50
+    decaying = yes
+    stacking = yes
+    years = 20
+    imprisonment_reason = yes
+    execute_reason = yes
+    banish_reason = yes
+}
+
+tiny_satisfied_giantess = {
+    opinion = 30
+    decaying = yes
+    stacking = yes
+    years = 10
+}
+
+tiny_unsatisfied_giantess = {
+    opinion = -10
+    decaying = yes
+    stacking = yes
+    years = 5
+}
+
+tiny_recently_had_sex = {
+    opinion = 5
+    decaying = yes
+    years = 5
+}
+
+##############################################################
+# FEAST OPINIONS
+##############################################################
+
+giantess_hosted_successful_feast = {
+    opinion = 30
+    decaying = yes
+    stacking = yes
+    years = 10
+}
+
+giantess_vassal_neglected_feast = {
+    opinion = -30
+    decaying = yes
+    stacking = yes
+    years = 15
+}
+
+##############################################################
+# LOYALTY / DISLOYALTY
+##############################################################
+
+tiny_loyal = {
+    opinion = 300
+    decaying = yes
+    stacking = yes
+    monthly_change = 1
+}
+
+tiny_disloyal = {
+    opinion = -100
+    years = 10
+    imprisonment_reason = yes
+}
+
+##############################################################
+# REWARD / MISC
+##############################################################
+
+tiny_received_minor_reward = {
+    opinion = 30
+    decaying = yes
+    stacking = yes
+    monthly_change = 0.5
+}
+
+##############################################################
+# UNBIRTH OPINION
+##############################################################
+
+refused_unbirth = {
+    opinion = -50
+    imprisonment_reason = yes
+    execute_reason = yes
+    banish_reason = yes
+    revoke_title_reason = yes
+    # stacking = yes   # commented out — Paradox warns against stacking crime reasons
+}
+
+##############################################################
+# DOCTRINE OPINION MODIFIERS
+##############################################################
+
+giantess_demonized = {
+    opinion = -50
+    imprisonment_reason = yes
+    execute_reason = yes
+    banish_reason = yes
+    revoke_title_reason = yes
+}
+giantess_shunned = {
+    opinion = -35
+    imprisonment_reason = yes
+    execute_reason = yes
+    banish_reason = yes
+    revoke_title_reason = yes
+}
+giantess_worshipped = {
+    opinion = 30
+    imprisonment_reason = yes
+    execute_reason = yes
+    banish_reason = yes
+    revoke_title_reason = yes
+}

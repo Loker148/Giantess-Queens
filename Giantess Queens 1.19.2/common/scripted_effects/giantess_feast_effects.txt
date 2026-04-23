@@ -1,0 +1,208 @@
+﻿giantess_feast_eat_prisoner_effect = {
+	if = {
+		limit = {
+			exists = scope:activity
+			scope:host = {
+				any_prisoner = {
+					NOT = { has_character_flag = will_be_eaten }
+					NOT = { has_trait = giantess }
+					age >= 30
+					count > 0
+				}
+			}
+		}
+		#Eat someone
+		scope:host = {
+			random_prisoner = {
+				limit = { 
+					NOT = { 
+						has_character_flag = will_be_eaten 
+						has_trait = giantess
+					}
+					age >= 30
+			 	}
+				add_character_flag = {
+					flag = will_be_eaten
+					days = 100
+				}
+				save_scope_as = tiny
+			}
+		}
+		trigger_event = { id = giantess_feast.0005 days = 5 }
+	}
+	else = {
+		scope:host = {
+			if = {
+				limit = { NOT = { has_character_flag =  feast_ending } }
+				add_character_flag = {
+					flag = feast_ending
+					days = 20
+				}
+				trigger_event = giantess_feast.9000
+			}
+		}
+	}
+}
+
+giantess_feast_end_guest_effect = {
+	stress_impact = {
+		base = medium_stress_loss
+		gluttonous = medium_stress_impact_loss
+		gregarious = medium_stress_impact_loss
+		shy = medium_stress_impact_gain
+	}
+}
+
+giantess_hosted_successful_feast_effect = {
+	add_prestige = medium_prestige_gain
+	scope:activity = {
+		every_attending_character = {
+			limit = { NOT = { this = root } }
+			custom = every_guest_scope_tt
+			add_opinion = {
+				target = root
+				modifier = giantess_hosted_successful_feast
+			}
+		}
+	}
+}
+
+giantess_send_peasants_feast_effect = {
+	if = {
+		limit = {
+			NOT = { exists = local_var:num_of_peasants }
+		}
+		set_local_variable = {
+			name = num_of_peasants
+			value = 1
+		}
+	} 
+	else = {
+		change_local_variable = {
+			name = num_of_peasants
+			add = 1
+		}
+	}
+	if = {
+		limit = { # Check the number of peasants sent
+			local_var:num_of_peasants <= giantess_feast_vassal_duty
+		}
+		giantess_send_peasant_feast_effect = yes
+	}
+}
+
+giantess_send_peasant_feast_effect = {
+	create_character = {
+		age = { 30 50 }
+		random_traits = yes
+		gender_female_chance = 30
+		dynasty = none
+		faith = faith:macrosuprematism
+		culture = this.culture
+		location = root.capital_province
+		save_scope_as = peasant1
+	}
+	scope:giantess = {
+		imprison = { 
+			target = scope:peasant1
+			type = house_arrest
+		}
+	}
+	giantess_send_peasants_feast_effect = yes
+}
+
+giantess_send_prisoners_feast_effect = {
+	if = {
+		limit = {
+			NOT = { exists = local_var:num_of_prisoners }
+		}
+		set_local_variable = {
+			name = num_of_prisoners
+			value = 1
+		}
+	} 
+	else = {
+		change_local_variable = {
+			name = num_of_prisoners
+			add = 1
+		}
+	}
+	if = {
+		limit = { # Check the number of peasants sent
+			local_var:num_of_prisoners <= giantess_feast_vassal_duty
+		}
+		giantess_send_prisoner_feast_effect = yes
+	}
+}
+
+giantess_send_prisoner_feast_effect = {
+	random_prisoner = {
+		limit = { 
+			NOT = { 
+				has_trait = giantess
+			}
+			age >= 18
+	 	}
+		save_scope_as = prisoner
+		scope:giantess = {
+			imprison = { 
+				target = scope:prisoner
+				type = house_arrest
+			}
+		}
+	}
+	giantess_send_prisoners_feast_effect = yes
+}
+
+guest_send_peasant_feast_effect = {
+	create_character = {
+		age = { 30 50 }
+		random_traits = yes
+		gender_female_chance = 30
+		dynasty = none
+		faith = faith:macrosuprematism
+		culture = this.culture
+		location = root.capital_province
+		save_scope_as = peasant1
+	}
+		create_character = {
+		age = { 30 50 }
+		random_traits = yes
+		gender_female_chance = 30
+		dynasty = none
+		faith = faith:macrosuprematism
+		culture = this.culture
+		location = root.capital_province
+		save_scope_as = peasant2
+	}
+		create_character = {
+		age = { 30 50 }
+		random_traits = yes
+		gender_female_chance = 30
+		dynasty = none
+		faith = faith:macrosuprematism
+		culture = this.culture
+		location = root.capital_province
+		save_scope_as = peasant3
+	}
+		create_character = {
+		age = { 30 50 }
+		random_traits = yes
+		gender_female_chance = 30
+		dynasty = none
+		faith = faith:macrosuprematism
+		culture = this.culture
+		location = root.capital_province
+		save_scope_as = peasant4
+	}
+	scope:giantess = {
+		imprison = { 
+			target = scope:peasant1
+			target = scope:peasant2
+			target = scope:peasant3
+			target = scope:peasant4
+			
+			type = house_arrest
+		}
+	}
+}

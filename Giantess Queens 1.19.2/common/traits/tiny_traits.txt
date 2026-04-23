@@ -1,0 +1,134 @@
+﻿##############################################################
+# CORE TINY TRAIT
+##############################################################
+
+tiny = {
+    opposites = {                   # fixed spelling (was oppposites)
+        giant
+        giantess
+    }
+
+    index = 801
+
+    prowess  = -20
+    martial  = -10
+    fertility = -0.2
+    health    = -1
+
+    dread_baseline_add = -20
+
+    county_opinion_add = -10
+    same_opinion       = -10
+    vassal_opinion     = -10
+
+    birth            = 0
+    random_creation  = 0
+    inherit_chance   = 100
+    child_inheritance_sex = both
+    physical = yes
+
+    desc = {
+        first_valid = {
+            triggered_desc = {
+                trigger = { NOT = { exists = this } }
+                desc = trait_tiny_desc
+            }
+            desc = trait_tiny_character_desc
+        }
+    }
+}
+
+##############################################################
+# TINY PREY — LIFESTYLE TIERS
+##############################################################
+
+tiny_prey_1 = {
+    index = 802
+    category = lifestyle
+
+    dread_baseline_add = -5
+    vassal_opinion     = -5
+
+    group = tiny_prey
+    level = 1
+
+    desc = {
+        first_valid = {
+            triggered_desc = {
+                trigger = { NOT = { exists = this } }
+                desc = trait_tiny_prey_1
+            }
+            desc = trait_tiny_prey_1_character_desc
+        }
+    }
+}
+
+tiny_prey_2 = {
+    index = 803
+    category = lifestyle
+
+    dread_baseline_add = -10
+    vassal_opinion     = -10
+
+    group = tiny_prey
+    level = 2
+
+    desc = {
+        first_valid = {
+            triggered_desc = {
+                trigger = { NOT = { exists = this } }
+                desc = trait_tiny_prey_2
+            }
+            desc = trait_tiny_prey_2_character_desc
+        }
+    }
+}
+
+tiny_prey_3 = {
+    index = 804
+    category = lifestyle
+
+    dread_baseline_add = -15
+    vassal_opinion     = -15
+
+    group = tiny_prey
+    level = 3
+
+    desc = {
+        first_valid = {
+            triggered_desc = {
+                trigger = { NOT = { exists = this } }
+                desc = trait_tiny_prey_3
+            }
+            desc = trait_tiny_prey_3_character_desc
+        }
+    }
+}
+
+##############################################################
+# TINY SLAVE
+##############################################################
+
+tiny_slave = {
+    index = 805
+
+    same_opinion  = -20
+    liege_opinion = 30
+
+    inherit_chance = 0
+    genetic = no
+    physical = no
+
+    birth           = 0
+    random_creation = 0
+
+    desc = {
+        first_valid = {
+            triggered_desc = {
+                trigger = { NOT = { exists = this } }
+                desc = trait_tiny_slave_desc
+            }
+            desc = trait_tiny_slave_character_desc
+        }
+    }
+}

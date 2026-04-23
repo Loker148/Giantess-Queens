@@ -1,0 +1,293 @@
+﻿##############################################################
+# GIANTESS — EXECUTE PRISONER EFFECT
+##############################################################
+
+giantess_execute_prisoner_effect = {
+
+    $VICTIM$ = { save_scope_as = victim }
+    $EXECUTIONER$ = { save_scope_as = executioner }
+
+    ##############################################################
+    # DREAD GAIN
+    ##############################################################
+
+    scope:executioner = {
+
+        # High-tier victims (kingdom+)
+        if = {
+            limit = {
+                OR = {
+                    is_close_family_of = scope:victim
+                    scope:victim = {
+                        tier_or_related_liege_tier_greater_or_equal_trigger = { TIER = tier_kingdom }
+                    }
+                }
+            }
+            add_dread = major_dread_gain
+        }
+
+        # Medium (duke/count)
+        else_if = {
+            limit = {
+                OR = {
+                    scope:victim = {
+                        tier_or_related_liege_tier_equal_trigger = { TIER = tier_duchy }
+                    }
+                    scope:victim = {
+                        tier_or_related_liege_tier_equal_trigger = { TIER = tier_county }
+                    }
+                }
+            }
+            add_dread = medium_dread_gain
+        }
+
+        # Everyone else
+        else = {
+            add_dread = minor_dread_gain
+        }
+
+        ##############################################################
+        # PIETY GAIN / LOSS
+        ##############################################################
+
+        # Human sacrifice active
+        if = {
+            limit = {
+                faith = { has_doctrine_parameter = human_sacrifice_active }
+            }
+
+            scope:victim = {
+                if = {
+                    limit = {
+                        OR = {
+                            highest_held_title_tier >= tier_empire
+                            any_close_family_member = { highest_held_title_tier >= tier_empire }
+                        }
+                    }
+                    scope:executioner = { add_piety = massive_piety_gain }
+                }
+                else_if = {
+                    limit = {
+                        OR = {
+                            highest_held_title_tier >= tier_kingdom
+                            any_close_family_member = { highest_held_title_tier >= tier_kingdom }
+                        }
+                    }
+                    scope:executioner = { add_piety = major_piety_gain }
+                }
+                else_if = {
+                    limit = {
+                        OR = {
+                            highest_held_title_tier >= tier_duchy
+                            any_close_family_member = { highest_held_title_tier >= tier_duchy }
+                        }
+                    }
+                    scope:executioner = { add_piety = medium_piety_gain }
+                }
+                else_if = {
+                    limit = {
+                        OR = {
+                            is_ruler = yes
+                            is_lowborn = no
+                            any_close_family_member = { is_ruler = yes }
+                        }
+                    }
+                    scope:executioner = { add_piety = minor_piety_gain }
+                }
+                else = {
+                    scope:executioner = { add_piety = miniscule_piety_gain }
+                }
+            }
+        }
+
+        # Macrosuprematism tenet → gain piety
+        else_if = {
+            limit = {
+                scope:executioner.faith = { has_doctrine = tenet_macrosuprematism }
+            }
+            add_piety = minor_piety_gain
+        }
+
+        # General piety loss (hostile acts)
+        else_if = {
+            limit = {
+                faith = scope:victim.faith
+                NOR = {
+                    has_perk = divine_retribution_perk
+                    #faith = faith:macrocentrism   # commented — obsolete faith
+                }
+            }
+            add_piety = medium_piety_loss
+        }
+
+        ##############################################################
+        # STRESS CHANGES
+        ##############################################################
+
+        # Sadistic
+        if = {
+            limit = { has_trait = sadistic }
+            stress_impact = {
+                sadistic = medium_stress_impact_loss
+            }
+        }
+
+        # Zealous killing infidels
+        if = {
+            limit = {
+                has_trait = zealous
+                NOT = { scope:executioner.faith = scope:victim.faith }
+            }
+            stress_impact = {
+                zealous = minor_stress_impact_loss
+            }
+        }
+
+        # Rival executed
+        if = {
+            limit = { has_relation_rival = scope:victim }
+
+            add_prestige = medium_prestige_gain
+
+            if = {
+                limit = {
+                    NOR = { has_trait = vengeful has_trait = forgiving }
+                }
+                add_stress = major_stress_loss
+            }
+            else = {
+                stress_impact = {
+                    vengeful  = massive_stress_impact_loss
+                    forgiving = 0
+                }
+            }
+        }
+
+        ##############################################################
+        # KINSLAYING HANDLING
+        ##############################################################
+
+        add_kinslayer_trait_or_nothing_effect = { VICTIM = scope:victim }
+
+        ##############################################################
+        # TYRANNY & PERMISSIONS
+        ##############################################################
+
+        # Has execute reason & valid recipient
+        if = {
+            limit = {
+                exists = scope:recipient
+                has_execute_reason = scope:victim
+            }
+            custom_tooltip = IS_ALLOWED_TO_EXECUTE_DESC
+        }
+
+        # No recipient or special exemptions
+        else_if = {
+            limit = {
+                OR = {
+                    AND = {
+                        has_execute_reason = scope:victim
+                        NOT = { exists = scope:recipient }
+                    }
+                    is_at_war_with = scope:victim
+                    scope:executioner.faith = { has_doctrine = tenet_macrosuprematism }
+                }
+            }
+            custom_tooltip = IS_ALLOWED_TO_EXECUTE_NO_RECIPIENT_DESC
+        }
+
+        # Hostile religion execution reduction
+        else_if = {
+            limit = {
+                scope:victim = {
+                    OR = {
+                        is_landed = no
+                        NOT = { is_of_major_or_minor_interest_trigger = { CHARACTER = scope:executioner } }
+                    }
+                }
+                scope:executioner.faith = {
+                    faith_hostility_level = {
+                        target = scope:victim.faith
+                        value > faith_astray_level
+                    }
+                }
+            }
+            custom_tooltip = IS_ALLOWED_TO_EXECUTE_HOSTILE_RELIGION_DESC
+        }
+
+        # Tyranny against liege or above
+        else_if = {
+            limit = {
+                scope:victim = { target_is_liege_or_above = prev }
+            }
+            add_tyranny = execution_tyranny_gain
+
+            # Left commented—obsolete doctrine call, preserved for reference
+            #if = {
+            #   limit = { scope:executioner.faith = { has_doctrine = tenet_macrocentrism } }
+            #   add_tyranny = macrocentrism_execute_tyranny_gain
+            #}
+        }
+
+        # Guest execution negative opinions
+        else_if = {
+            limit = {
+                scope:victim = {
+                    NOT = { exists = liege }
+                    exists = host
+                }
+                any_pool_guest = { count > 0 }
+            }
+
+            every_pool_guest = {
+                limit = {
+                    NOR = {
+                        this = scope:victim
+                        is_in_list = guest_list
+                    }
+                }
+                add_to_temporary_list = guest_list
+            }
+
+            every_in_list = {
+                list = guest_list
+                custom = all_your_guests
+                add_opinion = {
+                    target = prev
+                    modifier = executed_guest_modifier
+                }
+            }
+        }
+
+        # Regular murder opinion
+        else = {
+            if = {
+                limit = { exists = scope:victim.liege }
+                scope:victim.liege = {
+                    add_opinion = {
+                        target = prev
+                        modifier = executed_my_countryman_modifier
+                    }
+                }
+            }
+        }
+    }
+
+    ##############################################################
+    # OPINION EFFECT (VANILLA HANDLER)
+    ##############################################################
+
+    execute_opinion_effect = { VICTIM = scope:victim EXECUTIONER = scope:executioner }
+
+    ##############################################################
+    # HOOK INTO GIANTESS DEATH SYSTEM
+    ##############################################################
+
+    hidden_effect = {
+        giantess_death_effect = {
+            TINY = scope:victim
+            GIANTESS = scope:executioner
+        }
+    }
+}
