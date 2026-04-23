@@ -1,0 +1,5 @@
+﻿l_german:
+  GIANTESS_FLOWERY_WAR_NAME:0 "Riesinnen-Blumenkrieg"
+  GIANTESS_FLOWERY_WAR_WAR_NAME_BASE:0 "[ATTACKER.GetPrimaryTitle.GetAdjective][DEFENDER.GetPrimaryTitle.GetName]"
+  #GIANTESS_FLOWERY_WAR_WAR_NAME_BASE:0
+  GIANTESS_FLOWERY_WAR_CB_NAME:0 "Riesinnen-Blumenkrieg"

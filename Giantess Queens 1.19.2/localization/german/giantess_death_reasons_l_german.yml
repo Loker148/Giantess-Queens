@@ -1,0 +1,16 @@
+﻿l_german:
+
+ death_swallow:0 "wurde von einer Riesin verdaut"
+ death_swallow_killer:0 "starb in [TARGET_CHARACTER.GetUINamePossessive] hungrigen Magen"
+ death_ass:0 "wurde unter einem Arsch zerdrückt"
+ death_ass_killer:0 "wurde unter [TARGET_CHARACTER.GetUINamePossessive] gigantischen Arsch zerdrückt"
+ death_unaware_ass:0 "wurde versehentlich unter einem Arsch zerdrückt"
+ death_unaware_ass_killer:0 "wurde versehentlich unter [TARGET_CHARACTER.GetUINamePossessive] gigantischen Arsch zerdrückt"
+ death_shoecrush:0 "wurde unter einem Schuh zerdrückt"
+ death_shoecrush_killer:0 "wurde wie ein Käfer unter [TARGET_CHARACTER.GetUINamePossessive] massiven Schuh zerdrückt"
+ death_unaware_shoecrush:0 "wurde versehentlich unter einem Schuh zerdrückt"
+ death_unaware_shoecrush_killer:0 "wurde versehentlich unter [TARGET_CHARACTER.GetUINamePossessive] Schuh zerdrückt"
+ death_barefoot_crush:0 "wurde unter einem Fuß zerdrückt"
+ death_barefoot_crush_killer:0 "wurde wie ein Käfer unter [TARGET_CHARACTER.GetUINamePossessive] massiven Fuß zerdrückt"
+ death_boobs_unaware:0 "wurde versehentlich durch Brüste erstickt"
+ death_boobs_unaware_killer:0 "wurde versehentlich von [TARGET_CHARACTER.GetUINamePossessive] weichen Brüsten erstickt"

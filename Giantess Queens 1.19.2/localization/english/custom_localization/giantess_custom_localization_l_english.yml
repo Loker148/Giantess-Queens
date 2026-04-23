@@ -1,0 +1,13 @@
+﻿l_english:
+
+ ASS:0 "Ass"
+ VORE:0 "Vore"
+ FOOT:0 "Foot"
+ BOOBS:0 "Boobs"
+ VAGINA:0 "Vagina"
+ NO_SPECIALIZATION:0 "No specialization"
+ GENTLE_GIANTESS:0 "She is a gentle giantess"
+ EVIL_GIANTESS:0 "She is an evil giantess"
+ NEUTRAL_GIANTESS:0 "She is a neutral giantess"
+ GIANTESS_DESCRIPTION:0 "[ROOT.Char.Custom('GiantessAlignment')]. She specializes in [ROOT.Char.Custom('GiantessPreference')]. Her blood power is [ROOT.Var('giantess_blood_power').GetValue].\n\n Ass skill — [ROOT.Var('ass_skill').GetValue]. Foot skill — [ROOT.Var('foot_skill').GetValue]. Vore skill — [ROOT.Var('vore_skill').GetValue]. Boobs skill — [ROOT.Var('boobs_skill').GetValue]. Vagina skill — [ROOT.Var('vagina_skill').GetValue].\n\nShe has [ROOT.Var('giantess_mana').GetValue] mana points. She has [ROOT.Var('slaves_number').GetValue] slaves."
+ TINY_DESCRIPTION:0 "[ROOT.Char.GetFirstName] specializes in [ROOT.Char.Custom('GiantessPreference')].\n\n Ass skill — [ROOT.Var('ass_skill').GetValue]. Foot skill — [ROOT.Var('foot_skill').GetValue]. Vore skill — [ROOT.Var('vore_skill').GetValue]. Boobs skill — [ROOT.Var('boobs_skill').GetValue]. Vagina skill — [ROOT.Var('vagina_skill').GetValue].\n\n[ROOT.Char.GetFirstName] has [ROOT.Var('tiny_loyaty').GetValue] loyalty points."
