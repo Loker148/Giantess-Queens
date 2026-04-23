@@ -1,7 +1,0 @@
-﻿l_english:
- giantess_FLOWERY_WAR_NAME:0 "Giantess flower war"
- GIANTESS_FLOWERY_WAR_WAR_NAME_BASE:0 "[ATTACKER.GetPrimaryTitle.GetAdjective][DEFENDER.GetPrimaryTitle.GetName]"
- #GIANTESS_FLOWERY_WAR_WAR_NAME_BASE:0 "Giantess flower war"
- GIANTESS_FLOWERY_WAR_CB_NAME:0 "Giantess flower war"
- flowery_war_cb_white_peace_desc:0 "The status quo is enacted. The forces of [ATTACKER.GetPrimaryTitle.GetAdjective] haven't been able to beat decisively beat their enemies, forcing a stalemate. \n\n  [DEFENDER.GetPrimaryTitle.GetName] can take a breath of relief, despite not being able to bring ruin to [DEFENDER.getHimHer] enemies."
- flowery_war_cb_defeat_desc:0 "2"
