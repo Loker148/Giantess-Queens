@@ -14,6 +14,8 @@
  giantess_go_to_the_temple_confirm:0 "To the temple I go!"
  host_giantess_feast_decision:0 "Hold giantess feast"
  host_giantess_feast_decision_desc:0 "Hold a feast for my fellow giantesses and feed them my prisoners. My villages will send some people as food, and all my tiny vassals will have to contribute as well. It's their duty to feed their mistresses."
+ 
+ activity_giantess_feast_host_desc:0 "\n\nMay increase your vassals' [opinion|E] of you \nYour [stress|E] may reduce"
  host_giantess_feast_decision_confirm:0 "Invite the girls here!"
  host_giantess_feast_decision_tooltip:0 "Start the party"
  I_HAVE_TEN_PRISONERS_FEAST:0 "I have at least 10 adult tiny prisoners."
