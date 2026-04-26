@@ -402,12 +402,7 @@ giantess_feast.1000 = {
 		tiny_loyalty_change = { CHANGE = minor_loyalty_gain }
 		if = {
 			limit = {
-				faith = {
-					OR = {
-						has_doctrine = tenet_macrophilitism
-						has_doctrine = tenet_macrosuprematism
-					}
-				}
+				faith = { has_doctrine_parameter = giantess_worshipped }
 			}
 			add_piety = medium_piety_gain
 		}
@@ -426,12 +421,7 @@ giantess_feast.1000 = {
 		ai_chance = {
 			base = 10
 			modifier = {
-				faith = {
-					OR = {
-						has_doctrine = tenet_macrophilitism
-						has_doctrine = tenet_macrosuprematism
-					}
-				}
+				faith = { has_doctrine_parameter = giantess_worshipped }
 				add = 100
 			}
 			opinion_modifier = {
@@ -453,12 +443,7 @@ giantess_feast.1000 = {
 		tiny_loyalty_change = { CHANGE = minor_loyalty_gain }
 		if = {
 			limit = {
-				faith = {
-					OR = {
-						has_doctrine = tenet_macrophilitism
-						has_doctrine = tenet_macrosuprematism
-					}
-				}
+				faith = { has_doctrine_parameter = giantess_worshipped }
 			}
 			add_piety = medium_piety_gain
 		}
@@ -473,12 +458,7 @@ giantess_feast.1000 = {
 		ai_chance = {
 			base = 10
 			modifier = {
-				faith = {
-					OR = {
-						has_doctrine = tenet_macrophilitism
-						has_doctrine = tenet_macrosuprematism
-					}
-				}
+				faith = { has_doctrine_parameter = giantess_worshipped }
 				add = 100
 			}
 			opinion_modifier = {
@@ -509,12 +489,7 @@ giantess_feast.1000 = {
 		}
 		if = {
 			limit = {
-				faith = {
-					OR = {
-						has_doctrine = tenet_macrophilitism
-						has_doctrine = tenet_macrosuprematism
-					}
-				}
+				faith = { has_doctrine_parameter = giantess_worshipped }
 			}
 			add_piety = major_piety_gain
 		}
@@ -529,17 +504,15 @@ giantess_feast.1000 = {
 		ai_chance = {
 			base = 0
 			modifier = {
-				faith = {
-					OR = {
-						has_doctrine = tenet_macrophilitism
-						has_doctrine = tenet_macrosuprematism
-					}
-				}
+				faith = { has_doctrine_parameter = giantess_worshipped }
 				add = 20
 			}
 			modifier = {
-				faith = {
-					has_doctrine = tenet_macrosuprematism
+				faith = { 
+					AND = {
+						has_doctrine_parameter = giantess_worshipped
+						has_doctrine_parameter = tiny_toys
+					}
 				}
 				add = 100
 			}
@@ -566,11 +539,7 @@ giantess_feast.1000 = {
 		if = {
 			limit = {
 				faith = {
-					OR = {
-						has_doctrine = tenet_macrophilitism
-						has_doctrine = tenet_macrosuprematism
-						has_doctrine = tenet_macrosuprematism
-					}
+					has_doctrine_parameter = giantess_worshipped
 				}
 			}
 			add_piety = major_piety_loss
