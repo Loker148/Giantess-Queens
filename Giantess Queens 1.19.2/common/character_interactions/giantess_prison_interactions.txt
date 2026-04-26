@@ -172,7 +172,7 @@ giantess_execute_prisoner_interaction = {
 						}
 					}
 					scope:actor.faith = {
-						has_doctrine = tenet_macrosuprematism
+						has_doctrine_parameter = giantess_worshipped
 					}
 				}
 			}
@@ -508,7 +508,7 @@ giantess_coerce_prisoner_interaction = {
 						}
 					}
 					scope:actor.faith = {
-						has_doctrine = tenet_macrosuprematism
+						has_doctrine_parameter = giantess_worshipped
 					}
 				}
 			}
