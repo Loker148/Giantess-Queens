@@ -7,6 +7,12 @@ giantess_death_effect = {
     $TINY$ = { save_scope_as = tiny }
     $GIANTESS$ = { save_scope_as = giantess }
 
+    # Add trait for first time
+    if = {
+        limit = { scope:giantess = { NOT = { has_trait = lifestyle_giantess } } }
+        scope:giantess = { add_trait = lifestyle_giantess }
+    }
+
     ##############################################################
     # ASS — AWARE
     ##############################################################
@@ -14,7 +20,14 @@ giantess_death_effect = {
         limit = { scope:tiny = { has_character_flag = execution_ass } }
 
         scope:giantess = {
-            ass_points_gain_effect = { CHANGE = 1 }
+            if = {
+				limit = { has_trait = lifestyle_giantess }
+				add_trait_xp = {
+			    	trait = lifestyle_giantess
+					track = ass
+					value = 5
+				}
+			}
             add_ass_xp = { CHANGE = miniscule_xp_gain }
         }
 
@@ -33,7 +46,14 @@ giantess_death_effect = {
         limit = { scope:tiny = { has_character_flag = unaware_ass } }
 
         scope:giantess = {
-            ass_points_gain_effect = { CHANGE = 1 }
+            if = {
+				limit = { has_trait = lifestyle_giantess }
+				add_trait_xp = {
+			    	trait = lifestyle_giantess
+					track = ass
+					value = 2
+				}
+			}
             add_ass_xp = { CHANGE = miniscule_xp_gain }
         }
 
@@ -52,7 +72,14 @@ giantess_death_effect = {
         limit = { scope:tiny = { has_character_flag = execution_swallow } }
 
         scope:giantess = {
-            vore_points_gain_effect = { CHANGE = 1 }
+            if = {
+				limit = { has_trait = lifestyle_giantess }
+				add_trait_xp = {
+			    	trait = lifestyle_giantess
+					track = vore
+					value = 5
+				}
+			}
             #target_weight_modifier_effect removed (unused)
             add_vore_xp = { CHANGE = miniscule_xp_gain }
         }
@@ -72,7 +99,14 @@ giantess_death_effect = {
         limit = { scope:tiny = { has_character_flag = execution_shoecrush } }
 
         scope:giantess = {
-            feet_points_gain_effect = { CHANGE = 1 }
+            if = {
+				limit = { has_trait = lifestyle_giantess }
+				add_trait_xp = {
+			    	trait = lifestyle_giantess
+					track = feet
+					value = 5
+				}
+			}
             add_foot_xp = { CHANGE = miniscule_xp_gain }
         }
 
@@ -91,7 +125,14 @@ giantess_death_effect = {
         limit = { scope:tiny = { has_character_flag = unaware_shoecrush } }
 
         scope:giantess = {
-            feet_points_gain_effect = { CHANGE = 1 }
+            if = {
+				limit = { has_trait = lifestyle_giantess }
+				add_trait_xp = {
+			    	trait = lifestyle_giantess
+					track = feet
+					value = 2
+				}
+			}
             add_foot_xp = { CHANGE = miniscule_xp_gain }
         }
 
@@ -110,7 +151,14 @@ giantess_death_effect = {
         limit = { scope:tiny = { has_character_flag = death_barefoot_crush } }
 
         scope:giantess = {
-            feet_points_gain_effect = { CHANGE = 1 }
+            if = {
+				limit = { has_trait = lifestyle_giantess }
+				add_trait_xp = {
+			    	trait = lifestyle_giantess
+					track = feet
+					value = 5
+				}
+			}
             add_foot_xp = { CHANGE = miniscule_xp_gain }
         }
 
@@ -129,6 +177,14 @@ giantess_death_effect = {
         limit = { scope:tiny = { has_character_flag = death_boobs_suffocation_unaware } }
 
         scope:giantess = {
+            if = {
+				limit = { has_trait = lifestyle_giantess }
+				add_trait_xp = {
+			    	trait = lifestyle_giantess
+					track = boobs
+					value = 2
+				}
+			}
             add_boobs_xp = { CHANGE = miniscule_xp_gain }
         }
 
@@ -154,6 +210,14 @@ giantess_death_effect = {
             }
             set_pregnancy_gender = female
             add_character_modifier = { modifier = recently_unbirthed years = 5 }
+            if = {
+				limit = { has_trait = lifestyle_giantess }
+				add_trait_xp = {
+			    	trait = lifestyle_giantess
+					track = vagina
+					value = 5
+				}
+			}
             add_vagina_xp = { CHANGE = miniscule_xp_gain }
         }
 
@@ -179,6 +243,14 @@ giantess_death_effect = {
             }
             set_pregnancy_gender = female
             add_character_modifier = { modifier = recently_unbirthed years = 5 }
+            if = {
+				limit = { has_trait = lifestyle_giantess }
+				add_trait_xp = {
+			    	trait = lifestyle_giantess
+					track = vagina
+					value = 5
+				}
+			}
             add_vagina_xp = { CHANGE = miniscule_xp_gain }
         }
 
