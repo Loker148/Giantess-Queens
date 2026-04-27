@@ -61,202 +61,103 @@ giantess = {
 }
 
 ##############################################################
-# ASS GIANTESS LIFESTYLE TIERS
+# GIANTESS LIFESTYLE TIERS
 ##############################################################
 
-ass_giantess_1 = {
-    index = 702
+lifestyle_giantess = {
     category = lifestyle
-
-    dread_baseline_add = 10
-    vassal_opinion     = 5
-
-    group = ass_giantess
-    level = 1
 
     desc = {
         first_valid = {
             triggered_desc = {
                 trigger = { NOT = { exists = this } }
-                desc = trait_ass_giantess_1
+                desc = trait_lifestyle_giantess_desc
             }
-            desc = trait_ass_giantess_1_character_desc
+            desc = trait_lifestyle_giantess_character_desc
         }
     }
-}
 
-ass_giantess_2 = {
-    index = 703
-    category = lifestyle
-
-    dread_baseline_add = 20
-    vassal_opinion     = 10
-
-    group = ass_giantess
-    level = 2
-
-    desc = {
-        first_valid = {
-            triggered_desc = {
-                trigger = { NOT = { exists = this } }
-                desc = trait_ass_giantess_2
+    tracks = {
+        ass = {
+            33 = {
+                dread_baseline_add = 10
+                monthly_prestige = 0.10
             }
-            desc = trait_ass_giantess_2_character_desc
+            66 = {
+                dread_baseline_add = 10
+                monthly_prestige = 0.15
+                martial = 1
+            }
+            100 = {
+                dread_baseline_add = 10
+                monthly_prestige = 0.25
+                martial = 1
+            }
         }
-    }
-}
-
-ass_giantess_3 = {
-    index = 704
-    category = lifestyle
-
-    dread_baseline_add = 30
-    vassal_opinion     = 15
-
-    group = ass_giantess
-    level = 3
-
-    desc = {
-        first_valid = {
-            triggered_desc = {
-                trigger = { NOT = { exists = this } }
-                desc = trait_ass_giantess_3
+        vore = {
+            33 = {
+                dread_baseline_add = 10
+                monthly_prestige = 0.10
             }
-            desc = trait_ass_giantess_3_character_desc
+            66 = {
+                dread_baseline_add = 10
+                monthly_prestige = 0.15
+                martial = 1
+            }
+            100 = {
+                dread_baseline_add = 10
+                monthly_prestige = 0.25
+                martial = 1
+            }
         }
-    }
-}
-
-##############################################################
-# VORE GIANTESS LIFESTYLE TIERS
-##############################################################
-
-vore_giantess_1 = {
-    index = 705
-    category = lifestyle
-
-    dread_baseline_add = 10
-    vassal_opinion     = 5
-
-    group = vore_giantess
-    level = 1
-
-    desc = {
-        first_valid = {
-            triggered_desc = {
-                trigger = { NOT = { exists = this } }
-                desc = trait_vore_giantess_1
+        feet = {
+            33 = {
+                dread_baseline_add = 10
+                monthly_prestige = 0.10
             }
-            desc = trait_vore_giantess_1_character_desc
+            66 = {
+                dread_baseline_add = 10
+                monthly_prestige = 0.15
+                martial = 1
+            }
+            100 = {
+                dread_baseline_add = 10
+                monthly_prestige = 0.25
+                martial = 1
+            }
         }
-    }
-}
-
-vore_giantess_2 = {
-    index = 706
-    category = lifestyle
-
-    dread_baseline_add = 20
-    vassal_opinion     = 10
-
-    group = vore_giantess
-    level = 2
-
-    desc = {
-        first_valid = {
-            triggered_desc = {
-                trigger = { NOT = { exists = this } }
-                desc = trait_vore_giantess_2
+        boobs = {
+            33 = {
+                dread_baseline_add = 10
+                monthly_prestige = 0.10
             }
-            desc = trait_vore_giantess_2_character_desc
+            66 = {
+                dread_baseline_add = 10
+                monthly_prestige = 0.15
+                martial = 1
+            }
+            100 = {
+                dread_baseline_add = 10
+                monthly_prestige = 0.25
+                martial = 1
+            }
         }
-    }
-}
-
-vore_giantess_3 = {
-    index = 707
-    category = lifestyle
-
-    dread_baseline_add = 30
-    vassal_opinion     = 15
-
-    group = vore_giantess
-    level = 3
-
-    desc = {
-        first_valid = {
-            triggered_desc = {
-                trigger = { NOT = { exists = this } }
-                desc = trait_vore_giantess_3
+        vagina = {
+            33 = {
+                dread_baseline_add = 10
+                monthly_prestige = 0.10
+                fertility = 0.05
             }
-            desc = trait_vore_giantess_3_character_desc
-        }
-    }
-}
-
-##############################################################
-# FEET GIANTESS LIFESTYLE TIERS
-##############################################################
-
-feet_giantess_1 = {
-    index = 709
-    category = lifestyle
-
-    dread_baseline_add = 10
-    vassal_opinion     = 5
-
-    group = feet_giantess
-    level = 1
-
-    desc = {
-        first_valid = {
-            triggered_desc = {
-                trigger = { NOT = { exists = this } }
-                desc = trait_feet_giantess_1
+            66 = {
+                dread_baseline_add = 10
+                monthly_prestige = 0.15
+                fertility = 0.10
             }
-            desc = trait_feet_giantess_1_character_desc
-        }
-    }
-}
-
-feet_giantess_2 = {
-    index = 710
-    category = lifestyle
-
-    dread_baseline_add = 20
-    vassal_opinion     = 10
-
-    group = feet_giantess
-    level = 2
-
-    desc = {
-        first_valid = {
-            triggered_desc = {
-                trigger = { NOT = { exists = this } }
-                desc = trait_feet_giantess_2
+            100 = {
+                dread_baseline_add = 10
+                monthly_prestige = 0.25
+                fertility = 0.15
             }
-            desc = trait_feet_giantess_2_character_desc
-        }
-    }
-}
-
-feet_giantess_3 = {
-    index = 711
-    category = lifestyle
-
-    dread_baseline_add = 30
-    vassal_opinion     = 15
-
-    group = feet_giantess
-    level = 3
-
-    desc = {
-        first_valid = {
-            triggered_desc = {
-                trigger = { NOT = { exists = this } }
-                desc = trait_feet_giantess_3
-            }
-            desc = trait_feet_giantess_3_character_desc
         }
     }
 }

@@ -75,9 +75,11 @@ hire_giantess_option = {
                             is_married = no
                             has_trait = giantess
 
-                            OR = {
-                                faith = faith:macrophilitism
-                                faith = faith:macrosuprematism
+                            faith = {
+                                OR = {
+                                    has_doctrine_parameter = giantess_worshipped
+                                    has_doctrine_parameter = giantess_accepted
+                                }
                             }
                         }
                     }
@@ -93,9 +95,11 @@ hire_giantess_option = {
                             is_married = no
                             has_trait = giantess
 
-                            OR = {
-                                faith = faith:macrophilitism
-                                faith = faith:macrosuprematism
+                            faith = {
+                                OR = {
+                                    has_doctrine_parameter = giantess_worshipped
+                                    has_doctrine_parameter = giantess_accepted
+                                }
                             }
                         }
 
@@ -119,9 +123,11 @@ hire_giantess_option = {
                             age <= 55
                             is_married = no
 
-                            OR = {
-                                faith = faith:macrophilitism
-                                faith = faith:macrosuprematism
+                            faith = {
+                                OR = {
+                                    has_doctrine_parameter = giantess_worshipped
+                                    has_doctrine_parameter = giantess_accepted
+                                }
                             }
                         }
                     }
@@ -136,9 +142,11 @@ hire_giantess_option = {
                             age <= 55
                             is_married = no
 
-                            OR = {
-                                faith = faith:macrophilitism
-                                faith = faith:macrosuprematism
+                            faith = {
+                                OR = {
+                                    has_doctrine_parameter = giantess_worshipped
+                                    has_doctrine_parameter = giantess_accepted
+                                }
                             }
                         }
 

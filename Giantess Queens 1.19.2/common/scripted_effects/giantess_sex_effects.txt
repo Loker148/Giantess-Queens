@@ -12,7 +12,12 @@ sex_success_tiny_effect = {
         # Macrophilitism rewards tiny participants
         if = {
             limit = {
-                scope:tiny.faith = { has_doctrine = tenet_macrophilitism }
+                scope:tiny.faith = {
+                    OR = {
+                        has_doctrine_parameter = giantess_worshipped
+                        has_doctrine_parameter = tiny_toys
+                    }
+                }
             }
             add_piety = major_piety_gain
         }
@@ -40,7 +45,12 @@ sex_success_giantess_effect = {
 
         if = {
             limit = {
-                scope:giantess.faith = { has_doctrine = tenet_macrosuprematism }
+                scope:giantess.faith = { 
+                    OR = {
+                        has_doctrine_parameter = giantess_worshipped
+                        has_doctrine_parameter = tiny_toys
+                    }                    
+                }
             }
             add_piety = miniscule_piety_gain
         }
@@ -73,7 +83,12 @@ sex_fail_tiny_effect = {
 
         if = {
             limit = {
-                scope:tiny.faith = { has_doctrine = tenet_macrosuprematism }
+                scope:tiny.faith = {
+                    OR = {
+                        has_doctrine_parameter = giantess_worshipped
+                        has_doctrine_parameter = tiny_toys
+                    } 
+                }
             }
             add_piety = major_piety_loss
         }
@@ -106,7 +121,12 @@ sex_fail_giantess_effect = {
 
         if = {
             limit = {
-                scope:giantess.faith = { has_doctrine = tenet_macrosuprematism }
+                scope:giantess.faith = { 
+                    OR = {
+                        has_doctrine_parameter = giantess_worshipped
+                        has_doctrine_parameter = tiny_toys
+                    }                    
+                }
             }
             add_piety = minor_piety_loss
         }
@@ -114,7 +134,12 @@ sex_fail_giantess_effect = {
         # Duplicate doctrine block removed (would have added medium loss too)
         #if = {
         #    limit = {
-        #        scope:giantess.faith = { has_doctrine = tenet_macrosuprematism }
+        #        scope:giantess.faith = {
+        #           OR = {
+        #               has_doctrine_parameter = giantess_worshipped
+        #               has_doctrine_parameter = tiny_toys
+        #           }                 
+        #       }
         #    }
         #    add_piety = medium_piety_loss
         #}
@@ -146,9 +171,25 @@ sex_fail_kill_giantess_effect = {
 
         if = {
             limit = {
-                scope:giantess.faith = { has_doctrine = tenet_macrosuprematism }
+                scope:giantess.faith = {
+                    AND = {
+                        has_doctrine_parameter = giantess_worshipped
+                        has_doctrine_parameter = tiny_toys
+                    }
+                }
             }
             add_piety = miniscule_piety_gain
+        }
+        else_if = {
+            limit = {
+                scope:giantess.faith = {
+                    OR = {
+                        has_doctrine_parameter = tiny_full_rights
+                        has_doctrine_parameter = tiny_superior
+                    }
+                }
+            }
+            add_piety = minor_piety_loss
         }
     }
 }
@@ -177,9 +218,25 @@ sex_died_giantess_effect = {
 
         if = {
             limit = {
-                scope:giantess.faith = { has_doctrine = tenet_macrosuprematism }
+                scope:giantess.faith = { 
+                    AND = {
+                        has_doctrine_parameter = giantess_worshipped
+                        has_doctrine_parameter = tiny_toys
+                    }
+                }
             }
             add_piety = miniscule_piety_gain
+        }
+        else_if = {
+            limit = {
+                scope:giantess.faith = {
+                    OR = {
+                        has_doctrine_parameter = tiny_full_rights
+                        has_doctrine_parameter = tiny_superior
+                    }
+                }
+            }
+            add_piety = minor_piety_loss
         }
     }
 }

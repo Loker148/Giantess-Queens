@@ -107,9 +107,7 @@ giantess_sex.0003 = {
 		first_valid = {
 			triggered_desc = {
 				trigger = {
-					faith = {
-						has_doctrine = tenet_macrosuprematism
-					}
+					faith = { has_doctrine_parameter = giantess_worshipped }
 				}
 				desc = giantess_sex.0003.criminal
 			}
@@ -143,9 +141,7 @@ giantess_sex.0003 = {
 		}
 		if = {
 			limit = {
-				scope:giantess.faith = {
-					has_doctrine = tenet_macrosuprematism
-				}
+				scope:giantess.faith = { has_doctrine_parameter = giantess_worshipped }
 			}
 			add_opinion = {
 				target = scope:tiny

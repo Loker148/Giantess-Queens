@@ -100,10 +100,15 @@ giantess_execute_prisoner_effect = {
             }
         }
 
-        # Macrosuprematism tenet → gain piety
+        # Giantesses are superior → gain piety
         else_if = {
             limit = {
-                scope:executioner.faith = { has_doctrine = tenet_macrosuprematism }
+                scope:executioner.faith = { 
+                    OR = {
+                        has_doctrine_parameter = giantess_worshipped
+                        has_doctrine_parameter = tiny_toys
+                    }
+                }
             }
             add_piety = minor_piety_gain
         }
@@ -191,7 +196,12 @@ giantess_execute_prisoner_effect = {
                         NOT = { exists = scope:recipient }
                     }
                     is_at_war_with = scope:victim
-                    scope:executioner.faith = { has_doctrine = tenet_macrosuprematism }
+                    scope:executioner.faith = { 
+                        OR = {
+                            has_doctrine_parameter = giantess_worshipped
+                            has_doctrine_parameter = tiny_toys
+                        }
+                    }
                 }
             }
             custom_tooltip = IS_ALLOWED_TO_EXECUTE_NO_RECIPIENT_DESC
