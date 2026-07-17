@@ -7,3 +7,13 @@ giantess_feast = {
     texture = "gfx/interface/icons/activities/activity_giantess_feast.dds"
     alias = { activity_giantess_feast }
 }
+
+# MaA Game Concepts
+giantess_warrior = {
+	texture = "gfx/interface/icons/regimenttypes/giantess_warriors.dds"
+	parent = men_at_arms
+}
+giantess_juggernaut = {
+	texture = "gfx/interface/icons/regimenttypes/giantess_juggernauts.dds"
+	parent = men_at_arms
+}

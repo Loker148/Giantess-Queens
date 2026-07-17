@@ -1,0 +1,127 @@
+namespace = giantess_relationship
+
+# Horny Giantess - 1
+giantess_relationship.0001 = {
+    type = character_event
+	title = giantess_relationship.0001.t
+	desc = giantess_relationship.0001.desc
+	theme = family
+    #cooldown = { years = 3 }
+    override_background = { reference = throne_room }
+    
+	trigger = {
+	    is_ai = no
+        is_adult = yes
+        has_trait = giantess
+        any_spouse ?= {
+            is_physically_able_ai_adult = yes
+            NOT = { has_trait = giantess }
+        }
+	}
+	left_portrait = {
+        character = root
+        animation = boredom
+        camera = camera_event_scheme_vs_right_look_right
+    }
+    lower_right_portrait = {
+        character = scope:SPOUSE
+    }
+    immediate = {
+        if = {
+            limit = {
+                any_spouse = {
+                    NOT = { has_trait = giantess }
+                    is_physically_able_ai_adult = yes
+                }
+            }
+            random_spouse = {
+                limit = {
+                    NOT = { has_trait = giantess }
+                    is_physically_able_ai_adult = yes
+                }
+                save_scope_as = SPOUSE
+            }
+        }
+    }
+
+    option = {
+        name = giantess_relationship.0001.a
+        trigger_event = { id = giantess_relationship.0002 }
+    }
+}
+
+# Horny Giantess - 2
+giantess_relationship.0002 = {
+    type = character_event
+	title = giantess_relationship.0002.t
+	desc = giantess_relationship.0002.desc
+	theme = family
+    #cooldown = { years = 3 }
+    override_background = { reference = throne_room }
+
+	left_portrait = {
+        character = root
+        animation = boredom
+        camera = camera_center_large
+    }
+	right_portrait = {
+		character = scope:SPOUSE
+		animation = interested_left
+        camera = camera_event_chariot_very_right_hippodrome
+	}
+
+    option = { # get freaky
+        name = giantess_relationship.0002.a
+        stress_impact = {
+            base = minor_stress_impact_loss
+            lustful = medium_stress_impact_loss
+            chaste = minor_stress_impact_gain
+        }
+        trigger_event = { id = giantess_relationship.0003 }
+    }
+    option = { # just cuddle
+        name = giantess_relationship.0002.b
+        stress_impact = {
+            lustful = minor_stress_impact_gain
+            shy = minor_stress_impact_loss
+        }
+    }
+}
+
+# Horny Giantess - Get Freaky
+giantess_relationship.0003 = {
+    type = character_event
+	title = giantess_relationship.0003.t
+	desc = giantess_relationship.0003.desc
+	theme = family
+    override_background = { reference = bedchamber }
+
+	left_portrait = {
+        character = root
+        animation = admiration
+        camera = camera_center_large
+    }
+	right_portrait = {
+		character = scope:SPOUSE
+		animation = hero_flex
+        camera = camera_event_chariot_very_right_hippodrome
+	}
+
+    option = {
+        name = giantess_relationship.0003.a
+        stress_impact = {
+            base = minor_stress_impact_loss
+            lustful = medium_stress_impact_loss
+        }
+        scope:SPOUSE = {
+            add_opinion = {
+                modifier = tiny_enjoyed_sex
+                target = root
+            }
+        }
+        add_opinion = {
+            modifier = giantess_enjoyed_sex
+            target = scope:SPOUSE
+        }
+    }
+}

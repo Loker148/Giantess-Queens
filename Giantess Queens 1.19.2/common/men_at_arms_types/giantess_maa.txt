@@ -1,0 +1,137 @@
+﻿##############################################################
+# GIANTESS WARRIORS — MEN-AT-ARMS TYPE
+##############################################################
+
+giantess_warriors = {
+    type = giantess_warrior
+
+    can_recruit = {
+        has_trait = giantess
+    }
+
+    damage = 250
+    toughness = 100
+    pursuit = 50
+    screen  = 10
+
+    siege_tier = 3
+    siege_value = 0.5
+
+    terrain_bonus = {
+        plains = { damage = 40 }
+        drylands = { damage = 40 }
+        wetlands = { damage = 40 pursuit = 30 screen = 30 }
+        hills = { damage = -10 }
+        mountains = { damage = -30 pursuit = -20 }
+        desert_mountains = { damage = -30 pursuit = -20 }
+    }
+
+    buy_cost = { gold = giantess_warriors_recruitment_cost }
+    low_maintenance_cost = { gold = giantess_warriors_low_maint_cost }
+    high_maintenance_cost = { gold = giantess_warriors_high_maint_cost }
+    provision_cost = @provisions_cost_giantess_moderate
+
+    counters = {
+        skirmishers = 5
+	    heavy_infantry= 3
+	    light_cavalry = 2
+        heavy_cavalry = 3
+    }
+
+    stack = 10
+    allowed_in_hired_troops = yes
+    ai_quality = { value = @[cultural_maa_extra_ai_score + 980] }
+    icon = giantess_warriors
+}
+
+##############################################################
+# GIANTESS JUGGERNAUTS — MEN-AT-ARMS TYPE
+##############################################################
+
+giantess_juggernauts = {
+    type = giantess_juggernaut
+
+    can_recruit = {
+        has_trait = giantess
+    }
+
+    damage = 325
+    toughness = 280
+    pursuit = 15
+    screen  = 35
+
+    siege_tier = 4
+    siege_value = 0.7
+
+    terrain_bonus = {
+        plains = { damage = 60 }
+        drylands = { damage = 60 }
+        wetlands = { damage = 55 pursuit = -5 screen = -5 }
+        hills = { damage = -10 }
+        mountains = { damage = -50 pursuit = -15 }
+        desert_mountains = { damage = -50 pursuit = -15 }
+    }
+
+    buy_cost = { gold = giantess_hunter_scorpions_recruitment_cost }
+    low_maintenance_cost = { gold = giantess_hunter_scorpions_low_maint_cost }
+    high_maintenance_cost = { gold = giantess_hunter_scorpions_high_maint_cost }
+    provision_cost = @provisions_cost_giantess_expensive
+
+    counters = {
+        skirmishers = 4
+	    heavy_infantry= 2.5
+	    light_cavalry = 1.5
+        heavy_cavalry = 2.5
+        archers = 5
+    }
+
+    stack = 5
+    max_sub_regiments = 3
+    allowed_in_hired_troops = no
+    ai_quality = { value = @[cultural_maa_extra_ai_score + 980] }
+    icon = giantess_juggernauts
+}
+
+##############################################################
+# GIANTESS WORSHIPPERS — MEN-AT-ARMS TYPE
+##############################################################
+
+giantess_worshippers = {
+    type = heavy_infantry
+
+    can_recruit = {
+        has_trait = giantess
+    }
+
+    ##############################################################
+    # STATS
+    ##############################################################
+
+    damage = 45
+    toughness = 30
+    pursuit = 5
+    screen  = 5
+
+    ##############################################################
+    # COSTS
+    ##############################################################
+
+    buy_cost = { gold = heavy_infantry_recruitment_cost }
+    low_maintenance_cost = { gold = heavy_infantry_low_maint_cost }
+    high_maintenance_cost = { gold = heavy_infantry_high_maint_cost }
+
+    ##############################################################
+    # COUNTERS
+    ##############################################################
+
+    counters = {
+        pikemen = 1
+    }
+
+    ##############################################################
+    # META
+    ##############################################################
+
+    stack = 100
+    icon = giantess_worshippers
+}

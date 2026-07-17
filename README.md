@@ -1,7 +1,20 @@
-The Giantess Queen mod is a project that anyone willing can contribute to in any capacity they can.
+# Giantess Queens
+Giantess Queens mod for Crusader Kings 3
 
-i don't really think I have to expand on what the theme of the mod is.
+This mod is an open source project contributed to by many over the years.
+If you have an interest in contributing, join the discord server and share your improvements.
 
-To access mod content either create a giantess character or activate mod content by using the 'meet a strange merchant' decision as an indipendent ruler.
+Giantess Queens is a macrophilia mod that adds Giantesses to the world of Crusader Kings 3. You can play as Giantesses themselves or as the tiny humans that live under their rule, or stand against them.
 
-link to the discord server: https://discord.gg/J97C3ShHKz
+## Discord:
+https://discord.gg/J97C3ShHKz
+
+
+## Recommended Mods:
+### Mods for unlimiting max prowess (and other stats)
+Character Skills Uncapped: https://steamcommunity.com/sharedfiles/filedetails/?id=3488036947
+
+Character Skills Uncapped (999): https://steamcommunity.com/sharedfiles/filedetails/?id=3732752249
+
+### Mods to make Giantesses look young for longer
+Young and Beautiful: https://steamcommunity.com/sharedfiles/filedetails/?id=2916314958

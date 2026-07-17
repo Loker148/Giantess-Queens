@@ -39,6 +39,18 @@ tiny_recently_had_sex = {
     years = 5
 }
 
+tiny_enjoyed_sex = {
+    opinion = 20
+    decaying = yes
+    years = 5
+}
+
+giantess_enjoyed_sex = {
+    opinion = 20
+    decaying = yes
+    years = 5
+}
+
 ##############################################################
 # FEAST OPINIONS
 ##############################################################

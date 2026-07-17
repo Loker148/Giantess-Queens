@@ -1,6 +1,22 @@
 ﻿l_english:
+ #MaA types
+ giantess_warrior: "[giantess_warrior|E]"
+ giantess_juggernaut: "[giantess_juggernaut|E]"
 
+ #MaA
  giantess_worshippers:0 "Giantess Worshippers"
  giantess_worshippers_flavor:0 "Holy warriors dedicated to serving their mistresses."
- giantess_warriors:0 "Giantess Warriors"
- giantess_warriors_flavor:0 "Giantess warriors who can single-handedly change the tides of battle."
+ giantess_warriors: "Giantess Warriors"
+ giantess_warriors_flavor: "Giantess warriors who can single-handedly change the tides of battle."
+ giantess_juggernauts: "Giantess Juggernauts"
+ giantess_juggernauts_flavor: "Giantesses covered in thick metal plate armour. It is too thick for virtually any weapon to pierce, but it makes them much slower."
+ giantess_hunters: "Giantess Hunters"
+ giantess_hunters_flavor: "Determined men who have studied giantess physiology for the express purpose of knowing how to hurt it."
+ giantess_hunter_scorpions: "Giantess Hunter Scorpions"
+ giantess_hunter_scorpions_flavor: "Excessively large scorpion ballistas that fire huge solid steel bolts to pierce through giantesses."
+
+ #Game Concepts
+ game_concept_giantess_warrior: "Giantess Warriors"
+ game_concept_giantess_warrior_desc: "Giantess Warriors are giantess [men_at_arms|E] who trained for battle against swarms of tinies. They [counter|E] [skirmishers|E], [heavy_infantry|E], [light_cavalry|E], and [heavy_cavalry|E] extremely well. They can only be countered by trained Giantess Hunters and Giantess Hunter Scorpions."
+ game_concept_giantess_juggernaut: "Giantess Juggernauts"
+ game_concept_giantess_juggernaut_desc: "Giantess Juggernauts are giantess [men_at_arms|E] that are armoured in metal plates that are too thick for any existing weapon to pierce. They [counter|E] [skirmishers|E], [heavy_infantry|E], [light_cavalry|E], and [heavy_cavalry|E] extremely well, but not as well as [giantess_warrior|E]. They cannot be killed by mortal men under normal circumstances."

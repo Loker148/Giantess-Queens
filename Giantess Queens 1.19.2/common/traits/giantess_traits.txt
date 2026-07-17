@@ -7,25 +7,27 @@ giantess = {
 
     index = 701
 
-    prowess  = 100
-    martial  = 20
-    advantage = 50
-    fertility = 0.8
-    health    = 2
+    prowess_mult = 9
+    martial      = 20
+    advantage    = 50
+    fertility    = 0.8
+    health       = 1
 
     siege_phase_time             = -0.75
     enemy_hard_casualty_modifier = 0.25
     raid_speed                   = 1.0
     dread_baseline_add           = 30
 
+    character_travel_speed_mult = 4
+
     inherit_chance        = 100
     child_inheritance_sex = female
     #genetic = yes
     physical = yes
-	good = yes
+	good = yes    
+    forced_portrait_age_index = 4 # old_beauty_1 - should have nicer-looking aging, still testing it.
 
-    same_opinion       = 20
-
+    same_opinion    = 20
     birth           = 0
     random_creation = 0
 
@@ -66,6 +68,8 @@ giantess = {
 
 lifestyle_giantess = {
     category = lifestyle
+
+    shown_in_ruler_designer = no
 
     desc = {
         first_valid = {
